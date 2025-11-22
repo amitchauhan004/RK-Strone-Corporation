@@ -3,7 +3,12 @@ const cors = require('cors');
 
 // CORS configuration
 const corsOptions = {
-  origin: ['http://localhost:8080', 'http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:8080',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://rkstonecorporationn.netlify.app'
+  ],
   credentials: true
 };
 const mongoose = require('mongoose');
