@@ -8,6 +8,8 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { toast } from "sonner";
 import Seo from "@/components/Seo";
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +23,7 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,8 @@ interface Props {
   productName: string;
 }
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+
 export default function InquiryForm({ productId, productName }: Props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,17 +18,17 @@ export default function InquiryForm({ productId, productName }: Props) {
     e.preventDefault();
     setStatus('sending');
     try {
-      const payload = {
+      const form = {
         name,
         email,
         phone,
         message: `Inquiry about ${productName} (id: ${productId})\n\n${message}`,
       };
 
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error('Failed');
       setStatus('sent');

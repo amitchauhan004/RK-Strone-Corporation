@@ -41,10 +41,10 @@ export default function Reviews({ productId }: Props) {
 
   useEffect(() => {
     let cancelled = false;
-    const API_BASE = (import.meta as any).env?.VITE_API_BASE || 'http://localhost:5000';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
     const load = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/products/${productId}/reviews`);
+        const res = await fetch(`${API_URL}/api/products/${productId}/reviews`);
         if (!res.ok) throw new Error('Failed to fetch');
         const data: Review[] = await res.json();
         if (!cancelled) setReviews(data);
@@ -62,7 +62,7 @@ export default function Reviews({ productId }: Props) {
     return () => { cancelled = true; };
   }, [storageKey, productId]);
 
-  const API_BASE = (import.meta as any).env?.VITE_API_BASE || 'http://localhost:5000';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
 
   // Keep a lightweight local cache so UI updates instantly when offline
   const saveLocalCache = (next: Review[]) => {
@@ -79,10 +79,10 @@ export default function Reviews({ productId }: Props) {
     if (editingId) {
       // update on server
       try {
-        const res = await fetch(`${API_BASE}/api/reviews/${editingId}`, {
+        const res = await fetch(`${API_URL}/api/reviews/${editingId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name || 'Anonymous', rating, text, ownerId: clientId }),
+          body: JSON.stringify({ name, rating, text, ownerId }),
         });
         if (!res.ok) throw new Error('Failed to update');
         const updated: Review = await res.json();
@@ -98,10 +98,10 @@ export default function Reviews({ productId }: Props) {
     } else {
       // create on server
       try {
-        const res = await fetch(`${API_BASE}/api/products/${productId}/reviews`, {
+        const res = await fetch(`${API_URL}/api/products/${productId}/reviews`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name || 'Anonymous', rating, text, ownerId: clientId }),
+          body: JSON.stringify({ name, rating, text, ownerId }),
         });
         if (!res.ok) throw new Error('Failed to create');
         const created: Review = await res.json();
@@ -150,7 +150,7 @@ export default function Reviews({ productId }: Props) {
     if (target.ownerId && target.ownerId !== clientId) return;
     if (!window.confirm('Delete this review?')) return;
     try {
-      const res = await fetch(`${API_BASE}/api/reviews/${id}`, {
+      const res = await fetch(`${API_URL}/api/reviews/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ownerId: clientId }),

@@ -7,6 +7,8 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/logo.png";
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", {
+      const res = await axios.post(`${API_URL}/api/admin/login`, {
         username,
         password,
       });

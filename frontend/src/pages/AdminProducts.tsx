@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+
 const customCategories = [
   { id: "animals", name: "Animals" },
   { id: "chhatri", name: "Chhatri" },
@@ -68,7 +70,7 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/products");
+      const res = await axios.get(`${API_URL}/api/products`);
       setProducts(res.data);
     } catch {
       // handle error
@@ -108,8 +110,8 @@ const AdminProducts = () => {
     const data = new FormData();
     data.append("image", file);
     try {
-      const res = await axios.post("http://localhost:5000/api/upload", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const res = await axios.post(`${API_URL}/api/upload`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setForm((f) => ({ ...f, image: res.data.url }));
     } catch {
@@ -124,9 +126,9 @@ const AdminProducts = () => {
     setLoading(true);
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/products/${editId}`, form);
+        await axios.put(`${API_URL}/api/products/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/products", form);
+        await axios.post(`${API_URL}/api/products`, form);
       }
       setShowForm(false);
       fetchProducts();
@@ -140,7 +142,7 @@ const AdminProducts = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      await axios.delete(`${API_URL}/api/products/${id}`);
       setConfirmDeleteId(null);
       fetchProducts();
     } catch {

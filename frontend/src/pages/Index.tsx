@@ -16,6 +16,8 @@ import Seo from "@/components/Seo";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
 import { useCart } from "@/contexts/CartContext";
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+
 const Index = () => {
   const { addToCart } = useCart();
   const [testIndex, setTestIndex] = useState(0);
@@ -26,8 +28,8 @@ const Index = () => {
   // Fetch real products from backend for correct product links
   const [backendProducts, setBackendProducts] = useState<any[]>([]);
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-      .then((r) => (r.ok ? r.json() : []))
+    fetch(`${API_URL}/api/products`)
+      .then((r) => r.ok ? r.json() : [])
       .then((data) => setBackendProducts(Array.isArray(data) ? data : []))
       .catch(() => setBackendProducts([]));
   }, []);
@@ -994,7 +996,7 @@ const Index = () => {
                               className="w-5 h-5 fill-accent"
                               viewBox="0 0 20 20"
                             >
-                              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955l6.572.955l-4.756 4.635l1.123 6.545z" />
                             </svg>
                           ))}
                         </div>
