@@ -10,6 +10,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
 
 const customCategories = [
   { id: 'animals', name: 'Animals' },
@@ -39,7 +40,6 @@ const Shop = () => {
 
   // NEW: products from API
   const [products, setProducts] = useState<any[]>([]);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
   useEffect(() => {
     fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
@@ -262,7 +262,7 @@ const Shop = () => {
                     <Link to={`/product/${product._id || product.id}`}>
                       <div className="relative h-64 overflow-hidden">
                         <img
-                          src={product.image.startsWith('/uploads/') ? `http://localhost:5000${product.image}` : product.image}
+                          src={product.image.startsWith('/uploads/') ? `${API_URL}${product.image}` : product.image}
                           alt={`${product.name} in ${product.category} category`}
                           className="w-full h-full object-cover group-hover:scale-110 transition-smooth"
                           loading="lazy"
