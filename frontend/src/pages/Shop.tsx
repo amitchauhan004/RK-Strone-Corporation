@@ -39,8 +39,9 @@ const Shop = () => {
 
   // NEW: products from API
   const [products, setProducts] = useState<any[]>([]);
+  const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
