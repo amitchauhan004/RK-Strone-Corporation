@@ -289,6 +289,10 @@ app.delete('/api/reviews/:id', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send('RK Stone Corporation API is running');
+});
+
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
