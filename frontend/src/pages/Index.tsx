@@ -448,7 +448,7 @@ const Index = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8">
               <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-smooth">
                 <p className="text-3xl md:text-4xl font-heading font-bold text-accent mb-2">
-              15+
+              40+
                 </p>
                 <p className="text-sm text-muted-foreground">
               Years of Craftsmanship Excellence
@@ -456,7 +456,7 @@ const Index = () => {
               </div>
               <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-smooth">
                 <p className="text-3xl md:text-4xl font-heading font-bold text-accent mb-2">
-              500+
+              5000+
                 </p>
                 <p className="text-sm text-muted-foreground">
               Happy Clients & Projects Completed
