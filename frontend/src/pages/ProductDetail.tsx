@@ -11,6 +11,7 @@ import ShareButtons from "@/components/product/ShareButtons";
 import VariantsSelector from "@/components/product/VariantsSelector";
 import SpecsTable from "@/components/product/SpecsTable";
 import Seo from "@/components/Seo";
+const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
 
 interface Product {
   _id?: string;
@@ -38,7 +39,7 @@ const ProductDetail = () => {
   // Fetch related products
   const fetchRelatedProducts = async (currentProduct: Product) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/products`);
+      const res = await fetch(`${API_URL}/api/products`);
       const allProducts = await res.json();
       const related = allProducts
         .filter((p: any) => 
@@ -62,7 +63,7 @@ const ProductDetail = () => {
     setProduct(null); // Reset product when ID changes
     setRelatedProducts([]); // Reset related products
     
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${API_URL}/api/products/${id}`)
       .then(res => {
         if (!res.ok) throw new Error("Not found");
         return res.json();
