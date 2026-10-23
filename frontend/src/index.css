@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
 
 .bg-grid-slate-100 {
   background-image: linear-gradient(to right, rgba(215, 183, 114, 0.1) 1px, transparent 1px),
@@ -44,6 +41,12 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
     
+    /* Font family variables */
+    --lv2-font-regular: "Nobel", "Jost", "Montserrat", "Noto Sans Devanagari", system-ui, sans-serif;
+    --font-heading: "Outfit", "Montserrat", "Jost", "Noto Sans Devanagari", system-ui, sans-serif;
+    --font-serif: "Cormorant Garamond", "Cinzel", Georgia, serif;
+    --font-cinzel: "Cinzel", serif;
+
     /* Custom design tokens */
     --stone-beige: 42 25% 68%;
     --charcoal: 0 0% 17%;
@@ -120,22 +123,54 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    @apply bg-background text-foreground font-body;
+    font-family: var(--lv2-font-regular);
+    max-width: 100%;
+    width: 100%;
+  }
+
   body {
     @apply bg-background text-foreground font-body;
+    font-family: var(--lv2-font-regular);
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  #root {
+    max-width: 100%;
+    width: 100%;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-heading font-normal;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: 0.04em;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
+  }
+
+  .font-display {
+    font-family: var(--font-heading);
   }
   
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-cinzel {
+    font-family: var(--font-cinzel);
+  }
+
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--lv2-font-regular);
   }
   
   .gradient-primary {
@@ -169,4 +204,146 @@ All colors MUST be HSL.
   .transition-bounce {
     transition: var(--transition-bounce);
   }
+
+  /* Moving Animations - Slower, gentle luxury speed */
+  .animate-move-up {
+    animation: moveFromBottom 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-move-down {
+    animation: moveFromTop 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-move-right {
+    animation: moveFromLeft 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-move-left {
+    animation: moveFromRight 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 }
+
+@keyframes moveFromTop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -60px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes moveFromBottom {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes moveFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-60px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes moveFromRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(60px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  @keyframes moveFromLeft {
+    0% {
+      opacity: 0;
+      transform: translate3d(-18px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes moveFromRight {
+    0% {
+      opacity: 0;
+      transform: translate3d(18px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes moveFromTop {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -25px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes moveFromBottom {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 25px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+/* Footer & Decorative Infinite Moving Animations */
+@keyframes footerMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  animation: footerMarquee 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-infinite:hover {
+  animation-play-state: paused;
+}
+
+@keyframes lightBeam {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-light-beam {
+  animation: lightBeam 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+

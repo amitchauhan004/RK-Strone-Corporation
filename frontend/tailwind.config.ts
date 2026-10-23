@@ -64,8 +64,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        heading: ['Playfair Display', 'serif'],
-        body: ['Inter', 'sans-serif'],
+        heading: ['Outfit', 'Montserrat', 'Jost', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
+        display: ['Outfit', 'Montserrat', 'Jost', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
+        body: ['Nobel', 'Jost', 'Montserrat', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
+        sans: ['Nobel', 'Jost', 'Montserrat', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
+        mono: ['Nobel', 'Jost', 'Montserrat', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

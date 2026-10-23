@@ -51,23 +51,29 @@ function setJsonLd(id: string, data: Record<string, any> | Record<string, any>[]
   script.text = JSON.stringify(data);
 }
 
-export default function Seo({ title, description, image, type = "website", structuredData, canonicalUrl }: SeoProps) {
+export function Seo({ title, description, image, type = "website", structuredData, canonicalUrl }: SeoProps) {
   useEffect(() => {
     const url = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : undefined);
     document.title = title;
     if (description) setMeta('description', description);
 
     setProperty('og:title', title);
+    const absoluteImage = image
+      ? (image.startsWith('http://') || image.startsWith('https://')
+          ? image
+          : `${typeof window !== 'undefined' ? window.location.origin : ''}${image.startsWith('/') ? '' : '/'}${image}`)
+      : undefined;
+
     if (description) setProperty('og:description', description);
     setProperty('og:type', type);
-    if (image) setProperty('og:image', image);
+    if (absoluteImage) setProperty('og:image', absoluteImage);
     if (url) setProperty('og:url', url);
 
     // Twitter cards
-    setMeta('twitter:card', image ? 'summary_large_image' : 'summary');
+    setMeta('twitter:card', absoluteImage ? 'summary_large_image' : 'summary');
     setMeta('twitter:title', title);
     if (description) setMeta('twitter:description', description);
-    if (image) setMeta('twitter:image', image);
+    if (absoluteImage) setMeta('twitter:image', absoluteImage);
 
     if (url) setCanonical(url);
 
@@ -78,5 +84,7 @@ export default function Seo({ title, description, image, type = "website", struc
 
   return null;
 }
+
+export default Seo;
 
 

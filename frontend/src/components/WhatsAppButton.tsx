@@ -1,10 +1,13 @@
-import { MessageCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 
 const WhatsAppButton = () => {
-  const whatsappNumber = "919414784562";
+  const { siteSettings } = useSiteSettings();
+  const whatsappClean = (siteSettings.whatsappNumber || "9414784562").replace(/\D/g, "");
+  const whatsappNumber = whatsappClean.startsWith("91") ? whatsappClean : `91${whatsappClean}`;
   const message = encodeURIComponent(
-    "Hi! I'm interested in your stone products. Can you help me?"
+    `Namaste ${siteSettings.companyName || "RK Stone Corporation"}, I am browsing your website and would like to request product quotations and photos.`
   );
 
   return (
@@ -12,16 +15,15 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${whatsappNumber}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
-      // Raised a bit on small screens so it sits above the bottom center popup
-      className="fixed bottom-24 sm:bottom-8 left-4 sm:left-8 z-50 animate-fade-in"
+      className="hidden md:inline-flex fixed bottom-8 left-8 z-50 animate-fade-in"
+      aria-label="Request Quote via WhatsApp"
     >
       <Button
         size="lg"
-        className="shadow-gold bg-green-600 hover:bg-green-700 text-white rounded-full h-14 px-6"
+        className="shadow-gold bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full h-14 px-6 cursor-pointer"
       >
-        <MessageCircle className="w-5 h-5 mr-2" />
-        <span className="hidden sm:inline">Request Quote</span>
-        <span className="sm:hidden">Quote</span>
+        <WhatsAppIcon variant="monochrome" className="w-5 h-5 mr-2 text-white" />
+        <span className="font-semibold tracking-wide">Request Quote</span>
       </Button>
     </a>
   );

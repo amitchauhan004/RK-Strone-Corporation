@@ -1,5 +1,2 @@
-# Netlify settings for single-page application
+# Netlify Single-Page Application (SPA) routing
 /*    /index.html   200
-
-# Redirect API calls to Vercel backend
-/api/*  https://your-vercel-app-name.vercel.app/api/:splat  200

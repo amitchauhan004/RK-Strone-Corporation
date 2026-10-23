@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { API_URL } from '@/config/api';
 
 interface Review {
   id: string;
@@ -41,7 +42,6 @@ export default function Reviews({ productId }: Props) {
 
   useEffect(() => {
     let cancelled = false;
-    const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
     const load = async () => {
       try {
         const res = await fetch(`${API_URL}/api/products/${productId}/reviews`);
@@ -62,8 +62,6 @@ export default function Reviews({ productId }: Props) {
     return () => { cancelled = true; };
   }, [storageKey, productId]);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
-
   // Keep a lightweight local cache so UI updates instantly when offline
   const saveLocalCache = (next: Review[]) => {
     try {
@@ -82,7 +80,7 @@ export default function Reviews({ productId }: Props) {
         const res = await fetch(`${API_URL}/api/reviews/${editingId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, rating, text, ownerId }),
+          body: JSON.stringify({ name, rating, text, ownerId: clientId }),
         });
         if (!res.ok) throw new Error('Failed to update');
         const updated: Review = await res.json();
@@ -101,7 +99,7 @@ export default function Reviews({ productId }: Props) {
         const res = await fetch(`${API_URL}/api/products/${productId}/reviews`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, rating, text, ownerId }),
+          body: JSON.stringify({ name, rating, text, ownerId: clientId }),
         });
         if (!res.ok) throw new Error('Failed to create');
         const created: Review = await res.json();
@@ -170,7 +168,7 @@ export default function Reviews({ productId }: Props) {
 
   return (
     <div className="mt-12">
-        <h2 className="text-2xl font-heading font-bold mb-4">Ratings & Reviews</h2>
+        <h2 className="text-2xl font-heading font-normal uppercase tracking-wide mb-4">Ratings &amp; Reviews</h2>
         <div className="mb-4">
           <div className="text-4xl font-bold text-accent">{avg ? avg.toFixed(1) : '—'}</div>
           <div className="text-sm text-muted-foreground">based on {reviews.length} review(s)</div>

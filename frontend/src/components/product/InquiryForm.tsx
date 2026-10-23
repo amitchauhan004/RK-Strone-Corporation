@@ -5,7 +5,7 @@ interface Props {
   productName: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://rk-strone-corporation.vercel.app';
+import { API_URL } from '@/config/api';
 
 export default function InquiryForm({ productId, productName }: Props) {
   const [name, setName] = useState('');
@@ -22,6 +22,9 @@ export default function InquiryForm({ productId, productName }: Props) {
         name,
         email,
         phone,
+        source: 'Product Catalog Details',
+        productName: productName,
+        projectType: `Product Inquiry: ${productName}`,
         message: `Inquiry about ${productName} (id: ${productId})\n\n${message}`,
       };
 
@@ -41,7 +44,7 @@ export default function InquiryForm({ productId, productName }: Props) {
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-heading font-bold mb-4">Ask a Question</h2>
+      <h2 className="text-2xl font-heading font-normal uppercase tracking-wide mb-4">Ask a Question</h2>
       <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <input
           required

@@ -1,4 +1,5 @@
-import { Clipboard, Facebook, Twitter, Share2, Link as LinkIcon, MessageSquare, Linkedin } from 'lucide-react';
+import { Clipboard, Facebook, Twitter, Share2, Link as LinkIcon, Linkedin } from 'lucide-react';
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
@@ -46,7 +47,7 @@ export default function ShareButtons({ url, title = '' }: Props) {
         break;
       case 'native':
         if ((navigator as any).share) {
-          (navigator as any).share({ title: title || document.title, url }).catch(() => {});
+          (navigator as any).share({ title: title || document.title, url }).catch(() => { });
         } else {
           // fallback
           setOpen(true);
@@ -82,7 +83,7 @@ export default function ShareButtons({ url, title = '' }: Props) {
             <Facebook className="w-4 h-4" /> Facebook
           </button>
           <button onClick={() => doShare('whatsapp')} className="w-full text-left px-3 py-2 hover:bg-neutral-50 flex items-center gap-2">
-            <MessageSquare className="w-4 h-4" /> WhatsApp
+            <WhatsAppIcon className="w-4 h-4 text-[#25D366]" /> WhatsApp
           </button>
           <button onClick={() => doShare('linkedin')} className="w-full text-left px-3 py-2 hover:bg-neutral-50 flex items-center gap-2">
             <Linkedin className="w-4 h-4" /> LinkedIn
