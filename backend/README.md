@@ -1,32 +1,47 @@
-# RK Stone Corporation Contact Form Backend
+# ⚙️ RK Stone Corporation — Backend API Server
 
-This is the backend for the contact form. It receives contact form data and sends it to your Gmail using Nodemailer.
+Express.js REST API with MongoDB Atlas, Cloudinary Media CDN, and Vercel Serverless Function support.
 
-## Setup
+For the full project documentation and deployment instructions, see the [Main Project README](../README.md).
 
-1. **Clone this repo or move into the `backend` folder.**
-2. **Install dependencies:**
-   ```sh
+---
+
+## 🛠️ Tech Stack
+- **Runtime**: Node.js (v18+)
+- **Framework**: Express.js 4
+- **Database**: MongoDB Atlas with Mongoose 8
+- **Media CDN**: Cloudinary (`multer-storage-cloudinary`)
+- **Authentication**: JWT (`jsonwebtoken`)
+- **Email Notifications**: Nodemailer (Gmail SMTP)
+- **Deployment**: Vercel Serverless Function (`vercel.json`)
+
+---
+
+## 🚀 Local Development
+
+1. **Install Dependencies**:
+   ```bash
    npm install
    ```
-3. **Configure your Gmail credentials:**
-   - Create a `.env` file in this folder with the following:
-     ```env
-     GMAIL_ID=your_gmail_id@gmail.com
-     GMAIL_APP_PASSWORD=your_gmail_app_password
-     PORT=5000
-     ```
-   - Use [Gmail App Passwords](https://support.google.com/accounts/answer/185833) for secure sending.
-4. **Start the server:**
-   ```sh
+
+2. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   Fill in your MongoDB URI, Cloudinary credentials, and JWT secret.
+
+3. **Start the API Server**:
+   ```bash
    npm start
    ```
+   The server will run on `http://localhost:5000`.
 
-## API
+---
 
-- **POST /api/contact**
-  - Body: `{ name, email, message }`
-  - Example using cURL:
-    ```sh
-    curl -X POST http://localhost:5000/api/contact -H "Content-Type: application/json" -d '{"name":"Test","email":"test@example.com","message":"hello"}'
-    ```
+## ☁️ Production Deployment (Vercel)
+This backend is configured for Vercel Serverless deployment using `vercel.json` and exportable `module.exports = app`.
+
+- Set root directory to `backend`.
+- Add all variables from `.env` in the Vercel project environment settings.
+- The entry point is `server.js`.

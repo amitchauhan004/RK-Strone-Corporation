@@ -1,73 +1,47 @@
-# Welcome to your Lovable project
+# 🎨 RK Stone Corporation — Frontend Client Web Application
 
-## Project info
+High-performance architectural showcase and commissioning portal built with React 18, Vite, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/c4b4574e-4c58-46ea-b928-46411297648b
+For the full project documentation, architecture, and deployment instructions, see the [Main Project README](../README.md).
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🛠️ Tech Stack
+- **Framework**: React 18 with Vite 7
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 3 with custom stone & heritage gold palettes
+- **Animation**: Framer Motion & Lucide Icons
+- **Primitives**: Radix UI, Sonner Toasts, React Helmet Async
+- **State & Data Fetching**: TanStack React Query
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c4b4574e-4c58-46ea-b928-46411297648b) and start prompting.
+## 🚀 Local Development
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-**Use your preferred IDE**
+2. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   Set `VITE_API_URL=http://localhost:5000` (or your deployed Vercel backend URL).
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. **Start the Dev Server**:
+   ```bash
+   npm run dev
+   ```
+   The application will be live at `http://localhost:8080`.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c4b4574e-4c58-46ea-b928-46411297648b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## ☁️ Production Deployment (Netlify)
+This frontend is pre-configured for Netlify with SPA rewrite handling:
+- **Base directory**: `frontend`
+- **Build command**: `npm run build`
+- **Publish directory**: `dist`
+- **Environment variable**: `VITE_API_URL`
+- **SPA Routing**: Handled via `netlify.toml` and `public/_redirects`.
