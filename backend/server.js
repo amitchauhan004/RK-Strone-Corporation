@@ -1,6 +1,13 @@
-const dns = require('dns');
-// Fix for Windows / ISP c-ares querySrv ECONNREFUSED with MongoDB Atlas
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+// Only apply Google DNS fallback locally on Windows to prevent querySrv ECONNREFUSED
+// Do NOT run on Vercel / AWS Lambda as modifying system DNS is restricted or breaks VPC resolution
+if (!process.env.VERCEL && process.platform === 'win32') {
+  try {
+    const dns = require('dns');
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+  } catch (dnsErr) {
+    console.warn('DNS server override skipped:', dnsErr.message);
+  }
+}
 
 const express = require('express');
 const cors = require('cors');
@@ -23,28 +30,42 @@ const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// Serverless-ready MongoDB connection helper
+// Detect serverless environment (Vercel, AWS Lambda)
+const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+// Serverless-ready MongoDB connection helper with caching
 let isConnecting = false;
 const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) return;
-  if (isConnecting) return;
+  if (mongoose.connection.readyState >= 1) return true;
+  if (isConnecting) return false;
   if (!process.env.MONGODB_URI) {
-    console.warn('⚠️ MONGODB_URI environment variable is missing.');
-    return;
+    console.warn('⚠️ MONGODB_URI environment variable is missing in process.env.');
+    return false;
   }
   isConnecting = true;
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+      bufferCommands: false, // Don't buffer commands indefinitely if disconnected
     });
     console.log('MongoDB Atlas connected successfully');
+    if (typeof ensureAdminUser === 'function') {
+      ensureAdminUser().catch(e => console.warn('Admin seed non-fatal warning:', e.message));
+    }
+    return true;
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
+    return false;
   } finally {
     isConnecting = false;
   }
 };
-connectDB();
+
+// Initial connection for traditional hosting / local dev (non-blocking)
+if (!isServerless && process.env.MONGODB_URI) {
+  connectDB().catch(() => {});
+}
 
 // Product model
 const productSchema = new mongoose.Schema({
@@ -74,20 +95,60 @@ const PORT = process.env.PORT || 5000;
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Ensure MongoDB is connected for every request in serverless environment
+// Fast Root & Healthcheck endpoints (never blocked by DB connection)
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    service: 'RK Stone Corporation API',
+    database: mongoose.connection.readyState >= 1 ? 'connected' : (process.env.MONGODB_URI ? 'connecting' : 'not_configured'),
+    environment: isServerless ? 'vercel-serverless' : 'traditional-server',
+    time: new Date().toISOString()
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    databaseState: mongoose.connection.readyState,
+    hasMongoUri: Boolean(process.env.MONGODB_URI),
+    hasCloudinary: Boolean(process.env.CLOUDINARY_CLOUD_NAME)
+  });
+});
+
+// Middleware: connect to MongoDB for API endpoints if not connected
 app.use(async (req, res, next) => {
+  // Skip DB connection for root health endpoints
+  if (req.path === '/' || req.path === '/api/health') {
+    return next();
+  }
   if (mongoose.connection.readyState < 1) {
-    await connectDB();
+    try {
+      await connectDB();
+    } catch (_) {}
   }
   next();
 });
 
-// Client drawings, photos and attachments directory
-const uploadsDir = path.join(__dirname, 'uploads', 'inquiries');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// Client drawings, photos and attachments directory (safe for serverless read-only filesystem)
+const uploadsDir = isServerless
+  ? path.join('/tmp', 'uploads', 'inquiries')
+  : path.join(__dirname, 'uploads', 'inquiries');
+
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (fsErr) {
+  console.warn('Upload directory creation skipped (safe fallback):', fsErr.message);
 }
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+if (!isServerless) {
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+} else {
+  try {
+    app.use('/uploads', express.static('/tmp/uploads'));
+  } catch (_) {}
+}
 
 // Attachment sub-schema for client blueprints, photos, CAD files, ZIPs
 const attachmentSchema = new mongoose.Schema({
@@ -350,9 +411,10 @@ const adminUserSchema = new mongoose.Schema({
 
 const AdminUser = mongoose.model('AdminUser', adminUserSchema);
 
-// Helper to seed initial admin user if not present
-const ensureAdminUser = async () => {
+// Helper to seed initial admin user if not present (called automatically upon DB connection)
+async function ensureAdminUser() {
   try {
+    if (mongoose.connection.readyState < 1) return;
     let admin = await AdminUser.findOne();
     if (!admin) {
       admin = new AdminUser({
@@ -367,8 +429,7 @@ const ensureAdminUser = async () => {
   } catch (err) {
     console.warn('Admin user seed warning:', err.message);
   }
-};
-ensureAdminUser();
+}
 
 app.post('/api/admin/login', async (req, res) => {
   try {
@@ -1065,12 +1126,8 @@ app.post('/api/admin/site-settings/reset', async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('RK Stone Corporation API is running');
-});
-
-// Start HTTP server for local development or traditional hosting
-if (!process.env.VERCEL) {
+// Start HTTP server only for local development or traditional hosting
+if (!isServerless) {
   const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
