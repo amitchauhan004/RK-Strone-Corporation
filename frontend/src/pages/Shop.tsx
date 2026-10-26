@@ -14,20 +14,52 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { API_URL } from "@/config/api";
 
 const customCategories = [
-  { id: 'stone-temple', name: 'Stone Temples & Mandirs', hindi: 'पत्थर के मंदिर' },
-  { id: 'chhatri', name: 'Royal Stone Chhatris', hindi: 'शाही छतरियां' },
-  { id: 'gwalior-stone', name: 'Gwalior Stone Craft', hindi: 'ग्वालियर स्टोन' },
-  { id: 'dhaulpur-stone', name: 'Dhaulpur Sandstone', hindi: 'धौलपुर सैंडस्टोन' },
-  { id: 'heritage-haveli', name: 'Haveli Facades & Jharokhas', hindi: 'हवेली व झरोखे' },
-  { id: 'wall-panel', name: '3D CNC Stone Jalis', hindi: '3D सीएनसी जाली' },
-  { id: 'garden-fountain', name: 'Water Fountains', hindi: 'वाटर फाउंटेन' },
-  { id: 'gate', name: 'Entrance Torans & Gates', hindi: 'मुख्य द्वार व तोरण' },
-  { id: 'animals', name: 'Stone Sculptures', hindi: 'पत्थर की मूर्तियां' },
-  { id: 'jodhpur-stone', name: 'Jodhpur Stone', hindi: 'जोधपुर लाल पत्थर' },
-  { id: 'pink-sand-stone', name: 'Pink Sandstone', hindi: 'पिंक सैंडस्टोन' },
-  { id: 'red-stone', name: 'Red Sandstone', hindi: 'लाल पत्थर' },
-  { id: 'garden-ornaments', name: 'Garden Ornaments', hindi: 'उर्न्स व गमले' },
+  { id: 'sandstone-temple', name: 'Sandstone Temple', hindi: 'सैंडस्टोन मंदिर' },
+  { id: 'sandstone-temple-entry-gate', name: 'Sandstone Temple Entry Gate', hindi: 'मंदिर प्रवेश द्वार व तोरण' },
+  { id: 'dholpur-sandstone-temple', name: 'Dholpur Sandstone Temple', hindi: 'धौलपुर सैंडस्टोन मंदिर' },
+  { id: 'sandstone-grill', name: 'Sandstone Grill (Jali)', hindi: 'सैंडस्टोन जाली व ग्रिल' },
+  { id: 'sandstone-lamp', name: 'Sandstone Lamp', hindi: 'सैंडस्टोन लैंप व दीपस्तंभ' },
+  { id: 'sandstone-gazebo', name: 'Sandstone Gazebo (Chhatri)', hindi: 'सैंडस्टोन छतरी व गज़ेबो' },
+  { id: 'sandstone-fountains', name: 'Sandstone Fountains', hindi: 'सैंडस्टोन वाटर फाउंटेन' },
+  { id: 'sandstone-garden-bench', name: 'Sandstone Garden Bench', hindi: 'सैंडस्टोन गार्डन बेंच' },
+  { id: 'sandstone-planter', name: 'Sandstone Planter', hindi: 'सैंडस्टोन गमले व कलश' },
+  { id: 'sandstone-ball-sphere', name: 'Sandstone Ball Sphere', hindi: 'सैंडस्टोन बॉल व स्फेयर' },
+  { id: 'sandstone-elephant-statue', name: 'Sandstone Elephant Statue', hindi: 'सैंडस्टोन हाथी मूर्ति' },
+  { id: 'sandstone-god-statue', name: 'Sandstone God Statue', hindi: 'सैंडस्टोन भगवान मूर्ति' },
+  { id: 'sandstone-wall-mural', name: 'Sandstone Wall Mural', hindi: 'सैंडस्टोन वॉल म्यूरल' },
+  { id: 'sandstone-angel-garden-statue', name: 'Sandstone Angel Garden Statue', hindi: 'सैंडस्टोन एंजल गार्डन मूर्ति' },
+  { id: 'sandstone-mother-child-statue', name: 'Sandstone Mother Child Statue', hindi: 'सैंडस्टोन मदर चाइल्ड मूर्ति' },
+  { id: 'red-sandstone-ashok-stambh', name: 'Red Sandstone Ashok Stambh with Pillar', hindi: 'रेड सैंडस्टोन अशोक स्तंभ' },
 ];
+
+const categoryAliases: Record<string, string[]> = {
+  'sandstone-temple': ['sandstone-temple', 'stone-temple'],
+  'stone-temple': ['sandstone-temple', 'stone-temple'],
+  'sandstone-temple-entry-gate': ['sandstone-temple-entry-gate', 'gate'],
+  'gate': ['sandstone-temple-entry-gate', 'gate'],
+  'dholpur-sandstone-temple': ['dholpur-sandstone-temple', 'dhaulpur-stone'],
+  'dhaulpur-stone': ['dholpur-sandstone-temple', 'dhaulpur-stone'],
+  'sandstone-grill': ['sandstone-grill', 'wall-panel', 'gwalior-stone'],
+  'wall-panel': ['sandstone-grill', 'wall-panel'],
+  'sandstone-lamp': ['sandstone-lamp'],
+  'sandstone-gazebo': ['sandstone-gazebo', 'chhatri'],
+  'chhatri': ['sandstone-gazebo', 'chhatri'],
+  'sandstone-fountains': ['sandstone-fountains', 'garden-fountain'],
+  'garden-fountain': ['sandstone-fountains', 'garden-fountain'],
+  'sandstone-garden-bench': ['sandstone-garden-bench', 'garden-ornaments'],
+  'sandstone-planter': ['sandstone-planter', 'garden-ornaments'],
+  'sandstone-ball-sphere': ['sandstone-ball-sphere', 'garden-ornaments'],
+  'garden-ornaments': ['sandstone-planter', 'sandstone-ball-sphere', 'sandstone-garden-bench', 'garden-ornaments'],
+  'sandstone-elephant-statue': ['sandstone-elephant-statue', 'animals'],
+  'sandstone-god-statue': ['sandstone-god-statue', 'animals'],
+  'sandstone-angel-garden-statue': ['sandstone-angel-garden-statue', 'animals'],
+  'sandstone-mother-child-statue': ['sandstone-mother-child-statue', 'animals'],
+  'animals': ['sandstone-elephant-statue', 'sandstone-god-statue', 'sandstone-angel-garden-statue', 'sandstone-mother-child-statue', 'animals'],
+  'sandstone-wall-mural': ['sandstone-wall-mural', 'wall-panel', 'gwalior-stone', 'red-stone'],
+  'red-sandstone-ashok-stambh': ['red-sandstone-ashok-stambh', 'red-stone', 'jodhpur-stone'],
+  'red-stone': ['red-sandstone-ashok-stambh', 'sandstone-wall-mural', 'red-stone'],
+  'jodhpur-stone': ['red-sandstone-ashok-stambh', 'sandstone-temple-entry-gate', 'jodhpur-stone']
+};
 
 const stoneTypes = [
   { id: 'gwalior', nameEn: 'Gwalior Mint Stone', nameHi: 'ग्वालियर मिंट स्टोन' },
@@ -108,7 +140,10 @@ const Shop = () => {
 
     const matchesCategory =
       selectedCategories.length === 0 ||
-      selectedCategories.includes(product.category);
+      selectedCategories.some((catId) => {
+        const allowed = categoryAliases[catId] || [catId];
+        return allowed.includes(product.category) || product.category === catId;
+      });
 
     const matchesStone =
       selectedStones.length === 0 ||

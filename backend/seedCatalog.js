@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
 
 const MASTER_PRODUCTS = [
-  // 1. Stone Temples
+  // 1. Sandstone Temple
   {
     code: "RK-PROD-01",
     name: "Pure Makrana White Marble Vedic Mandir",
@@ -32,7 +32,7 @@ const MASTER_PRODUCTS = [
     price: 349999,
     priceUnit: "piece",
     image: "/products/Stone%20Temple/3.jpg",
-    category: "stone-temple",
+    category: "sandstone-temple",
     stoneType: "Makrana Pure White Marble",
     dimensions: "7ft Height x 5ft Width x 3ft Depth (Customizable)",
     leadTime: "25-30 Days",
@@ -54,7 +54,7 @@ const MASTER_PRODUCTS = [
     price: 489999,
     priceUnit: "piece",
     image: "/products/Stone%20Temple/2.jpg",
-    category: "stone-temple",
+    category: "sandstone-temple",
     stoneType: "Bansi Paharpur Pink Sandstone",
     dimensions: "9ft Height x 6ft Width x 4ft Depth (Customizable)",
     leadTime: "30-45 Days",
@@ -71,16 +71,16 @@ const MASTER_PRODUCTS = [
   },
   {
     code: "RK-PROD-03",
-    name: "Sacred Carved Sanctum Freestanding Mandir",
+    name: "Carved Sandstone Sanctum Home Mandir",
     nameHi: "नक्काशीदार गर्भगृह होम मंदिर",
     price: 275000,
     priceUnit: "piece",
     image: "/products/Stone%20Temple/1.jpg",
-    category: "stone-temple",
+    category: "sandstone-temple",
     stoneType: "Dholpur & Makrana Composite",
     dimensions: "6ft Height x 4.5ft Width x 2.5ft Depth",
     leadTime: "20-25 Days",
-    description: "Compact yet deeply ornate temple featuring sanctified garbhagriha, carved peacocks, bell finials, and pull-out marble prasad tray.",
+    description: "Compact temple featuring carved garbhagriha, peacocks, bell carvings, and pull-out marble prasad tray.",
     descriptionHi: "घरों और विला के लिए उपयुक्त नक्काशीदार मंदिर जिसमें मोर आकृति, घंटियां और प्रसाद ट्रे शामिल है।",
     features: [
       "Traditional Sompura guild craftsmanship",
@@ -92,12 +92,12 @@ const MASTER_PRODUCTS = [
   },
   {
     code: "RK-PROD-04",
-    name: "Monumental Trust Mandapam & Shikhara",
+    name: "Grand Public Trust Temple Mandapam & Shikhara",
     nameHi: "भव्य सार्वजनिक ट्रस्ट मंदिर मंडप व शिखर",
     price: 650000,
     priceUnit: "piece",
     image: "/products/Stone%20Temple/4.jpg",
-    category: "stone-temple",
+    category: "sandstone-temple",
     stoneType: "Bansi Paharpur & Dholpur Stone",
     dimensions: "15ft Height x 12ft Width (Turnkey Project)",
     leadTime: "60-90 Days",
@@ -112,189 +112,124 @@ const MASTER_PRODUCTS = [
     isFeatured: false
   },
 
-  // 2. Chhatri & Gazebos
+  // 2. Sandstone Temple Entry Gate
   {
     code: "RK-PROD-05",
-    name: "Royal 8-Pillar Stone Chhatri (Octagonal Dome)",
-    nameHi: "शाही 8 खंभा अष्टकोणीय पत्थर की छतरी",
-    price: 399999,
+    name: "Monumental Sandstone Temple Entry Gate (Toran)",
+    nameHi: "भव्य नक्काशीदार मंदिर प्रवेश तोरण द्वार",
+    price: 550000,
     priceUnit: "piece",
-    image: "/products/Chhatri/WhatsApp%20Image%202025-10-29%20at%2016.30.23_85e9d86f.jpg",
-    category: "chhatri",
-    stoneType: "Dholpur Beige Sandstone",
-    dimensions: "12ft Diameter x 16ft Height",
-    leadTime: "30-40 Days",
-    description: "Monumental Rajasthani royal stone chhatri with 8 fluted monolithic pillars, carved kalash finial, and cantilevered sunshade chajjas.",
-    descriptionHi: "पारंपरिक राजस्थानी 8 खंभों वाली नक्काशीदार छतरी, गुंबद और कंगूरे सहित। फॉर्महाउस और बगीचों के लिए उत्तम।",
+    image: "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.25_02128f77.jpg",
+    category: "sandstone-temple-entry-gate",
+    stoneType: "Jodhpur Red & Dholpur Sandstone",
+    dimensions: "24ft Span Width x 18ft Clearance Height",
+    leadTime: "40-60 Days",
+    description: "Majestic fortress-style carved entrance gateway with twin structural pillars, carved brackets, and decorative stone beam.",
+    descriptionHi: "कॉलोनी, आश्रम, विला या मंदिर के मुख्य द्वार के लिए विशालकाय नक्काशीदार पत्थर का तोरण द्वार।",
     features: [
-      "Interlocking self-supporting dome craft",
-      "Hand-carved floral capital brackets (Toddis)",
-      "High weather and heat resistance for open gardens"
+      "Massive monolithic load-bearing columns",
+      "Deep relief auspicious motifs (Gajraj, Kalash, Toran)",
+      "Pan-India on-site crane and artisan installation"
     ],
     isActive: true,
     isFeatured: true
   },
   {
     code: "RK-PROD-06",
-    name: "Heritage Sandstone Garden Gazebo",
-    nameHi: "हेरिटेज सैंडस्टोन गार्डन गज़ेबो",
-    price: 449999,
+    name: "Carved Red Sandstone Temple Entry Gate",
+    nameHi: "नक्काशीदार लाल पत्थर मंदिर प्रवेश द्वार",
+    price: 480000,
     priceUnit: "piece",
-    image: "/products/Chhatri/WhatsApp%20Image%202025-10-29%20at%2016.30.22_d16a22d7.jpg",
-    category: "chhatri",
-    stoneType: "Dholpur & Red Sandstone",
-    dimensions: "10ft Diameter x 14ft Height",
-    leadTime: "30-35 Days",
-    description: "Palatial open-air stone seating pavilion for luxury farmhouses and courtyard gardens, providing natural shading and majestic royalty.",
-    descriptionHi: "विला और बगीचे में बैठने के लिए सुंदर खुला पत्थर का पवेलियन और जालीदार रेलिंग।",
+    image: "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.26_a9c02ff4.jpg",
+    category: "sandstone-temple-entry-gate",
+    stoneType: "Jodhpur Imperial Red Sandstone",
+    dimensions: "20ft Width x 16ft Height",
+    leadTime: "30-45 Days",
+    description: "Heritage temple gate carved in deep Jodhpur red stone with auspicious kalash and gajraj arches.",
+    descriptionHi: "गहरे लाल जोधपुर पत्थर में नक्काशीदार मंदिर प्रवेश द्वार, मंगल कलश व गजराज मेहराब सहित।",
     features: [
-      "Carved stone railing (Jali balustrade)",
-      "Integrated stone seating bench (Asana)",
-      "Pan-India on-site assembly by master masons"
+      "Weather-immune dense sandstone",
+      "Interlocking mortise-tenon stone joints",
+      "Heavy duty foundation anchors"
     ],
     isActive: true,
     isFeatured: false
   },
   {
     code: "RK-PROD-07",
-    name: "Traditional Memorial Stone Chhatri with Finial",
-    nameHi: "पारंपरिक नक्काशीदार स्मारक छतरी",
-    price: 325000,
+    name: "Carved White Sandstone Temple Entry Gate",
+    nameHi: "नक्काशीदार सफेद सैंडस्टोन मंदिर द्वार",
+    price: 520000,
     priceUnit: "piece",
-    image: "/products/Chhatri/WhatsApp%20Image%202025-10-29%20at%2016.30.24_b7721eb3.jpg",
-    category: "chhatri",
-    stoneType: "Dholpur Pink Sandstone",
-    dimensions: "8ft Diameter x 12ft Height",
-    leadTime: "25-30 Days",
-    description: "4-pillar classical heritage canopy crafted with authentic Rajputana stone architectural details.",
-    descriptionHi: "4 खंभों वाली शास्त्रीय राजपूताना छतरी जिसमें बारीक नक्काशीदार छत और कलश शामिल हैं।",
+    image: "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.27_6cfd0d50.jpg",
+    category: "sandstone-temple-entry-gate",
+    stoneType: "Dholpur White Sandstone",
+    dimensions: "18ft Span x 15ft Height",
+    leadTime: "30-40 Days",
+    description: "Classical white sandstone entrance gateway with fluted side pillars, peacock brackets, and ornate carved architraves.",
+    descriptionHi: "सफेद सैंडस्टोन में सुंदर मोर ब्रैकेट और पिलर्स के साथ निर्मित भव्य मंदिर प्रवेश द्वार।",
     features: [
-      "Deep bas-relief carved ceiling medallion",
-      "Solid one-piece pillar bases",
-      "Weather-sealed protective coating"
+      "Fine Dholpur white stone texture",
+      "Intricate hand carved floral friezes",
+      "Complete assembly instructions & on-site fitting"
     ],
     isActive: true,
     isFeatured: false
   },
 
-  // 3. Gwalior Stone Craft
+  // 3. Dholpur Sandstone Temple
   {
     code: "RK-PROD-08",
-    name: "Gwalior White Mint Stone 3D CNC Screen",
-    nameHi: "ग्वालियर मिंट स्टोन 3D सीएनसी जाली",
-    price: 450,
-    priceUnit: "sq.ft",
-    image: "/products/Gwalior%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.25.00_d29799fe.jpg",
-    category: "gwalior-stone",
-    stoneType: "Gwalior White Mint Stone",
-    dimensions: "6ft Height x 4ft Width x 35mm Thickness",
-    leadTime: "10-14 Days",
-    description: "Ultra-fine CNC milled Gwalior mint stone screen with high tensile density. Ideal for exterior ventilation, balcony facades, and privacy lattices.",
-    descriptionHi: "ग्वालियर मिंट स्टोन में सटीक सीएनसी कटिंग जाली। बाहरी बालकनी, फ्रंट एलिवेशन और धूप नियंत्रण हेतु सर्वोत्तम।",
+    name: "Hand Carved Dholpur Sandstone Temple",
+    nameHi: "हाथ से तराशा धौलपुर सैंडस्टोन मंदिर",
+    price: 399999,
+    priceUnit: "piece",
+    image: "/products/Stone%20Temple/1.jpg",
+    category: "dholpur-sandstone-temple",
+    stoneType: "Dholpur Beige Sandstone",
+    dimensions: "8ft Height x 5.5ft Width x 3.5ft Depth",
+    leadTime: "25-30 Days",
+    description: "Authentic Dholpur sandstone mandir crafted with carved columns, sanctum dome, and traditional bells.",
+    descriptionHi: "धौलपुर सैंडस्टोन से निर्मित भव्य मंदिर जिसमें नक्काशीदार खंभे, गर्भगृह और गुंबद शामिल हैं।",
     features: [
-      "Zero-chipping high density natural quartzitic matrix",
-      "Sub-millimeter CNC lattice accuracy",
-      "Pre-drilled stainless steel SS-304 dry-cladding points"
+      "Finest quarry-selected Dholpur stone",
+      "Anti-stain stone protective coating",
+      "Vedic Vastu proportions"
     ],
     isActive: true,
     isFeatured: true
   },
   {
     code: "RK-PROD-09",
-    name: "Gwalior Stone Hand-Carved Floral Wall Panel",
-    nameHi: "ग्वालियर स्टोन हस्तनिर्मित फ्लोरल वॉल पैनल",
-    price: 42000,
+    name: "Dholpur White Sandstone Mandir with Shikhara",
+    nameHi: "धौलपुर व्हाइट सैंडस्टोन मंदिर शिखर सहित",
+    price: 360000,
     priceUnit: "piece",
-    image: "/products/Gwalior%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.25.02_bb05aa29.jpg",
-    category: "gwalior-stone",
-    stoneType: "Gwalior Mint Stone",
-    dimensions: "5ft Height x 3ft Width x 50mm",
-    leadTime: "12-16 Days",
-    description: "Deep relief decorative floral and paisley stone panel for drawing room feature walls, entrance foyers, and villa facades.",
-    descriptionHi: "लिविंग रूम और विला के मुख्य प्रवेश द्वार के लिए उभरी हुई नक्काशीदार पत्थर की पट्टिका।",
+    image: "/products/Stone%20Temple/3.jpg",
+    category: "dholpur-sandstone-temple",
+    stoneType: "Dholpur White Sandstone",
+    dimensions: "7.5ft Height x 5ft Width x 3ft Depth",
+    leadTime: "20-25 Days",
+    description: "Pristine white Dholpur stone temple with hand chiseled floral borders and sanctum steps.",
+    descriptionHi: "सफेद धौलपुर पत्थर से तैयार किया गया आकर्षक होम मंदिर।",
     features: [
-      "Deep 3D hand-chiseled bas-relief",
-      "Satin honed velvety tactile surface",
-      "Custom motif reproduction from CAD/sketches"
+      "Natural stone with velvet matte finish",
+      "Easy dry-dust maintenance",
+      "Auspicious Om and Swastika carvings"
     ],
     isActive: true,
     isFeatured: false
   },
 
-  // 4. Heritage Haveli Craft & Jharokhas
+  // 4. Sandstone Grill (Jali)
   {
     code: "RK-PROD-10",
-    name: "Royal Rajasthani Carved Stone Jharokha",
-    nameHi: "शाही राजस्थानी नक्काशीदार झरोखा",
-    price: 85000,
-    priceUnit: "piece",
-    image: "/products/Heritage%20Haveli/WhatsApp%20Image%202025-10-29%20at%2016.17.10_0d8c61da.jpg",
-    category: "heritage-haveli",
-    stoneType: "Dholpur Beige Sandstone",
-    dimensions: "5ft Height x 4ft Width x 2ft Projection",
-    leadTime: "18-22 Days",
-    description: "Monumental carved Rajasthani jharokha with ornate peacock brackets, arched balustrades, and traditional fluted stone sunshades.",
-    descriptionHi: "पारंपरिक मोर ब्रैकेट, मेहराब और छज्जे के साथ हवेली स्टाइल सुंदर पत्थर का झरोखा।",
-    features: [
-      "Cantilever mechanical anchoring for exterior walls",
-      "Deep hand-chiseled Rajputana motifs",
-      "Adds iconic heritage grandeur to modern building elevations"
-    ],
-    isActive: true,
-    isFeatured: true
-  },
-  {
-    code: "RK-PROD-11",
-    name: "Dholpur Stone Fluted Haveli Pillar (Pair)",
-    nameHi: "धौलपुर सैंडस्टोन हवेली खंभे (जोड़ी)",
-    price: 48000,
-    priceUnit: "pair",
-    image: "/products/Heritage%20Haveli/WhatsApp%20Image%202025-10-29%20at%2016.17.10_4f57584b.jpg",
-    category: "heritage-haveli",
-    stoneType: "Royal Dholpur Teak Sandstone",
-    dimensions: "9ft Height x 14in Base Diameter",
-    leadTime: "15-20 Days",
-    description: "Turned and hand-chiseled structural load-bearing sandstone columns with classical tiered bases and ornate capitals.",
-    descriptionHi: "लोड बेयरिंग मजबूत सैंडस्टोन खंभे, सुंदर नक्काशीदार बेस और कैपिटल के साथ।",
-    features: [
-      "Fluted shaft with organic teakwood grain",
-      "Load-bearing structural capacity",
-      "Pairs seamlessly with stone arches and porticos"
-    ],
-    isActive: true,
-    isFeatured: false
-  },
-  {
-    code: "RK-PROD-12",
-    name: "Heritage Palatial Entrance Archway",
-    nameHi: "शाही महल प्रवेश द्वार मेहराब",
-    price: 125000,
-    priceUnit: "piece",
-    image: "/products/Heritage%20Haveli/WhatsApp%20Image%202025-10-29%20at%2016.17.11_bdce4b58.jpg",
-    category: "heritage-haveli",
-    stoneType: "Dholpur Beige & Pink Stone",
-    dimensions: "10ft Span x 12ft Height",
-    leadTime: "20-25 Days",
-    description: "Ornate multi-foil stone arch for grand entryways, porticos, and courtyard verandahs.",
-    descriptionHi: "प्रवेश द्वार और बरामदे के लिए बहु-मेहराबी नक्काशीदार पत्थर का आर्च।",
-    features: [
-      "Modular interlocking keystone design",
-      "Fine relief acanthus and floral carvings",
-      "Engineered for heavy masonry spans"
-    ],
-    isActive: true,
-    isFeatured: false
-  },
-
-  // 5. 3D CNC Stone Jalis & Wall Panels
-  {
-    code: "RK-PROD-13",
-    name: "Parametric 3D CNC Sandstone Facade Screen",
-    nameHi: "पैरामीट्रिक 3D सीएनसी स्टोन एलिवेशन जाली",
+    name: "Parametric 3D CNC Sandstone Facade Screen (Grill)",
+    nameHi: "पैरामीट्रिक 3D सीएनसी सैंडस्टोन एलिवेशन जाली / ग्रिल",
     price: 480,
     priceUnit: "sq.ft",
     image: "/products/Wall%20Panel/WhatsApp%20Image%202025-10-29%20at%2016.19.28_c814d257.jpg",
-    category: "wall-panel",
+    category: "sandstone-grill",
     stoneType: "Dholpur Teakwood Sandstone",
     dimensions: "6ft Height x 3ft Width x 35mm",
     leadTime: "7-10 Days",
@@ -309,13 +244,13 @@ const MASTER_PRODUCTS = [
     isFeatured: true
   },
   {
-    code: "RK-PROD-14",
-    name: "Traditional Floral Lattice Jali Screen",
-    nameHi: "पारंपरिक मुगल फ्लोरल जाली स्क्रीन",
+    code: "RK-PROD-11",
+    name: "Traditional Floral Lattice Sandstone Grill",
+    nameHi: "पारंपरिक फ्लोरल नक्काशीदार सैंडस्टोन जाली",
     price: 420,
     priceUnit: "sq.ft",
     image: "/products/Wall%20Panel/WhatsApp%20Image%202025-10-29%20at%2016.19.30_2a71e700.jpg",
-    category: "wall-panel",
+    category: "sandstone-grill",
     stoneType: "Gwalior White Mint",
     dimensions: "5ft Height x 3ft Width x 30mm",
     leadTime: "8-12 Days",
@@ -330,15 +265,103 @@ const MASTER_PRODUCTS = [
     isFeatured: false
   },
 
-  // 6. Courtyard Water Fountains
+  // 5. Sandstone Lamp
+  {
+    code: "RK-PROD-12",
+    name: "Handcrafted Sandstone Garden Lamp (Lantern)",
+    nameHi: "हस्तनिर्मित सैंडस्टोन गार्डन लैंप (लालटेन)",
+    price: 14500,
+    priceUnit: "piece",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.24_37a17d6c.jpg",
+    category: "sandstone-lamp",
+    stoneType: "Dholpur Beige Sandstone",
+    dimensions: "3ft Height x 14in Base",
+    leadTime: "7-10 Days",
+    description: "Turned and carved stone garden lamp with pierced ventilation windows for soft ambient LED lighting in walkways and lawns.",
+    descriptionHi: "बगीचे, वॉकवे और पोर्च के लिए नक्काशीदार सैंडस्टोन गार्डन लैंप जिसमें आंतरिक लाइटिंग व्यवस्था है।",
+    features: [
+      "Concealed internal electrical wire conduit",
+      "Removable top canopy for bulb replacement",
+      "Heavy stable base resisting strong winds"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-13",
+    name: "Carved Sandstone Pillar Lamp (Deepstambh)",
+    nameHi: "नक्काशीदार सैंडस्टोन दीपस्तंभ लैंप",
+    price: 28000,
+    priceUnit: "piece",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.25_5da9f974.jpg",
+    category: "sandstone-lamp",
+    stoneType: "Dholpur & Jodhpur Sandstone",
+    dimensions: "5ft Height x 16in Base",
+    leadTime: "10-14 Days",
+    description: "Monumental Vedic deepstambh pillar lamp with carved oil diya tiers and stone finial.",
+    descriptionHi: "मंदिर प्रांगण और मुख्य द्वार हेतु पारंपरिक सैंडस्टोन दीपस्तंभ लैंप।",
+    features: [
+      "Authentic Vedic temple architecture",
+      "Hand-chiseled tiered brackets",
+      "Suitable for real oil lamps or electric fixtures"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 6. Sandstone Gazebo
+  {
+    code: "RK-PROD-14",
+    name: "Royal 8-Pillar Sandstone Gazebo (Chhatri)",
+    nameHi: "शाही 8 खंभा सैंडस्टोन गज़ेबो / छतरी",
+    price: 399999,
+    priceUnit: "piece",
+    image: "/products/Chhatri/WhatsApp%20Image%202025-10-29%20at%2016.30.23_85e9d86f.jpg",
+    category: "sandstone-gazebo",
+    stoneType: "Dholpur Beige Sandstone",
+    dimensions: "12ft Diameter x 16ft Height",
+    leadTime: "30-40 Days",
+    description: "Monumental Rajasthani royal stone chhatri with 8 fluted monolithic pillars, carved kalash finial, and cantilevered sunshade chajjas.",
+    descriptionHi: "पारंपरिक राजस्थानी 8 खंभों वाली नक्काशीदार छतरी, गुंबद और कंगूरे सहित। फार्महाउस और बगीचों के लिए उत्तम।",
+    features: [
+      "Interlocking self-supporting dome craft",
+      "Hand-carved floral capital brackets (Toddis)",
+      "High weather and heat resistance for open gardens"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
   {
     code: "RK-PROD-15",
-    name: "Palatial 3-Tier Cascading Water Fountain",
-    nameHi: "शाही 3-मंजिला झरना वाटर फाउंटेन",
+    name: "Heritage Sandstone Garden Gazebo Pavilion",
+    nameHi: "हेरिटेज सैंडस्टोन गार्डन गज़ेबो पवेलियन",
+    price: 449999,
+    priceUnit: "piece",
+    image: "/products/Chhatri/WhatsApp%20Image%202025-10-29%20at%2016.30.22_d16a22d7.jpg",
+    category: "sandstone-gazebo",
+    stoneType: "Dholpur & Red Sandstone",
+    dimensions: "10ft Diameter x 14ft Height",
+    leadTime: "30-35 Days",
+    description: "Palatial open-air stone seating pavilion for luxury farmhouses and courtyard gardens, providing natural shading and majestic royalty.",
+    descriptionHi: "विला और बगीचे में बैठने के लिए सुंदर खुला पत्थर का पवेलियन और जालीदार रेलिंग।",
+    features: [
+      "Carved stone railing (Jali balustrade)",
+      "Integrated stone seating bench (Asana)",
+      "Pan-India on-site assembly by master masons"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 7. Sandstone Fountains
+  {
+    code: "RK-PROD-16",
+    name: "Palatial 3-Tier Cascading Sandstone Fountain",
+    nameHi: "शाही 3-मंजिला सैंडस्टोन वाटर फाउंटेन",
     price: 299999,
     priceUnit: "piece",
     image: "/products/Garden%20Fountains/WhatsApp%20Image%202025-10-29%20at%2016.28.30_f109f25e.jpg",
-    category: "garden-fountain",
+    category: "sandstone-fountains",
     stoneType: "Dholpur & Jodhpur Sandstone",
     dimensions: "10ft Basin Diameter x 8ft Total Height",
     leadTime: "25-35 Days",
@@ -353,13 +376,13 @@ const MASTER_PRODUCTS = [
     isFeatured: true
   },
   {
-    code: "RK-PROD-16",
-    name: "Hand-Carved Lotus Basin Garden Fountain",
-    nameHi: "हस्तनिर्मित कमल कुंड गार्डन फाउंटेन",
+    code: "RK-PROD-17",
+    name: "Hand-Carved Lotus Basin Sandstone Fountain",
+    nameHi: "हस्तनिर्मित कमल कुंड सैंडस्टोन फाउंटेन",
     price: 185000,
     priceUnit: "piece",
     image: "/products/Garden%20Fountains/WhatsApp%20Image%202025-10-29%20at%2016.28.31_bf455c63.jpg",
-    category: "garden-fountain",
+    category: "sandstone-fountains",
     stoneType: "Gwalior Mint Stone",
     dimensions: "6ft Basin Diameter x 5ft Height",
     leadTime: "20-25 Days",
@@ -374,38 +397,147 @@ const MASTER_PRODUCTS = [
     isFeatured: false
   },
 
-  // 7. Monumental Gates & Torans
+  // 8. Sandstone Garden Bench
   {
-    code: "RK-PROD-17",
-    name: "Monumental Stone Entrance Toran (Gateway)",
-    nameHi: "भव्य नक्काशीदार प्रवेश तोरण द्वार",
-    price: 550000,
+    code: "RK-PROD-18",
+    name: "Classical Carved Sandstone Garden Bench",
+    nameHi: "क्लासिकल नक्काशीदार सैंडस्टोन गार्डन बेंच",
+    price: 38000,
     priceUnit: "piece",
-    image: "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.25_02128f77.jpg",
-    category: "gate",
-    stoneType: "Jodhpur Red & Dholpur Sandstone",
-    dimensions: "24ft Span Width x 18ft Clearance Height",
-    leadTime: "40-60 Days",
-    description: "Majestic fortress-style carved entrance gateway with twin structural pillars, carved brackets, and decorative stone beam.",
-    descriptionHi: "कॉलोनी, आश्रम, विला या फार्महाउस के मुख्य द्वार के लिए विशालकाय नक्काशीदार पत्थर का तोरण।",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.23_bb5957bd.jpg",
+    category: "sandstone-garden-bench",
+    stoneType: "Dholpur Beige Sandstone",
+    dimensions: "5ft Length x 20in Depth x 32in Back Height",
+    leadTime: "10-15 Days",
+    description: "Handcrafted natural stone bench with carved lion legs and floral backrest, enduring generations outdoors without fading.",
+    descriptionHi: "धूप व बारिश में हमेशा सुरक्षित रहने वाली नक्काशीदार पत्थर की सुंदर गार्डन बेंच।",
     features: [
-      "Massive monolithic load-bearing columns",
-      "Deep relief auspicious motifs (Gajraj, Kalash, Toran)",
-      "Pan-India on-site crane and artisan installation"
+      "Carved monolithic armrests and lion feet",
+      "Zero paint or polish requirement (100% natural stone)",
+      "High comfort ergonomic slope"
     ],
     isActive: true,
     isFeatured: true
   },
-
-  // 8. Animal Sculptures
   {
-    code: "RK-PROD-18",
+    code: "RK-PROD-19",
+    name: "Curved Heritage Sandstone Park Bench",
+    nameHi: "शाही घुमावदार सैंडस्टोन सिटिंग बेंच",
+    price: 45000,
+    priceUnit: "piece",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.25_5da9f974.jpg",
+    category: "sandstone-garden-bench",
+    stoneType: "Jodhpur Red Sandstone",
+    dimensions: "6ft Arc Length x 22in Depth",
+    leadTime: "12-16 Days",
+    description: "Curved radial stone bench ideal for circular fire pits, tree surrounds, and formal garden courtyards.",
+    descriptionHi: "वृत्ताकार बगीचों और अलाव स्थलों के लिए आकर्षक घुमावदार पत्थर की बेंच।",
+    features: [
+      "Heavy monolithic load bearing capacity",
+      "Smooth honed seating surface",
+      "Weather-immune stone density"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 9. Sandstone Planter
+  {
+    code: "RK-PROD-20",
+    name: "Handcrafted Stone Courtyard Planter Urn",
+    nameHi: "हस्तनिर्मित सैंडस्टोन आंगन गमला / कलश",
+    price: 18500,
+    priceUnit: "piece",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.23_aecdcb40.jpg",
+    category: "sandstone-planter",
+    stoneType: "Dholpur Beige Stone",
+    dimensions: "3ft Height x 2ft Top Rim Diameter",
+    leadTime: "7-10 Days",
+    description: "Turned stone garden urn with classical fluted bowl and pedestal base for terraces, entrance steps, and pool decks.",
+    descriptionHi: "टेरेस, पोर्च और बगीचे के लिए शास्त्रीय नक्काशीदार पत्थर का गमला कलश।",
+    features: [
+      "Drilled drainage hole with root-safe interior finish",
+      "Heavy wind-resistant base",
+      "Frost and freeze-thaw resistant natural stone"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-21",
+    name: "Fluted Sandstone Pedestal Planter Urn Pair",
+    nameHi: "नक्काशीदार सैंडस्टोन गमला कलश (जोड़ी)",
+    price: 34000,
+    priceUnit: "pair",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.24_925bcf0c.jpg",
+    category: "sandstone-planter",
+    stoneType: "Dholpur White Sandstone",
+    dimensions: "2.5ft Height x 18in Diameter (Pair of 2)",
+    leadTime: "8-12 Days",
+    description: "Pair of matching classical stone urn planters with relief acanthus leaves for front door welcoming.",
+    descriptionHi: "मुख्य द्वार के दोनों ओर रखने के लिए नक्काशीदार सफेद सैंडस्टोन गमलों की खूबसूरत जोड़ी।",
+    features: [
+      "Hand-turned symmetrical bowls",
+      "Root aeration natural stone porosity",
+      "Anti-topple stable weight"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 10. Sandstone Ball Sphere
+  {
+    code: "RK-PROD-22",
+    name: "Decorative Turned Sandstone Ball Sphere",
+    nameHi: "सजावटी नक्काशीदार सैंडस्टोन बॉल स्फेयर",
+    price: 8500,
+    priceUnit: "piece",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.23_0d900ff3.jpg",
+    category: "sandstone-ball-sphere",
+    stoneType: "Dholpur Teakwood Sandstone",
+    dimensions: "16in Diameter (Spherical)",
+    leadTime: "5-7 Days",
+    description: "Precision-turned solid natural sandstone sphere with organic rainbow striations for garden walkways and gate piers.",
+    descriptionHi: "गेट पिलर्स और बगीचे की सुंदरता बढ़ाने के लिए शुद्ध प्राकृतिक सैंडस्टोन बॉल।",
+    features: [
+      "100% Solid monolithic stone turning",
+      "Organic teakwood natural grain",
+      "Flat mounting base with anchor hole"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-23",
+    name: "Carved Sandstone Pillar Finial Ball Pair",
+    nameHi: "खंभों के लिए नक्काशीदार सैंडस्टोन कंगूरा बॉल (जोड़ी)",
+    price: 15000,
+    priceUnit: "pair",
+    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.24_d267235a.jpg",
+    category: "sandstone-ball-sphere",
+    stoneType: "Red & Beige Sandstone",
+    dimensions: "14in Diameter with 12in Base (Pair of 2)",
+    leadTime: "6-8 Days",
+    description: "Pair of ornate stone sphere finials with lotus bases for main gates and boundary pillars.",
+    descriptionHi: "मुख्य गेट और बाउंड्री पिलर्स के ऊपर लगाने के लिए कमल बेस वाली पत्थर की बॉल जोड़ी।",
+    features: [
+      "Carved lotus petal collar",
+      "Easy mounting with structural rod",
+      "Weather-immune stone density"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 11. Sandstone Elephant Statue
+  {
+    code: "RK-PROD-24",
     name: "Monolithic Hand-Carved Royal Stone Elephant Pair",
     nameHi: "शाही अखंड नक्काशीदार पत्थर के हाथी (जोड़ा)",
     price: 195000,
     priceUnit: "pair",
     image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.01_908bfde4.jpg",
-    category: "animals",
+    category: "sandstone-elephant-statue",
     stoneType: "Dholpur Heritage Sandstone",
     dimensions: "4ft Height x 5ft Length each (Pair of 2)",
     leadTime: "20-25 Days",
@@ -420,89 +552,200 @@ const MASTER_PRODUCTS = [
     isFeatured: true
   },
   {
-    code: "RK-PROD-19",
-    name: "Imperial Rajputana Stone Lion Guard Pair",
-    nameHi: "मेहरानगढ़ स्टाइल पत्थर के शेर (जोड़ा)",
-    price: 220000,
-    priceUnit: "pair",
-    image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.02_5e13a207.jpg",
-    category: "animals",
-    stoneType: "Jodhpur Imperial Sandstone",
-    dimensions: "4.5ft Height x 3.5ft Length (Pair of 2)",
-    leadTime: "25-30 Days",
-    description: "Majestic seated stone lions carved with dramatic manes and muscular contours, representing royal power and protection.",
-    descriptionHi: "शाही शक्ति और सुरक्षा के प्रतीक नक्काशीदार शेर की जोड़ी, जोधपुर लाल पत्थर से निर्मित।",
+    code: "RK-PROD-25",
+    name: "Welcoming Sandstone Gajraj Statue with Raised Trunk",
+    nameHi: "सैंडस्टोन स्वागत गजराज मूर्ति (सूंड़ ऊपर)",
+    price: 110000,
+    priceUnit: "piece",
+    image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.03_4dc3c1da.jpg",
+    category: "sandstone-elephant-statue",
+    stoneType: "Jodhpur Sandstone",
+    dimensions: "4.5ft Height x 5ft Length",
+    leadTime: "15-20 Days",
+    description: "Single large welcoming stone elephant holding bell and garland, carved with royal Rajputana ornaments.",
+    descriptionHi: "राजपूताना नक्काशी और घंटी के साथ भव्य अकेला गजराज पत्थर हाथी।",
     features: [
-      "Classical Mehrangarh fort architectural lineage",
-      "Carved from weather-immune dense sandstone",
-      "Polished paw and facial expressions"
+      "Deeply chiseled tusks and saddle drape",
+      "High compression strength sandstone",
+      "Vastu-harmonious posture"
     ],
     isActive: true,
     isFeatured: false
   },
 
-  // 9. Red Sand Stone & Jodhpur Stone
+  // 12. Sandstone God Statue
   {
-    code: "RK-PROD-20",
-    name: "Bansi Paharpur Red Stone Carved Wall Relief",
-    nameHi: "बंसी पहाड़पुर लाल पत्थर नक्काशी वॉल टाइल",
-    price: 450,
-    priceUnit: "sq.ft",
-    image: "/products/Red%20Sand%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.20.16_b6329759.jpg",
-    category: "red-stone",
-    stoneType: "Bansi Paharpur Red Stone",
-    dimensions: "4ft x 4ft x 40mm",
-    leadTime: "12-15 Days",
-    description: "Deep bas-relief carved red sandstone tile for boundary wall accents and temple facades.",
-    descriptionHi: "दीवारों और मंदिर के लिए शुद्ध बंसी पहाड़पुर प्राकृतिक लाल पत्थर की नक्काशीदार टाइल।",
+    code: "RK-PROD-26",
+    name: "Handcrafted Sandstone Lord Ganesha Statue",
+    nameHi: "हस्तनिर्मित सैंडस्टोन भगवान गणेश मूर्ति",
+    price: 75000,
+    priceUnit: "piece",
+    image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.03_9fa8d27a.jpg",
+    category: "sandstone-god-statue",
+    stoneType: "Dholpur Pink & Beige Sandstone",
+    dimensions: "3.5ft Height x 2.5ft Width x 18in Depth",
+    leadTime: "15-20 Days",
+    description: "Consecrated seated Ganesha idol chiseled from natural stone with modak, trunk to the left, and blessing mudra.",
+    descriptionHi: "प्राकृतिक सैंडस्टोन से तराशी गई मंगलकारी भगवान श्री गणेश की भव्य मूर्ति।",
     features: [
-      "Natural red stone coloration with zero synthetic dye",
-      "Immune to moisture staining and moss growth",
-      "Hand-chiseled antique dressed edge"
+      "Carved strictly according to Shilpa Shastra",
+      "Hand-polished facial features with serene expression",
+      "Suitable for outdoor garden niche or pooja room"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-27",
+    name: "Carved Sandstone Shivling & Nandi Shrine",
+    nameHi: "नक्काशीदार सैंडस्टोन शिवलिंग व नंदी धाम",
+    price: 85000,
+    priceUnit: "piece",
+    image: "/products/Stone%20Temple/1.jpg",
+    category: "sandstone-god-statue",
+    stoneType: "Bansi Paharpur & Dholpur Stone",
+    dimensions: "3ft Height with 4ft Jaladhari",
+    leadTime: "15-20 Days",
+    description: "Sacred stone Shivling with carved serpent canopy, jaladhari, and seated Nandi devotee statue.",
+    descriptionHi: "पवित्र शिवलिंग, जलाधारी और नंदी महाराज की संपूर्ण पत्थर नक्काशीदार प्रतिमा।",
+    features: [
+      "Smooth jaladhari for abhishek drainage",
+      "Certified sacred natural stone",
+      "Permanent polish lasting centuries"
     ],
     isActive: true,
     isFeatured: false
   },
+
+  // 13. Sandstone Wall Mural
   {
-    code: "RK-PROD-21",
-    name: "Jodhpur Desert Red Sandstone Pillar",
-    nameHi: "जोधपुर लाल सैंडस्टोन नक्काशीदार खंभा",
-    price: 55000,
+    code: "RK-PROD-28",
+    name: "Deep Bas-Relief Carved Sandstone Wall Mural",
+    nameHi: "उभरी हुई नक्काशीदार सैंडस्टोन वॉल म्यूरल",
+    price: 1450,
+    priceUnit: "sq.ft",
+    image: "/products/Gwalior%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.25.02_bb05aa29.jpg",
+    category: "sandstone-wall-mural",
+    stoneType: "Gwalior Mint Stone",
+    dimensions: "6ft Height x 4ft Width x 50mm",
+    leadTime: "14-20 Days",
+    description: "Deep relief decorative floral and heritage stone panel for drawing room feature walls, entrance foyers, and villa facades.",
+    descriptionHi: "लिविंग रूम और विला के मुख्य प्रवेश द्वार के लिए उभरी हुई नक्काशीदार पत्थर की पट्टिका।",
+    features: [
+      "Deep 3D hand-chiseled bas-relief",
+      "Satin honed velvety tactile surface",
+      "Custom motif reproduction from CAD/sketches"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-29",
+    name: "Rajasthani Royal Court Heritage Stone Mural",
+    nameHi: "राजस्थानी दरबार हेरिटेज स्टोन म्यूरल",
+    price: 85000,
+    priceUnit: "piece",
+    image: "/products/Red%20Sand%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.20.16_b6329759.jpg",
+    category: "sandstone-wall-mural",
+    stoneType: "Bansi Paharpur Red Sandstone",
+    dimensions: "5ft x 3.5ft x 45mm",
+    leadTime: "15-20 Days",
+    description: "Traditional Rajput court procession stone mural with elephants, horses, and royal umbrellas.",
+    descriptionHi: "राजपूताना शाही जुलूस और दरबारी भव्यता को दर्शाती अनूठी पत्थर वॉल म्यूरल।",
+    features: [
+      "Solid natural red sandstone",
+      "Zero artificial colors or paints",
+      "Framed with carved stone border"
+    ],
+    isActive: true,
+    isFeatured: false
+  },
+
+  // 14. Sandstone Angel Garden Statue
+  {
+    code: "RK-PROD-30",
+    name: "Hand-Carved Sandstone Angel Garden Statue",
+    nameHi: "हस्तनिर्मित सैंडस्टोन एंजल गार्डन मूर्ति",
+    price: 68000,
+    priceUnit: "piece",
+    image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.04_e336e10d.jpg",
+    category: "sandstone-angel-garden-statue",
+    stoneType: "Dholpur White Sandstone",
+    dimensions: "4ft Height x 20in Width x 18in Base",
+    leadTime: "15-20 Days",
+    description: "Artistic winged angel statue sculpted in white Dholpur stone with fine feather detail and peaceful expression for lush gardens.",
+    descriptionHi: "बगीचे और वॉटर बॉडी के पास स्थापित करने के लिए सफेद सैंडस्टोन में नक्काशीदार परी (एंजल) मूर्ति।",
+    features: [
+      "Detailed feathery wings and flowing stone robe",
+      "Weather-proof exterior stone durability",
+      "Optional water-spouting fountain conversion"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+
+  // 15. Sandstone Mother Child Statue
+  {
+    code: "RK-PROD-31",
+    name: "Artistically Sculpted Sandstone Mother & Child Statue",
+    nameHi: "भावपूर्ण नक्काशीदार सैंडस्टोन वात्सल्य / मदर चाइल्ड मूर्ति",
+    price: 72000,
+    priceUnit: "piece",
+    image: "/products/Animals/WhatsApp%20Image%202025-10-29%20at%2016.16.04_52d3a373.jpg",
+    category: "sandstone-mother-child-statue",
+    stoneType: "Dholpur Beige Sandstone",
+    dimensions: "4ft Height x 22in Width x 18in Base",
+    leadTime: "15-20 Days",
+    description: "Heartwarming sculpture depicting eternal maternal love (Vatsalya), carved from dense sandstone with smooth flowing contours.",
+    descriptionHi: "मां और बच्चे के अटूट प्रेम और वात्सल्य को दर्शाती अद्वितीय सैंडस्टोन कलाकृति। विला व लॉन के लिए सर्वोत्तम।",
+    features: [
+      "Emotional realism and graceful figurative posture",
+      "Satin stone polish that sheds rainwater",
+      "Monolithic stone base"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+
+  // 16. Red Sandstone Ashok Stambh with Pillar
+  {
+    code: "RK-PROD-32",
+    name: "Red Sandstone Ashok Stambh with Pillar (Lion Capital)",
+    nameHi: "रेड सैंडस्टोन अशोक स्तंभ चार शेर शीर्ष सहित",
+    price: 285000,
+    priceUnit: "piece",
+    image: "/products/Red%20Sand%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.20.16_4437a324.jpg",
+    category: "red-sandstone-ashok-stambh",
+    stoneType: "Jodhpur & Bansi Paharpur Red Sandstone",
+    dimensions: "12ft Height x 22in Shaft Diameter",
+    leadTime: "25-35 Days",
+    description: "Monumental National Emblem Ashoka Pillar carved from authentic Rajasthan red sandstone. Features the four lions standing back-to-back, Ashoka Chakra, bull, horse, and fluted column.",
+    descriptionHi: "भारत के गौरवशाली राष्ट्रीय प्रतीक चार मुखी शेर और चक्र सहित निर्मित विशालकाय लाल पत्थर का अशोक स्तंभ।",
+    features: [
+      "Exact architectural proportions of the Sarnath capital",
+      "Carved from weather-immune high density red sandstone",
+      "Ideal for government institutions, universities, memorials, and grand villas"
+    ],
+    isActive: true,
+    isFeatured: true
+  },
+  {
+    code: "RK-PROD-33",
+    name: "Carved Red Sandstone Architectural Stambh Pillar",
+    nameHi: "नक्काशीदार लाल सैंडस्टोन आर्किटेक्चरल स्तंभ खंभा",
+    price: 65000,
     priceUnit: "piece",
     image: "/products/Jodhpur%20Stone/WhatsApp%20Image%202025-10-29%20at%2016.21.01_1fb6fd38.jpg",
-    category: "jodhpur-stone",
-    stoneType: "Jodhpur Imperial Red Sandstone",
-    dimensions: "10ft Height x 16in Diameter",
+    category: "red-sandstone-ashok-stambh",
+    stoneType: "Jodhpur Desert Red Sandstone",
+    dimensions: "10ft Height x 16in Base Diameter",
     leadTime: "15-20 Days",
-    description: "High density iron-oxide cemented quartz sandstone pillar, celebrated for resisting harsh desert winds and heat.",
-    descriptionHi: "तेज धूप और बारिश झेलने वाला अत्यधिक मजबूत जोधपुर लाल सैंडस्टोन खंभा।",
+    description: "Structural load-bearing red sandstone pillar with classical rings, lotus capital, and pedestal base.",
+    descriptionHi: "मजबूत लोड-बेयरिंग लाल सैंडस्टोन खंभा, मुख्य द्वारों व बरामदों के लिए।",
     features: [
-      "Deep fluting with traditional leaf rings",
-      "Exceptional structural compression resistance",
-      "Authentic Marwar architectural character"
-    ],
-    isActive: true,
-    isFeatured: false
-  },
-
-  // 10. Garden Ornaments
-  {
-    code: "RK-PROD-22",
-    name: "Handcrafted Stone Courtyard Planter Urn",
-    nameHi: "हस्तनिर्मित सैंडस्टोन आंगन गमला / कलश",
-    price: 18500,
-    priceUnit: "piece",
-    image: "/products/Garden%20Ornaments/WhatsApp%20Image%202025-10-29%20at%2016.31.23_aecdcb40.jpg",
-    category: "garden-ornaments",
-    stoneType: "Dholpur Beige Stone",
-    dimensions: "3ft Height x 2ft Top Rim Diameter",
-    leadTime: "7-10 Days",
-    description: "Turned stone garden urn with classical fluted bowl and pedestal base for terraces, entrance steps, and pool decks.",
-    descriptionHi: "टेरेस, पोर्च और बगीचे के लिए शास्त्रीय नक्काशीदार पत्थर का गमला कलश।",
-    features: [
-      "Drilled drainage hole with root-safe interior finish",
-      "Heavy wind-resistant base",
-      "Frost and freeze-thaw resistant natural stone"
+      "Solid one-piece stone turning",
+      "High compression bearing rating",
+      "Traditional Marwar craftsmanship"
     ],
     isActive: true,
     isFeatured: false
@@ -519,7 +762,6 @@ async function seedDatabase() {
     let updated = 0;
 
     for (const item of MASTER_PRODUCTS) {
-      // Find if product with same code or name already exists
       const existing = await Product.findOne({
         $or: [
           { code: item.code },
@@ -528,7 +770,6 @@ async function seedDatabase() {
       });
 
       if (existing) {
-        // Update fields while preserving _id
         await Product.updateOne({ _id: existing._id }, { $set: item });
         updated++;
       } else {

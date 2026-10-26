@@ -40,6 +40,7 @@ import StoneCalculator from "@/components/home/StoneCalculator";
 import WorkshopShowcase from "@/components/home/WorkshopShowcase";
 import DrawingUploadModal from "@/components/home/DrawingUploadModal";
 import SampleKitModal from "@/components/home/SampleKitModal";
+import { AboutSection } from "@/components/home/AboutSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { API_URL } from "@/config/api";
@@ -414,7 +415,7 @@ const Index = () => {
               <span className="text-white/80">JAIPUR WORKSHOP • RAJASTHAN, INDIA</span>
             </div>
             <div className="flex items-center gap-8">
-              <span>EST. 1984</span>
+              <span>EST. 2009</span>
               <span className="text-accent font-semibold">DIRECT WORKSHOP & MANUFACTURER</span>
               <span className="font-body text-white/50 tracking-wider">26°55'N 75°49'E</span>
             </div>
@@ -505,162 +506,8 @@ const Index = () => {
 
       </section>
 
-      {/* 01: Heritage & Craftsmanship Narrative */}
-      <section className="py-24 md:py-32 bg-[#FAF8F5]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
-            {/* Left Narrative Column - Multi-Directional Staggered Motion */}
-            <div className="lg:col-span-7 space-y-6">
-              <Reveal direction="down">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-normal uppercase text-stone-950 tracking-wide leading-[1.15]">
-                  {l("OVER 40 YEARS OF STONE CARVING & MASONRY", "4 दशकों से उत्कृष्ट पत्थर शिल्पकला")}
-                </h2>
-              </Reveal>
-
-              <Reveal direction="left" delay={0.15}>
-                <p className="text-base sm:text-lg text-stone-700 font-light leading-relaxed">
-                  {l(
-                    "Founded on Rajasthan's rich stone carving heritage, RK Stone Corporation is Jaipur's direct manufacturer of custom stone temples, royal haveli facades, jalis, and architectural ornaments.",
-                    "राजस्थान की समृद्ध पत्थर शिल्पकला पर आधारित, आर.के. स्टोन कॉर्पोरेशन जयपुर में सीधे पत्थर के मंदिर, हवेलियां, जालियां और नक्काशीदार कलाकृतियों का निर्माण करता है।"
-                  )}
-                </p>
-              </Reveal>
-
-              <Reveal direction="left" delay={0.25}>
-                <p className="text-base sm:text-lg text-stone-700 font-light leading-relaxed">
-                  {l(
-                    "From pure Makrana white marble and Dholpur sandstone to Gwalior stone and 3D CNC cutting, our skilled artisans deliver unmatched quality for villas, homes, and temple trusts.",
-                    "शुद्ध मकराना सफेद मार्बल, धौलपुर सैंडस्टोन, ग्वालियर स्टोन और आधुनिक 3D सीएनसी कटिंग के साथ हमारे कुशल कारीगर उत्कृष्ट फिनिशिंग प्रदान करते हैं।"
-                  )}
-                </p>
-              </Reveal>
-
-              {/* Heritage Pillars - Float up from bottom */}
-              <Reveal direction="up" delay={0.3}>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
-                  <div className="p-3.5 bg-white border border-stone-200 text-center shadow-xs">
-                    <span className="block text-xs font-bold font-heading uppercase text-stone-900 tracking-wider">
-                      {l("Stone Mandirs", "पत्थर के मंदिर")}
-                    </span>
-                    <span className="text-[11px] text-stone-500 font-light">{l("Custom Shikhars", "कस्टम शिखर")}</span>
-                  </div>
-                  <div className="p-3.5 bg-white border border-stone-200 text-center shadow-xs">
-                    <span className="block text-xs font-bold font-heading uppercase text-stone-900 tracking-wider">
-                      {l("Haveli Pillars", "हवेली खंभे")}
-                    </span>
-                    <span className="text-[11px] text-stone-500 font-light">{l("Carved Jharokhas", "झरोखे")}</span>
-                  </div>
-                  <div className="p-3.5 bg-white border border-stone-200 text-center shadow-xs">
-                    <span className="block text-xs font-bold font-heading uppercase text-stone-900 tracking-wider">
-                      {l("3D CNC Jalis", "3D सीएनसी जाली")}
-                    </span>
-                    <span className="text-[11px] text-stone-500 font-light">{l("Wall Screens", "एलिवेशन पैनल")}</span>
-                  </div>
-                  <div className="p-3.5 bg-white border border-stone-200 text-center shadow-xs">
-                    <span className="block text-xs font-bold font-heading uppercase text-stone-900 tracking-wider">
-                      {l("Chhatris", "शाही छतरियां")}
-                    </span>
-                    <span className="text-[11px] text-stone-500 font-light">{l("Water Fountains", "वाटर फाउंटेन")}</span>
-                  </div>
-                </div>
-              </Reveal>
-
-              {/* Action Buttons - Float up from bottom */}
-              <Reveal direction="up" delay={0.4}>
-                <div className="flex flex-wrap items-center gap-4 pt-4">
-                  <Link to="/contact">
-                    <Button
-                      size="lg"
-                      className="bg-stone-950 hover:bg-stone-800 text-white font-bold tracking-wider uppercase text-xs sm:text-sm px-8 py-6 rounded-none transition-all shadow-md group cursor-pointer"
-                    >
-                      {l("CONSULT OUR TEAM", "हमारी टीम से बात करें")}
-                      <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
-
-                  <a
-                    href={`https://wa.me/919414784562?text=${encodeURIComponent(
-                      "Hello RK Stone Corporation, I would like to consult with your master artisans for our upcoming stone project."
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-stone-400 text-stone-900 hover:text-stone-950 hover:border-stone-950 hover:bg-stone-100 font-semibold tracking-wider uppercase text-xs sm:text-sm px-7 py-6 rounded-none transition-all cursor-pointer"
-                    >
-                      <WhatsAppIcon className="mr-2 w-4 h-4 text-[#25D366]" />
-                      {l("WHATSAPP DRAWINGS", "व्हाट्सएप पर संपर्क करें")}
-                    </Button>
-                  </a>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right Architectural Metric Tiles - Moves Right to Left */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-6">
-              <Reveal direction="right" delay={0.1}>
-                <div className="p-6 sm:p-8 bg-white border border-stone-200 shadow-sm relative group hover:border-accent transition-all duration-300">
-                  <div className="text-4xl sm:text-5xl font-heading font-light text-stone-950 tracking-wide mb-2">
-                    40+
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-1">
-                    {l("Years Experience", "वर्षों का अनुभव")}
-                  </div>
-                  <p className="text-xs text-stone-600 font-light leading-relaxed">
-                    {l("Generational stone sculpting lineage in Jaipur, Rajasthan.", "जयपुर, राजस्थान में पीढ़ियों से पत्थर तराशने का काम।")}
-                  </p>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" delay={0.2}>
-                <div className="p-6 sm:p-8 bg-white border border-stone-200 shadow-sm relative group hover:border-accent transition-all duration-300">
-                  <div className="text-4xl sm:text-5xl font-heading font-light text-stone-950 tracking-wide mb-2">
-                    5,000+
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-1">
-                    {l("Projects Delivered", "सफल कार्य")}
-                  </div>
-                  <p className="text-xs text-stone-600 font-light leading-relaxed">
-                    {l("Custom mandirs, havelis, and monuments delivered across India.", "पूरे भारत में मंदिर, छतरियां और हवेलियां स्थापित।")}
-                  </p>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" delay={0.3}>
-                <div className="p-6 sm:p-8 bg-white border border-stone-200 shadow-sm relative group hover:border-accent transition-all duration-300">
-                  <div className="text-4xl sm:text-5xl font-heading font-light text-stone-950 tracking-wide mb-2">
-                    100%
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-1">
-                    {l("Natural Stone", "प्राकृतिक पत्थर")}
-                  </div>
-                  <p className="text-xs text-stone-600 font-light leading-relaxed">
-                    {l("Certified Makrana marble, Dholpur, and Gwalior quarries.", "प्रमाणित मकराना, धौलपुर और ग्वालियर खदानों का शुद्ध पत्थर।")}
-                  </p>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" delay={0.4}>
-                <div className="p-6 sm:p-8 bg-white border border-stone-200 shadow-sm relative group hover:border-accent transition-all duration-300">
-                  <div className="text-2xl sm:text-3xl font-heading font-light text-stone-950 tracking-wide mb-2 mt-2">
-                    PAN-INDIA
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-1">
-                    {l("Safe Delivery", "सुरक्षित डिलीवरी")}
-                  </div>
-                  <p className="text-xs text-stone-600 font-light leading-relaxed">
-                    {l("Reinforced crating & on-site artisan fitting assistance.", "मजबूत लकड़ी की पैकिंग व साइट पर फिटिंग सुविधा।")}
-                  </p>
-                </div>
-              </Reveal>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      {/* 01: About RK Stone Corporation Narrative & Credentials */}
+      <AboutSection />
 
       {/* 02: What We Make • Master Disciplines Grid */}
       <div id="what-we-make">

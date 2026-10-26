@@ -90,7 +90,7 @@ const Footer = () => {
                 </span>
               </div>
               <div className="flex items-center gap-6">
-                <span>{l("FOUNDED 1984", "स्थापना 1984")}</span>
+                <span>{l("ESTD. 2009", "स्थापना 2009")}</span>
                 <span className="text-accent font-semibold">{l("DIRECT MANUFACTURER & EXPORTER", "सीधा निर्माता व निर्यातक")}</span>
                 <span className="hidden md:inline text-white/40">GSTIN: {siteSettings.gstNumber || "08CUUPS3588K1ZE"}</span>
               </div>
@@ -125,14 +125,15 @@ const Footer = () => {
             <Reveal direction="up" delay={0.15}>
               <p className="text-sm text-white/70 font-light leading-relaxed">
                 {l(
-                  "For over four decades, RK Stone Corporation has been Jaipur's premier direct workshop and manufacturer for sacred Vedic mandirs, royal Rajasthani haveli facades, 3D CNC architectural screens, and courtyard water fountains.",
-                  "चार दशकों से अधिक समय से आर.के. स्टोन कॉर्पोरेशन जयपुर में सीधे पत्थर के मंदिर, राजस्थानी हवेली एलिवेशन, सीएनसी स्टोन जाली और वाटर फाउंटेन का निर्माण कर रहा है।"
+                  "Established in 2009 by Founder Mr. Rajendra Saini, RK Stone Corporation is Jaipur's renowned Manufacturer and Supplier of exquisite Sandstone Temples, Temple Entry Gates, Dholpur Temples, 3D CNC Jalis, Fountains, Gazebos, and Garden Ornaments.",
+                  "2009 में संस्थापक श्री राजेंद्र सैनी द्वारा स्थापित, आर.के. स्टोन कॉर्पोरेशन जयपुर में सैंडस्टोन मंदिर, मंदिर प्रवेश तोरण द्वार, धौलपुर मंदिर, 3D सीएनसी जाली, छतरियां व वाटर फाउंटेन का प्रसिद्ध निर्माता व सप्लायर है।"
                 )}
               </p>
             </Reveal>
 
             <Reveal direction="up" delay={0.2}>
               <div className="space-y-2 text-xs font-body text-white/70 leading-relaxed">
+                <div><strong className="text-white font-medium">{l("FOUNDER:", "संस्थापक:")}</strong> {l("Mr. Rajendra Saini", "श्री राजेंद्र सैनी")}</div>
                 <div><strong className="text-white font-medium">{l("WORKSHOP:", "वर्कशॉप:")}</strong> {siteSettings.workshopAddress || l("Paldi Meena, Front of Surya City, Agra Road, Jaipur 302031, Rajasthan", "पालड़ी मीणा, सूर्य सिटी के सामने, आगरा रोड, जयपुर 302031, राजस्थान")}</div>
                 <div><strong className="text-white font-medium">{l("PHONE / CALL:", "फ़ोन / कॉल:")}</strong> {siteSettings.primaryPhone || "+91 94147 84562"}</div>
                 <div><strong className="text-white font-medium">{l("EMAIL:", "ईमेल:")}</strong> {siteSettings.email || "contact@rkstonecorporation.com"}</div>
@@ -199,46 +200,46 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col space-y-2.5 text-sm">
                 <Link
-                  to="/stone-temple-jaipur"
+                  to="/shop?category=sandstone-temple"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Crown className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Stone Temples & Mandirs", "पत्थर के मंदिर")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Sandstone Temple", "सैंडस्टोन मंदिर")}</span>
                 </Link>
                 <Link
-                  to="/heritage-havelis"
+                  to="/shop?category=sandstone-temple-entry-gate"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Building2 className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Haveli Facades & Columns", "हवेली अग्रभाग व खंभे")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Temple Entry Gates", "मंदिर प्रवेश द्वार")}</span>
                 </Link>
                 <Link
-                  to="/cnc-jali-jaipur"
+                  to="/shop?category=dholpur-sandstone-temple"
+                  className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
+                >
+                  <Crown className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Dholpur Sandstone Temple", "धौलपुर सैंडस्टोन मंदिर")}</span>
+                </Link>
+                <Link
+                  to="/shop?category=sandstone-grill"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Grid3X3 className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("3D CNC Stone Jalis", "3D सीएनसी जाली")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Sandstone Grill (Jali)", "3D सैंडस्टोन जाली")}</span>
                 </Link>
                 <Link
-                  to="/courtyard-artifacts"
-                  className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
-                >
-                  <Droplets className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Courtyard Fountains & Chhatris", "वाटर फाउंटेन व छतरियां")}</span>
-                </Link>
-                <Link
-                  to="/sandstone-supplier-jaipur"
+                  to="/shop?category=sandstone-gazebo"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Compass className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Direct Sandstone Supply", "सैंडस्टोन सप्लायर")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("Sandstone Gazebos & Chhatris", "सैंडस्टोन छतरी व गज़ेबो")}</span>
                 </Link>
                 <Link
                   to="/shop"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Layers className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("All Catalogued Works", "सभी उत्पाद संग्रह")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("All 16 Categories Catalog", "सभी 16 श्रेणियां संग्रह")}</span>
                 </Link>
               </nav>
             </Reveal>
@@ -284,7 +285,7 @@ const Footer = () => {
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"
                 >
                   <Building2 className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("About Our Heritage", "हमारे बारे में")}</span>
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300">{l("About RK Stone (Est. 2009)", "कंपनी परिचय (स्थापना 2009)")}</span>
                 </Link>
                 <Link
                   to="/contact"
@@ -333,9 +334,51 @@ const Footer = () => {
 
         </div>
 
+        {/* ================= EXACT 16 CATEGORIES SEO FOOTER STRIP (FROM CLIENT IMAGE 3) ================= */}
+        <Reveal direction="up" delay={0.25}>
+          <div className="border-t border-b border-white/15 py-6 my-12 bg-white/[0.03]">
+            <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-accent/90 text-center mb-3 font-semibold">
+              {l("EXPLORE OUR COMPLETE PRODUCT CATALOGUE", "हमारे संपूर्ण उत्पाद संवर्ग")}
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-[13px] text-white/80 leading-relaxed text-center px-4 font-light">
+              <Link to="/shop?category=sandstone-temple" className="hover:text-accent transition-colors">Sandstone Temple</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-temple-entry-gate" className="hover:text-accent transition-colors">Sandstone Temple Entry Gate</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=dholpur-sandstone-temple" className="hover:text-accent transition-colors">Dholpur Sandstone Temple</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-grill" className="hover:text-accent transition-colors">Sandstone Grill</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-lamp" className="hover:text-accent transition-colors">Sandstone Lamp</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-gazebo" className="hover:text-accent transition-colors">Sandstone Gazebo</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-fountains" className="hover:text-accent transition-colors">Sandstone Fountains</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-garden-bench" className="hover:text-accent transition-colors">Sandstone Garden Bench</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-planter" className="hover:text-accent transition-colors">Sandstone Planter</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-ball-sphere" className="hover:text-accent transition-colors">Sandstone Ball Sphere</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-elephant-statue" className="hover:text-accent transition-colors">Sandstone Elephant Statue</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-god-statue" className="hover:text-accent transition-colors">Sandstone God Statue</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-wall-mural" className="hover:text-accent transition-colors">Sandstone Wall Mural</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-angel-garden-statue" className="hover:text-accent transition-colors">Sandstone Angel Garden Statue</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=sandstone-mother-child-statue" className="hover:text-accent transition-colors">Sandstone Mother Child Statue</Link>
+              <span className="text-accent/40">|</span>
+              <Link to="/shop?category=red-sandstone-ashok-stambh" className="hover:text-accent transition-colors">Red Sandstone Ashok Stambh with Pillar</Link>
+            </div>
+          </div>
+        </Reveal>
+
         {/* ================= DEDICATED LANGUAGE SELECTOR IN FOOTER ================= */}
         <Reveal direction="up" delay={0.2}>
-          <div className="border border-white/15 bg-white/5 p-6 mt-16 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-accent/40 transition-colors">
+          <div className="border border-white/15 bg-white/5 p-6 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-accent/40 transition-colors">
             <div className="flex items-center gap-3.5 text-center md:text-left">
               <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
                 <Globe className="w-5 h-5 animate-spin-slow" />
@@ -389,8 +432,8 @@ const Footer = () => {
           <div className="border-t border-white/10 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/60 font-body">
             <div className="font-light">
               {l(
-                "© 1984 RK STONE CORPORATION • JAIPUR, RAJASTHAN. ALL RIGHTS RESERVED.",
-                "© 1984 आर.के. स्टोन कॉर्पोरेशन • जयपुर, राजस्थान। सर्वाधिकार सुरक्षित।"
+                "© 2009 - 2026 RK STONE CORPORATION • JAIPUR, RAJASTHAN. ALL RIGHTS RESERVED.",
+                "© 2009 - 2026 आर.के. स्टोन कॉर्पोरेशन • जयपुर, राजस्थान। सर्वाधिकार सुरक्षित।"
               )}
             </div>
             <div className="flex items-center gap-6 font-medium">
