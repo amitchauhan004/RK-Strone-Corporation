@@ -44,7 +44,7 @@ const NotFound = () => {
   const quickCategories = [
     {
       title: l("Stone Temples & Mandirs", "पत्थर के मंदिर"),
-      desc: l("Pure Makrana marble & pink sandstone mandirs", "मकराना मार्बल व गुलाबी सैंडस्टोन मंदिर"),
+      desc: l("Pure Dholpur & Bansi pink sandstone mandirs", "धौलपुर व गुलाबी सैंडस्टोन मंदिर"),
       path: "/stone-temple-jaipur",
       image: "/products/Stone%20Temple/3.jpg",
       tag: l("SACRED CRAFT", "मंदिर शिल्प")

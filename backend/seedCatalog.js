@@ -249,6 +249,72 @@ const officialProducts = [
     "isActive": true
   },
   {
+    "id": "handcrafted-sandstone-temple-main-gate",
+    "name": "Handcrafted Sandstone Temple Main Gate",
+    "nameHi": "हैंडक्राफ्टेड सैंडस्टोन मंदिर मुख्य द्वार",
+    "category": "sandstone-temple-entry-gate",
+    "price": 1420,
+    "priceUnit": "sq. ft",
+    "stoneType": "Pink & Red Sandstone",
+    "dimensions": "14ft Width x 16ft Height",
+    "leadTime": "25-35 Days",
+    "image": "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.26_ecff744c.jpg",
+    "description": "Grand ceremonial temple gateway with deep relief floral arches, guardian elephant pedestals, and carved stone lintel.",
+    "descriptionHi": "हाथियों के आधार और सुंदर मेहराबदार नक्काशी के साथ तैयार मंदिर मुख्य द्वार।",
+    "features": [
+      "Deep sculpted heritage toran arch",
+      "Includes high compressive load bearing tests",
+      "Custom fitting support across India"
+    ],
+    "isFeatured": true,
+    "code": "RK-PROD-11",
+    "isActive": true
+  },
+  {
+    "id": "heavy-duty-sandstone-entry-gate-for-temple",
+    "name": "Heavy Duty Sandstone Entry Gate for Temple",
+    "nameHi": "हैवी ड्यूटी सैंडस्टोन मंदिर प्रवेश द्वार",
+    "category": "sandstone-temple-entry-gate",
+    "price": 1480,
+    "priceUnit": "sq. ft",
+    "stoneType": "Dholpur & Jodhpur Sandstone",
+    "dimensions": "16ft Width x 20ft Height",
+    "leadTime": "30-40 Days",
+    "image": "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.27_c764a784.jpg",
+    "description": "Massive monolithic stone gateway engineered for high-footfall pilgrimage temples and historic shrine renovations.",
+    "descriptionHi": "तीर्थस्थलों और बड़े मंदिरों के लिए विशेष रूप से मजबूत भारी पत्थर प्रवेश द्वार।",
+    "features": [
+      "Engineered for heavy double-leaf teak or brass doors",
+      "Wind and seismic anchoring specifications",
+      "Zero moisture seepage joints"
+    ],
+    "isFeatured": false,
+    "code": "RK-PROD-12",
+    "isActive": true
+  },
+  {
+    "id": "natural-sandstone-entry-gate-with-traditional-carving",
+    "name": "Natural Sandstone Entry Gate with Traditional Carving",
+    "nameHi": "पारंपरिक नक्काशीदार नेचुरल सैंडस्टोन प्रवेश द्वार",
+    "category": "sandstone-temple-entry-gate",
+    "price": 1350,
+    "priceUnit": "sq. ft",
+    "stoneType": "Pure Natural Dholpur Sandstone",
+    "dimensions": "12ft Width x 14ft Height",
+    "leadTime": "20-30 Days",
+    "image": "/products/Gate/WhatsApp%20Image%202025-10-29%20at%2016.18.27_de3176fd.jpg",
+    "description": "Traditional stone entry gate featuring authentic Sompura guild carvings, lotus rosettes, and ornamental side pillars.",
+    "descriptionHi": "पारंपरिक शिल्प शैली में कमल और पुष्प नक्काशी से सजा प्राकृतिक सैंडस्टोन द्वार।",
+    "features": [
+      "Hand chiseled Sompura carvings",
+      "Stain resistant natural stone sealant",
+      "Easy dry-cladding or wet-fixing installation"
+    ],
+    "isFeatured": false,
+    "code": "RK-PROD-13",
+    "isActive": true
+  },
+  {
     "id": "dholpur-pink-sandstone-temple",
     "name": "Dholpur Pink Sandstone Temple",
     "nameHi": "धौलपुर पिंक सैंडस्टोन मंदिर",
@@ -267,7 +333,7 @@ const officialProducts = [
       "Zero artificial colors used"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-11",
+    "code": "RK-PROD-14",
     "isActive": true
   },
   {
@@ -289,7 +355,7 @@ const officialProducts = [
       "Pan-India delivery with skilled fixing team"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-12",
+    "code": "RK-PROD-15",
     "isActive": true
   },
   {
@@ -311,7 +377,7 @@ const officialProducts = [
       "Foam padded crate packaging"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-13",
+    "code": "RK-PROD-16",
     "isActive": true
   },
   {
@@ -333,7 +399,7 @@ const officialProducts = [
       "High impact resistance for balconies and facade screens"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-14",
+    "code": "RK-PROD-17",
     "isActive": true
   },
   {
@@ -355,7 +421,7 @@ const officialProducts = [
       "Available in 30mm, 40mm, 50mm slabs"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-15",
+    "code": "RK-PROD-18",
     "isActive": true
   },
   {
@@ -377,7 +443,7 @@ const officialProducts = [
       "Structural anchoring grooves provided"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-16",
+    "code": "RK-PROD-19",
     "isActive": true
   },
   {
@@ -399,7 +465,7 @@ const officialProducts = [
       "Easy mortar or clamp installation"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-17",
+    "code": "RK-PROD-20",
     "isActive": true
   },
   {
@@ -421,7 +487,7 @@ const officialProducts = [
       "Safe for indoor residential use"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-18",
+    "code": "RK-PROD-21",
     "isActive": true
   },
   {
@@ -443,7 +509,7 @@ const officialProducts = [
       "No chipping or crumbling guaranteed"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-19",
+    "code": "RK-PROD-22",
     "isActive": true
   },
   {
@@ -465,7 +531,7 @@ const officialProducts = [
       "Each piece is uniquely handcrafted"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-20",
+    "code": "RK-PROD-23",
     "isActive": true
   },
   {
@@ -487,7 +553,7 @@ const officialProducts = [
       "Sturdy timber crating for freight"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-21",
+    "code": "RK-PROD-24",
     "isActive": true
   },
   {
@@ -509,7 +575,7 @@ const officialProducts = [
       "Stable pedestal base with bolt anchoring"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-22",
+    "code": "RK-PROD-25",
     "isActive": true
   },
   {
@@ -531,7 +597,7 @@ const officialProducts = [
       "Waterproof electrical junction ready"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-23",
+    "code": "RK-PROD-26",
     "isActive": true
   },
   {
@@ -553,7 +619,7 @@ const officialProducts = [
       "Hand-carved lion capital accents"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-24",
+    "code": "RK-PROD-27",
     "isActive": true
   },
   {
@@ -575,7 +641,7 @@ const officialProducts = [
       "Direct quarry pricing"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-25",
+    "code": "RK-PROD-28",
     "isActive": true
   },
   {
@@ -597,7 +663,7 @@ const officialProducts = [
       "Moisture-sealed internal chamber"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-26",
+    "code": "RK-PROD-29",
     "isActive": true
   },
   {
@@ -619,7 +685,7 @@ const officialProducts = [
       "Easy ground installation"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-27",
+    "code": "RK-PROD-30",
     "isActive": true
   },
   {
@@ -641,7 +707,7 @@ const officialProducts = [
       "Lifetime material guarantee"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-28",
+    "code": "RK-PROD-31",
     "isActive": true
   },
   {
@@ -663,7 +729,7 @@ const officialProducts = [
       "Complete numbered assembly guide included"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-29",
+    "code": "RK-PROD-32",
     "isActive": true
   },
   {
@@ -685,7 +751,7 @@ const officialProducts = [
       "Ideal centerpiece for luxury farmhouses and resorts"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-30",
+    "code": "RK-PROD-33",
     "isActive": true
   },
   {
@@ -707,7 +773,7 @@ const officialProducts = [
       "Turnkey nationwide installation team"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-31",
+    "code": "RK-PROD-34",
     "isActive": true
   },
   {
@@ -729,7 +795,7 @@ const officialProducts = [
       "Suitable for indoor atriums and outdoor courtyards"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-32",
+    "code": "RK-PROD-35",
     "isActive": true
   },
   {
@@ -751,7 +817,7 @@ const officialProducts = [
       "Tested water flow balance before packaging"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-33",
+    "code": "RK-PROD-36",
     "isActive": true
   },
   {
@@ -773,7 +839,7 @@ const officialProducts = [
       "Complete with silent pump kit"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-34",
+    "code": "RK-PROD-37",
     "isActive": true
   },
   {
@@ -795,7 +861,7 @@ const officialProducts = [
       "Ergonomically contoured backrest"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-35",
+    "code": "RK-PROD-38",
     "isActive": true
   },
   {
@@ -817,7 +883,7 @@ const officialProducts = [
       "Seats 6 to 8 persons comfortably"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-36",
+    "code": "RK-PROD-39",
     "isActive": true
   },
   {
@@ -839,7 +905,7 @@ const officialProducts = [
       "Easy pressure-wash cleaning"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-37",
+    "code": "RK-PROD-40",
     "isActive": true
   },
   {
@@ -861,7 +927,7 @@ const officialProducts = [
       "Heavyweight prevents tip-over by pets or winds"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-38",
+    "code": "RK-PROD-41",
     "isActive": true
   },
   {
@@ -883,7 +949,7 @@ const officialProducts = [
       "Artisanal chisel textured sides"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-39",
+    "code": "RK-PROD-42",
     "isActive": true
   },
   {
@@ -905,7 +971,7 @@ const officialProducts = [
       "Suitable for ornamental trees and flowering shrubs"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-40",
+    "code": "RK-PROD-43",
     "isActive": true
   },
   {
@@ -927,7 +993,7 @@ const officialProducts = [
       "Flat base or drill pin mounting ready"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-41",
+    "code": "RK-PROD-44",
     "isActive": true
   },
   {
@@ -949,7 +1015,7 @@ const officialProducts = [
       "Resistant to fading and lichen"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-42",
+    "code": "RK-PROD-45",
     "isActive": true
   },
   {
@@ -971,7 +1037,7 @@ const officialProducts = [
       "Available in facing pairs for entrance gates"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-43",
+    "code": "RK-PROD-46",
     "isActive": true
   },
   {
@@ -993,7 +1059,7 @@ const officialProducts = [
       "Single block stone carving"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-44",
+    "code": "RK-PROD-47",
     "isActive": true
   },
   {
@@ -1015,7 +1081,7 @@ const officialProducts = [
       "Heavy stable footprint requiring no anchor bolts"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-45",
+    "code": "RK-PROD-48",
     "isActive": true
   },
   {
@@ -1037,7 +1103,7 @@ const officialProducts = [
       "Shipped in reinforced wooden crates"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-46",
+    "code": "RK-PROD-49",
     "isActive": true
   },
   {
@@ -1059,7 +1125,7 @@ const officialProducts = [
       "Ideal for zen gardens, water bodies, and yoga studios"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-47",
+    "code": "RK-PROD-50",
     "isActive": true
   },
   {
@@ -1081,7 +1147,7 @@ const officialProducts = [
       "Consecrated temple grade quality"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-48",
+    "code": "RK-PROD-51",
     "isActive": true
   },
   {
@@ -1103,7 +1169,7 @@ const officialProducts = [
       "Polished and treated for lifetime outdoor devotion"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-49",
+    "code": "RK-PROD-52",
     "isActive": true
   },
   {
@@ -1125,7 +1191,7 @@ const officialProducts = [
       "High weather durability"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-50",
+    "code": "RK-PROD-53",
     "isActive": true
   },
   {
@@ -1147,7 +1213,7 @@ const officialProducts = [
       "Concealed rear clamp hanging slots"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-51",
+    "code": "RK-PROD-54",
     "isActive": true
   },
   {
@@ -1169,7 +1235,7 @@ const officialProducts = [
       "Ready for living room or puja wall backdrop installation"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-52",
+    "code": "RK-PROD-55",
     "isActive": true
   },
   {
@@ -1191,7 +1257,7 @@ const officialProducts = [
       "Custom borders matching room woodwork"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-53",
+    "code": "RK-PROD-56",
     "isActive": true
   },
   {
@@ -1213,7 +1279,7 @@ const officialProducts = [
       "Perfect accent for roses, water fountains, and lawns"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-54",
+    "code": "RK-PROD-57",
     "isActive": true
   },
   {
@@ -1235,7 +1301,7 @@ const officialProducts = [
       "Low maintenance mineral deposit resistant"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-55",
+    "code": "RK-PROD-58",
     "isActive": true
   },
   {
@@ -1257,7 +1323,7 @@ const officialProducts = [
       "Ideal for family estates, hospitals, schools, and gardens"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-56",
+    "code": "RK-PROD-59",
     "isActive": true
   },
   {
@@ -1279,7 +1345,7 @@ const officialProducts = [
       "Heavy display pedestal included"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-57",
+    "code": "RK-PROD-60",
     "isActive": true
   },
   {
@@ -1301,7 +1367,7 @@ const officialProducts = [
       "Ideal for government institutions, universities, memorials, and grand villas"
     ],
     "isFeatured": true,
-    "code": "RK-PROD-58",
+    "code": "RK-PROD-61",
     "isActive": true
   },
   {
@@ -1323,7 +1389,7 @@ const officialProducts = [
       "Traditional Marwar craftsmanship"
     ],
     "isFeatured": false,
-    "code": "RK-PROD-59",
+    "code": "RK-PROD-62",
     "isActive": true
   }
 ];

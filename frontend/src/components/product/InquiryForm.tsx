@@ -43,44 +43,60 @@ export default function InquiryForm({ productId, productName }: Props) {
   };
 
   return (
-    <div className="mt-12">
-      <h2 className="text-2xl font-heading font-normal uppercase tracking-wide mb-4">Ask a Question</h2>
-      <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input
-          required
-          value={name}
-          onChange={e=>setName(e.target.value)}
-          placeholder="Your name"
-          className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <input
-          required
-          value={email}
-          onChange={e=>setEmail(e.target.value)}
-          placeholder="Email"
-          className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <input
-          required
-          value={phone}
-          onChange={e=>setPhone(e.target.value)}
-          placeholder="Phone"
-          className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <div />
-        <textarea
-          required
-          value={message}
-          onChange={e=>setMessage(e.target.value)}
-          placeholder="Your question"
-          className="w-full border rounded-md px-3 py-2 col-span-1 sm:col-span-2 focus:outline-none focus:ring-2 focus:ring-accent"
-        />
+    <div>
+      <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div>
+          <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">Name *</label>
+          <input
+            required
+            value={name}
+            onChange={e=>setName(e.target.value)}
+            placeholder="Your full name"
+            className="w-full border border-stone-300 rounded-none px-3.5 py-2.5 text-xs bg-stone-50/50 focus:outline-none focus:border-stone-950"
+          />
+        </div>
+        <div>
+          <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">Email *</label>
+          <input
+            required
+            type="email"
+            value={email}
+            onChange={e=>setEmail(e.target.value)}
+            placeholder="yourname@gmail.com"
+            className="w-full border border-stone-300 rounded-none px-3.5 py-2.5 text-xs bg-stone-50/50 focus:outline-none focus:border-stone-950"
+          />
+        </div>
         <div className="col-span-1 sm:col-span-2">
-          <button type="submit" className="inline-flex items-center justify-center px-4 py-2 bg-accent text-white rounded-md" disabled={status==='sending'}>
-            {status === 'sending' ? 'Sending...' : 'Send Inquiry'}
+          <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">Phone / WhatsApp Number *</label>
+          <input
+            required
+            type="tel"
+            value={phone}
+            onChange={e=>setPhone(e.target.value)}
+            placeholder="+91 94147 84562"
+            className="w-full border border-stone-300 rounded-none px-3.5 py-2.5 text-xs bg-stone-50/50 focus:outline-none focus:border-stone-950"
+          />
+        </div>
+        <div className="col-span-1 sm:col-span-2">
+          <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">Your Requirements / Dimensions (Optional)</label>
+          <textarea
+            rows={3}
+            value={message}
+            onChange={e=>setMessage(e.target.value)}
+            placeholder="Mention your required dimensions, site location, or any specific carvings..."
+            className="w-full border border-stone-300 rounded-none px-3.5 py-2.5 text-xs bg-stone-50/50 focus:outline-none focus:border-stone-950"
+          />
+        </div>
+        <div className="col-span-1 sm:col-span-2 pt-1 flex items-center gap-3">
+          <button 
+            type="submit" 
+            className="inline-flex items-center justify-center px-6 py-3 bg-stone-950 hover:bg-stone-800 text-white text-xs font-bold uppercase tracking-wider rounded-none cursor-pointer transition-colors" 
+            disabled={status==='sending'}
+          >
+            {status === 'sending' ? 'Submitting...' : 'Send Inquiry for Best Price'}
           </button>
-          {status === 'sent' && <span className="ml-3 text-success">Sent — we will contact you soon.</span>}
-          {status === 'error' && <span className="ml-3 text-destructive">Failed to send. Try again later.</span>}
+          {status === 'sent' && <span className="text-xs text-emerald-700 font-semibold">✓ Inquiry sent! Our craftsman will contact you shortly.</span>}
+          {status === 'error' && <span className="text-xs text-rose-600 font-semibold">Failed to send. Please call or WhatsApp us directly.</span>}
         </div>
       </form>
     </div>

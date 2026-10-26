@@ -29,7 +29,6 @@ import {
   Layers,
   ArrowUpRight,
   UserCheck,
-  Calculator,
   Save,
   RotateCcw,
   Sliders,
@@ -72,20 +71,22 @@ import logo from "@/assets/logo.png";
 import { API_URL } from "@/config/api";
 
 export const customCategories = [
-  { id: "stone-temple", name: "Stone Temple & Mandirs" },
-  { id: "heritage-haveli", name: "Heritage Haveli Facades & Pillars" },
-  { id: "wall-panel", name: "3D CNC Jalis & Wall Panels" },
-  { id: "garden-fountain", name: "Garden Fountains & Water Cascades" },
-  { id: "chhatri", name: "Royal Stone Chhatris & Gazebos" },
-  { id: "animals", name: "Monolithic Animal Sculptures" },
-  { id: "gate", name: "Monumental Entrance Torans & Gates" },
-  { id: "stone-carving", name: "Bas-Relief Stone Carvings" },
-  { id: "dhaulpur-stone", name: "Dholpur Sandstone Blocks" },
-  { id: "pink-sand-stone", name: "Bansi Paharpur Pink Sandstone" },
-  { id: "jodhpur-stone", name: "Jodhpur Imperial Red Sandstone" },
-  { id: "gwalior-stone", name: "Gwalior White Mint Sandstone" },
-  { id: "red-stone", name: "Rajasthan Red Sandstone" },
-  { id: "garden-ornaments", name: "Courtyard Planters & Urns" },
+  { id: "sandstone-temple", name: "Sandstone Temple & Mandir", hindi: "सैंडस्टोन मंदिर" },
+  { id: "sandstone-temple-entry-gate", name: "Sandstone Temple Entry Gate", hindi: "मंदिर प्रवेश द्वार व तोरण" },
+  { id: "dholpur-sandstone-temple", name: "Dholpur Sandstone Temple", hindi: "धौलपुर सैंडस्टोन मंदिर" },
+  { id: "sandstone-grill", name: "Sandstone Grill & 3D CNC Jali", hindi: "सैंडस्टोन जाली व ग्रिल" },
+  { id: "sandstone-lamp", name: "Sandstone Lamp & Bollard", hindi: "सैंडस्टोन लैंप व दीपस्तंभ" },
+  { id: "sandstone-gazebo", name: "Sandstone Gazebo (Chhatri)", hindi: "सैंडस्टोन छतरी व गज़ेबो" },
+  { id: "sandstone-fountains", name: "Sandstone Water Fountains", hindi: "सैंडस्टोन वाटर फाउंटेन" },
+  { id: "sandstone-garden-bench", name: "Sandstone Garden Bench", hindi: "सैंडस्टोन गार्डन बेंच" },
+  { id: "sandstone-planter", name: "Sandstone Planters & Urns", hindi: "सैंडस्टोन गमले व कलश" },
+  { id: "sandstone-ball-sphere", name: "Sandstone Ball Sphere & Finials", hindi: "सैंडस्टोन बॉल व स्फेयर" },
+  { id: "sandstone-elephant-statue", name: "Sandstone Elephant Statue", hindi: "सैंडस्टोन हाथी मूर्ति" },
+  { id: "sandstone-god-statue", name: "Sandstone God Statue", hindi: "सैंडस्टोन भगवान मूर्ति" },
+  { id: "sandstone-wall-mural", name: "Sandstone Wall Mural Bas-Relief", hindi: "सैंडस्टोन वॉल म्यूरल" },
+  { id: "sandstone-angel-garden-statue", name: "Sandstone Angel Garden Statue", hindi: "सैंडस्टोन एंजल गार्डन मूर्ति" },
+  { id: "sandstone-mother-child-statue", name: "Sandstone Mother Child Statue", hindi: "सैंडस्टोन मदर चाइल्ड मूर्ति" },
+  { id: "red-sandstone-ashok-stambh", name: "Red Sandstone Ashok Stambh with Pillar", hindi: "रेड सैंडस्टोन अशोक स्तंभ" },
 ];
 
 export interface Product {
@@ -152,23 +153,7 @@ export interface ReviewItem {
   date?: string;
 }
 
-export interface AdminStoneRate {
-  id: string;
-  nameEn: string;
-  nameHi: string;
-  baseSqFtRate: number;
-  descEn: string;
-  descHi: string;
-  isAvailable: boolean;
-}
 
-export interface AdminWorkType {
-  id: string;
-  nameEn: string;
-  nameHi: string;
-  factor: number;
-  isAvailable: boolean;
-}
 
 const emptyProduct: Product = {
   code: "",
@@ -178,7 +163,7 @@ const emptyProduct: Product = {
   priceUnit: "piece",
   image: "",
   category: "stone-temple",
-  stoneType: "Makrana Pure White Marble",
+  stoneType: "Natural Dholpur Sandstone",
   description: "",
   descriptionHi: "",
   features: [],
@@ -189,45 +174,9 @@ const emptyProduct: Product = {
 };
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<"overview" | "products" | "inquiries" | "reviews" | "calculator" | "settings">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "products" | "inquiries" | "reviews" | "settings">("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-
-  // Calculator State
-  const [calcStoneRates, setCalcStoneRates] = useState<AdminStoneRate[]>([]);
-  const [calcWorkTypes, setCalcWorkTypes] = useState<AdminWorkType[]>([]);
-  const [calcWastage, setCalcWastage] = useState<number>(8);
-  const [calcInstallation, setCalcInstallation] = useState<number>(120);
-  const [calcRatesLoading, setCalcRatesLoading] = useState<boolean>(false);
-  const [savingRates, setSavingRates] = useState<boolean>(false);
-  const [ratesLastUpdated, setRatesLastUpdated] = useState<string>("");
-
-  const [showAddStoneModal, setShowAddStoneModal] = useState<boolean>(false);
-  const [newStone, setNewStone] = useState<AdminStoneRate>({
-    id: "",
-    nameEn: "",
-    nameHi: "",
-    baseSqFtRate: 500,
-    descEn: "",
-    descHi: "",
-    isAvailable: true,
-  });
-
-  const [showAddWorkModal, setShowAddWorkModal] = useState<boolean>(false);
-  const [newWorkType, setNewWorkType] = useState<AdminWorkType>({
-    id: "",
-    nameEn: "",
-    nameHi: "",
-    factor: 1.0,
-    isAvailable: true,
-  });
-
-  // Calculator Live Simulator state inside Admin
-  const [simLength, setSimLength] = useState<number>(10);
-  const [simHeight, setSimHeight] = useState<number>(8);
-  const [simStoneId, setSimStoneId] = useState<string>("gwalior-mint");
-  const [simWorkId, setSimWorkId] = useState<string>("cnc-jali");
-  const [simIncludeInstallation, setSimIncludeInstallation] = useState<boolean>(true);
 
   // Products State
   const [products, setProducts] = useState<Product[]>([]);
@@ -284,11 +233,11 @@ export default function AdminDashboard() {
     workshopAddress: "Front of Surya City, Paldi Meena, Agra Road, Jaipur 302031, Rajasthan, India",
     workshopCity: "Jaipur, Rajasthan",
     workingHours: "Mon - Sun: 8:00 AM - 7:00 PM",
-    gstNumber: "08AAAAA0000A1Z5",
+    gstNumber: "08CUUPS3588K1ZE",
     announcementActive: true,
     announcementText: "✨ DIRECT JAIPUR WORKSHOP & MANUFACTURER: Handcrafted Temples, 3D CNC Stone Jalis & Chhatris",
     heroBadge: "DIRECT JAIPUR WORKSHOP & MANUFACTURER",
-    heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Makrana Marble",
+    heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Red Sandstone",
     googleReviewsUrl: "https://www.google.com/maps/place/R+K+Stone+Carporation/",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201.27391904159717!2d75.90287731088574!3d26.88321687556189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db974c9f18089%3A0xc82bf12c6b0f9fa9!2sR%20K%20Stone%20Carporation!5e1!3m2!1sen!2sin!4v1761640201109!5m2!1sen!2sin",
     socialInstagram: "https://instagram.com/rkstonecorporation",
@@ -303,7 +252,7 @@ export default function AdminDashboard() {
     phone: "",
     email: "",
     projectType: "Stone Temple Mandir",
-    stonePreference: "Makrana White Marble",
+    stonePreference: "Dholpur Beige Sandstone",
     message: "",
     status: "New" as const
   });
@@ -397,63 +346,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchCalculatorRates = async () => {
-    setCalcRatesLoading(true);
-    try {
-      const res = await axios.get(`${API_URL}/api/calculator-rates`);
-      if (res.data) {
-        if (Array.isArray(res.data.stoneRates)) setCalcStoneRates(res.data.stoneRates);
-        if (Array.isArray(res.data.workTypes)) setCalcWorkTypes(res.data.workTypes);
-        if (typeof res.data.wastagePercent === "number") setCalcWastage(res.data.wastagePercent);
-        if (typeof res.data.installationSurcharge === "number") setCalcInstallation(res.data.installationSurcharge);
-        if (res.data.updatedAt) setRatesLastUpdated(new Date(res.data.updatedAt).toLocaleString("en-IN"));
-      }
-    } catch {
-      toast.error("Failed to load calculator rates.");
-    } finally {
-      setCalcRatesLoading(false);
-    }
-  };
 
-  const handleSaveCalculatorRates = async () => {
-    setSavingRates(true);
-    try {
-      const res = await axios.put(`${API_URL}/api/admin/calculator-rates`, {
-        stoneRates: calcStoneRates,
-        workTypes: calcWorkTypes,
-        wastagePercent: calcWastage,
-        installationSurcharge: calcInstallation,
-        updatedBy: "Admin"
-      });
-      if (res.data.success) {
-        toast.success("Stone & Cost Estimator rates updated successfully! Changes are live on the website.");
-        setRatesLastUpdated(new Date().toLocaleString("en-IN"));
-      }
-    } catch {
-      toast.error("Failed to save calculator rates.");
-    } finally {
-      setSavingRates(false);
-    }
-  };
-
-  const handleResetCalculatorRates = async () => {
-    if (!window.confirm("Are you sure you want to reset all stone rates to factory defaults?")) return;
-    setSavingRates(true);
-    try {
-      const res = await axios.post(`${API_URL}/api/admin/calculator-rates/reset`);
-      if (res.data.success && res.data.config) {
-        setCalcStoneRates(res.data.config.stoneRates || []);
-        setCalcWorkTypes(res.data.config.workTypes || []);
-        setCalcWastage(res.data.config.wastagePercent || 8);
-        setCalcInstallation(res.data.config.installationSurcharge || 15);
-        toast.success("Calculator rates reset to factory defaults.");
-      }
-    } catch {
-      toast.error("Failed to reset calculator rates.");
-    } finally {
-      setSavingRates(false);
-    }
-  };
 
   // Website Customization Studio Handlers
   const fetchSiteSettings = async () => {
@@ -526,65 +419,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleAddStone = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newStone.nameEn || !newStone.baseSqFtRate) {
-      toast.error("Please provide stone name and base rate.");
-      return;
-    }
-    const id = newStone.id.trim() || newStone.nameEn.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    const updated = [...calcStoneRates, { ...newStone, id }];
-    setCalcStoneRates(updated);
-    setShowAddStoneModal(false);
-    setNewStone({
-      id: "",
-      nameEn: "",
-      nameHi: "",
-      baseSqFtRate: 500,
-      descEn: "",
-      descHi: "",
-      isAvailable: true,
-    });
-    toast.success("New stone added to table. Click 'Save All Rates' to apply to live website.");
-  };
-
-  const handleDeleteStone = (id: string) => {
-    if (calcStoneRates.length <= 1) {
-      toast.error("At least one stone rate is required.");
-      return;
-    }
-    setCalcStoneRates(calcStoneRates.filter(s => s.id !== id));
-    toast.info("Stone removed from list. Click 'Save All Rates' to apply.");
-  };
-
-  const handleAddWorkType = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newWorkType.nameEn || !newWorkType.factor) {
-      toast.error("Please provide craft name and factor.");
-      return;
-    }
-    const id = newWorkType.id.trim() || newWorkType.nameEn.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    const updated = [...calcWorkTypes, { ...newWorkType, id }];
-    setCalcWorkTypes(updated);
-    setShowAddWorkModal(false);
-    setNewWorkType({
-      id: "",
-      nameEn: "",
-      nameHi: "",
-      factor: 1.0,
-      isAvailable: true,
-    });
-    toast.success("New craft category added. Click 'Save All Rates' to apply to live website.");
-  };
-
-  const handleDeleteWorkType = (id: string) => {
-    if (calcWorkTypes.length <= 1) {
-      toast.error("At least one craft category is required.");
-      return;
-    }
-    setCalcWorkTypes(calcWorkTypes.filter(w => w.id !== id));
-    toast.info("Craft category removed. Click 'Save All Rates' to apply.");
-  };
 
   const fetchAdminProfile = async () => {
     try {
@@ -667,7 +501,6 @@ export default function AdminDashboard() {
     fetchInquiries();
     fetchReviews();
     fetchStats();
-    fetchCalculatorRates();
     fetchSiteSettings();
     fetchAdminProfile();
   }, []);
@@ -827,7 +660,7 @@ export default function AdminDashboard() {
         phone: "",
         email: "",
         projectType: "Stone Temple Mandir",
-        stonePreference: "Makrana White Marble",
+        stonePreference: "Dholpur Beige Sandstone",
         message: "",
         status: "New"
       });
@@ -915,7 +748,7 @@ export default function AdminDashboard() {
       return {
         label: "Cost Estimator Lead",
         badge: "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30",
-        icon: Calculator
+        icon: FileText
       };
     }
     if (s.includes("architect")) {
@@ -1080,25 +913,7 @@ export default function AdminDashboard() {
               </span>
             </button>
 
-            <button
-              onClick={() => {
-                setActiveTab("calculator");
-                setIsSidebarOpen(false);
-              }}
-              className={`w-full flex items-center justify-between px-4 py-3 text-xs uppercase tracking-wider rounded-none transition-all cursor-pointer ${
-                activeTab === "calculator"
-                  ? "bg-accent text-stone-950 font-semibold shadow-gold"
-                  : "text-stone-300 hover:bg-white/5 hover:text-white"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Calculator className="w-4 h-4" />
-                <span>Rates &amp; Calculator</span>
-              </div>
-              <span className={`text-[10px] px-2 py-0.5 font-mono ${activeTab === "calculator" ? "bg-stone-950 text-accent font-bold" : "bg-emerald-500/20 text-emerald-400 font-semibold"}`}>
-                LIVE
-              </span>
-            </button>
+
 
             <button
               onClick={() => {
@@ -1174,7 +989,6 @@ export default function AdminDashboard() {
                 {activeTab === "products" && "Stone Product Catalog"}
                 {activeTab === "inquiries" && "Customer Inquiries & Leads"}
                 {activeTab === "reviews" && "Customer Testimonials"}
-                {activeTab === "calculator" && "Live Rates Manager"}
                 {activeTab === "settings" && "Customization Studio"}
               </h1>
             </div>
@@ -1327,20 +1141,7 @@ export default function AdminDashboard() {
                       <ExternalLink className="w-3.5 h-3.5 text-stone-400 shrink-0" />
                     </a>
 
-                    {/* 3. Rates & Calculator */}
-                    <button
-                      onClick={() => {
-                        setActiveTab("calculator");
-                        setIsProfileMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-left text-stone-200 hover:text-white hover:bg-white/5 transition-colors group cursor-pointer"
-                    >
-                      <Calculator className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform" />
-                      <div className="flex-1 text-left min-w-0">
-                        <span className="block text-white truncate">Stone Rates &amp; Calculator</span>
-                        <span className="text-[10px] text-stone-400 block truncate">Manage real-time stone &amp; craft rates</span>
-                      </div>
-                    </button>
+
 
                     {/* 4. Website Customization */}
                     <button
@@ -1478,10 +1279,10 @@ export default function AdminDashboard() {
                     <Layers className="w-4 h-4 text-accent" />
                   </div>
                   <div className="text-3xl sm:text-4xl font-heading font-light text-white tracking-wide">
-                    14
+                    {customCategories.length}
                   </div>
                   <div className="text-xs text-stone-400 mt-2">
-                    <span>Temples, Havelis, Jalis &amp; Sculptures</span>
+                    <span>{customCategories.filter(c => products.some(p => p.category === c.id)).length} Active with Specimens</span>
                   </div>
                 </div>
               </div>
@@ -1573,24 +1374,30 @@ export default function AdminDashboard() {
                     <span className="text-[11px] sm:text-xs text-stone-400 block mb-4 sm:mb-6">Inventory by architectural typologies</span>
 
                     <div className="space-y-3.5">
-                      {customCategories.slice(0, 7).map((cat) => {
-                        const count = products.filter(p => p.category === cat.id).length;
-                        const percentage = products.length > 0 ? (count / products.length) * 100 : 0;
-                        return (
+                      {[...customCategories]
+                        .map((cat) => {
+                          const count = products.filter(p => p.category === cat.id).length;
+                          const percentage = products.length > 0 ? (count / products.length) * 100 : 0;
+                          return { ...cat, count, percentage };
+                        })
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 7)
+                        .map((cat) => (
                           <div key={cat.id} className="space-y-1">
                             <div className="flex justify-between text-xs">
-                              <span className="text-stone-300 truncate max-w-[200px]">{cat.name}</span>
-                              <span className="text-accent font-mono">{count} pcs</span>
+                              <span className="text-stone-300 truncate max-w-[200px]" title={cat.name}>
+                                {cat.name}
+                              </span>
+                              <span className="text-accent font-mono font-bold">{cat.count} pcs</span>
                             </div>
                             <div className="w-full h-1.5 bg-white/10 overflow-hidden">
                               <div
                                 className="h-full bg-accent transition-all duration-500"
-                                style={{ width: `${Math.max(percentage, 5)}%` }}
+                                style={{ width: `${Math.max(cat.percentage, 4)}%` }}
                               />
                             </div>
                           </div>
-                        );
-                      })}
+                        ))}
                     </div>
                   </div>
 
@@ -2307,518 +2114,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ================= TAB 4B: RATES & STONE CALCULATOR ================= */}
-          {activeTab === "calculator" && (
-            <div className="space-y-8 animate-in fade-in duration-300">
-              
-              {/* Header Action Bar */}
-              <div className="bg-[#161616] border border-white/10 p-4 sm:p-6 lg:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[10px] sm:text-xs font-mono uppercase font-bold tracking-[0.2em] sm:tracking-[0.25em] text-accent">
-                      STONE &amp; COST ESTIMATOR CONTROL
-                    </span>
-                  </div>
-                  <h2 className="text-lg sm:text-2xl font-heading font-normal uppercase text-white tracking-wide">
-                    Live Stone Rates &amp; Craft Multipliers
-                  </h2>
-                  <p className="text-xs text-stone-400 font-light mt-1 max-w-2xl">
-                    Change prices according to current market rates (बाज़ार व खदान भाव). Customers using the website calculator see these real-time rates immediately.
-                  </p>
-                  {ratesLastUpdated && (
-                    <span className="inline-block mt-2 text-[11px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5">
-                      ✓ Last synced: {ratesLastUpdated}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-                  <Button
-                    onClick={handleResetCalculatorRates}
-                    disabled={savingRates}
-                    variant="outline"
-                    className="border-white/20 bg-white/5 hover:bg-white/10 text-stone-300 text-[11px] sm:text-xs uppercase tracking-wider h-9 sm:h-11 px-3 sm:px-4 rounded-none cursor-pointer flex-1 sm:flex-initial"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5 mr-1.5 text-stone-400" />
-                    Reset
-                  </Button>
-
-                  <Button
-                    onClick={() => setShowAddStoneModal(true)}
-                    className="border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent text-[11px] sm:text-xs uppercase tracking-wider h-9 sm:h-11 px-3 sm:px-4 rounded-none cursor-pointer flex-1 sm:flex-initial"
-                  >
-                    <Plus className="w-3.5 h-3.5 mr-1" />
-                    Add Stone
-                  </Button>
-
-                  <Button
-                    onClick={() => setShowAddWorkModal(true)}
-                    className="border border-white/20 bg-white/5 hover:bg-white/10 text-white text-[11px] sm:text-xs uppercase tracking-wider h-9 sm:h-11 px-3 sm:px-4 rounded-none cursor-pointer flex-1 sm:flex-initial"
-                  >
-                    <Plus className="w-3.5 h-3.5 mr-1 text-accent" />
-                    Add Craft
-                  </Button>
-
-                  <Button
-                    onClick={handleSaveCalculatorRates}
-                    disabled={savingRates}
-                    className="bg-accent hover:bg-accent/90 text-stone-950 font-bold text-[11px] sm:text-xs uppercase tracking-wider h-9 sm:h-11 px-4 sm:px-6 rounded-none cursor-pointer shadow-gold w-full sm:w-auto"
-                  >
-                    {savingRates ? (
-                      <>
-                        <RefreshCw className="w-3.5 h-3.5 mr-2 animate-spin" />
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="w-3.5 h-3.5 mr-2" />
-                        Save All Rates
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              {/* Two Column Grid: 1. Stone Varieties (₹ / sq.ft), 2. Craft Multipliers */}
-              <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                
-                {/* 1. Stone Varieties Table (7 cols on XL) */}
-                <div className="xl:col-span-7 bg-[#161616] border border-white/10 p-3.5 sm:p-6 space-y-4 sm:space-y-5">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                    <div>
-                      <h3 className="text-sm sm:text-base font-heading font-normal uppercase text-white tracking-wider flex items-center gap-2">
-                        <span>Natural Stone Rates (₹ per Sq.Ft)</span>
-                      </h3>
-                      <p className="text-[10px] sm:text-[11px] text-stone-400 font-light mt-0.5">
-                        खदान व पत्थर का बेस रेट (प्रति वर्ग फुट)
-                      </p>
-                    </div>
-                    <span className="text-[11px] sm:text-xs font-mono text-accent">
-                      {calcStoneRates.length} Stones Configured
-                    </span>
-                  </div>
-
-                  {calcRatesLoading ? (
-                    <div className="py-12 text-center text-stone-400 font-mono text-xs">
-                      <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-accent" />
-                      Loading stone rates...
-                    </div>
-                  ) : (
-                    <div className="space-y-3 sm:space-y-4">
-                      {calcStoneRates.map((stone, idx) => (
-                        <div
-                          key={stone.id || idx}
-                          className={`p-3.5 sm:p-4 border transition-all ${
-                            stone.isAvailable !== false
-                              ? "bg-white/5 border-white/10 hover:border-accent/40"
-                              : "bg-white/2 border-dashed border-white/10 opacity-60"
-                          }`}
-                        >
-                          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
-                            
-                            {/* Stone Name & Hindi Name */}
-                            <div className="md:col-span-6 space-y-1.5">
-                              <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-mono text-accent font-bold px-1.5 py-0.5 bg-accent/10 border border-accent/20">
-                                  #{idx + 1}
-                                </span>
-                                <input
-                                  type="text"
-                                  value={stone.nameEn}
-                                  onChange={(e) => {
-                                    const updated = [...calcStoneRates];
-                                    updated[idx].nameEn = e.target.value;
-                                    setCalcStoneRates(updated);
-                                  }}
-                                  placeholder="Stone Name (English)"
-                                  className="w-full bg-transparent text-sm font-semibold text-white border-b border-transparent focus:border-accent focus:outline-none"
-                                />
-                              </div>
-                              <input
-                                type="text"
-                                value={stone.nameHi || ""}
-                                onChange={(e) => {
-                                  const updated = [...calcStoneRates];
-                                  updated[idx].nameHi = e.target.value;
-                                  setCalcStoneRates(updated);
-                                }}
-                                placeholder="पत्थर का नाम (हिंदी)"
-                                className="w-full bg-transparent text-xs text-stone-400 border-b border-transparent focus:border-accent focus:outline-none"
-                              />
-                              <input
-                                type="text"
-                                value={stone.descEn || ""}
-                                onChange={(e) => {
-                                  const updated = [...calcStoneRates];
-                                  updated[idx].descEn = e.target.value;
-                                  setCalcStoneRates(updated);
-                                }}
-                                placeholder="Short description (e.g. Ideal for CNC jalis)"
-                                className="w-full bg-transparent text-[11px] text-stone-500 border-b border-transparent focus:border-white/20 focus:outline-none"
-                              />
-                            </div>
-
-                            {/* Base Rate Input */}
-                            <div className="md:col-span-4">
-                              <label className="text-[10px] font-mono uppercase tracking-wider text-stone-400 block mb-1">
-                                Base Rate (₹/sq.ft)
-                              </label>
-                              <div className="relative">
-                                <span className="absolute left-3 top-2.5 text-accent font-bold text-sm">
-                                  ₹
-                                </span>
-                                <input
-                                  type="number"
-                                  min={50}
-                                  max={20000}
-                                  value={stone.baseSqFtRate}
-                                  onChange={(e) => {
-                                    const updated = [...calcStoneRates];
-                                    updated[idx].baseSqFtRate = Number(e.target.value) || 0;
-                                    setCalcStoneRates(updated);
-                                  }}
-                                  className="w-full bg-black/60 border border-white/20 focus:border-accent text-white font-mono font-bold text-base h-10 pl-8 pr-3 rounded-none focus:outline-none"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Status & Delete */}
-                            <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-2 pt-2 border-t border-white/5 md:border-0 md:pt-0">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = [...calcStoneRates];
-                                  updated[idx].isAvailable = updated[idx].isAvailable === false ? true : false;
-                                  setCalcStoneRates(updated);
-                                }}
-                                className={`text-[10px] font-mono uppercase px-2 py-1 cursor-pointer transition-colors ${
-                                  stone.isAvailable !== false
-                                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-                                    : "bg-stone-800 text-stone-400 border border-stone-700"
-                                }`}
-                                title="Click to toggle availability in customer calculator"
-                              >
-                                {stone.isAvailable !== false ? "Active" : "Disabled"}
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteStone(stone.id)}
-                                className="p-1.5 text-stone-500 hover:text-rose-400 transition-colors cursor-pointer"
-                                title="Delete stone rate"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* 2. Craft Complexity Multipliers (5 cols on XL) */}
-                <div className="xl:col-span-5 bg-[#161616] border border-white/10 p-3.5 sm:p-6 space-y-4 sm:space-y-5">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                    <div>
-                      <h3 className="text-sm sm:text-base font-heading font-normal uppercase text-white tracking-wider flex items-center gap-2">
-                        <span>Craft Complexity Factors</span>
-                      </h3>
-                      <p className="text-[10px] sm:text-[11px] text-stone-400 font-light mt-0.5">
-                        कारीगरी दर व गुणक (जाली = 1.0x, मंदिर = 1.8x)
-                      </p>
-                    </div>
-                    <span className="text-[11px] sm:text-xs font-mono text-accent">
-                      {calcWorkTypes.length} Types
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 sm:space-y-4">
-                    {calcWorkTypes.map((work, idx) => (
-                      <div
-                        key={work.id || idx}
-                        className={`p-3.5 sm:p-4 border transition-all ${
-                          work.isAvailable !== false
-                            ? "bg-white/5 border-white/10 hover:border-accent/40"
-                            : "bg-white/2 border-dashed border-white/10 opacity-60"
-                        }`}
-                      >
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="space-y-1 flex-1 min-w-0">
-                            <input
-                              type="text"
-                              value={work.nameEn}
-                              onChange={(e) => {
-                                const updated = [...calcWorkTypes];
-                                updated[idx].nameEn = e.target.value;
-                                setCalcWorkTypes(updated);
-                              }}
-                              placeholder="Craft Name (English)"
-                              className="w-full bg-transparent text-sm font-semibold text-white border-b border-transparent focus:border-accent focus:outline-none"
-                            />
-                            <input
-                              type="text"
-                              value={work.nameHi || ""}
-                              onChange={(e) => {
-                                const updated = [...calcWorkTypes];
-                                updated[idx].nameHi = e.target.value;
-                                setCalcWorkTypes(updated);
-                              }}
-                              placeholder="कारीगरी का नाम (हिंदी)"
-                              className="w-full bg-transparent text-xs text-stone-400 border-b border-transparent focus:border-accent focus:outline-none"
-                            />
-                          </div>
-
-                          <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 border-t border-white/5 sm:border-0 sm:pt-0">
-                            {/* Factor Input */}
-                            <div className="w-24">
-                              <label className="text-[10px] font-mono uppercase tracking-wider text-stone-400 block mb-0.5 sm:mb-1">
-                                Multiplier
-                              </label>
-                              <div className="relative">
-                                <input
-                                  type="number"
-                                  step={0.05}
-                                  min={0.2}
-                                  max={10}
-                                  value={work.factor}
-                                  onChange={(e) => {
-                                    const updated = [...calcWorkTypes];
-                                    updated[idx].factor = Number(e.target.value) || 1.0;
-                                    setCalcWorkTypes(updated);
-                                  }}
-                                  className="w-full bg-black/60 border border-white/20 focus:border-accent text-accent font-mono font-bold text-sm h-9 sm:h-10 px-2 text-center rounded-none focus:outline-none"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Actions */}
-                            <div className="flex items-center gap-1.5 pt-4">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = [...calcWorkTypes];
-                                  updated[idx].isAvailable = updated[idx].isAvailable === false ? true : false;
-                                  setCalcWorkTypes(updated);
-                                }}
-                                className={`text-[10px] font-mono uppercase px-2 py-1 cursor-pointer transition-colors ${
-                                  work.isAvailable !== false
-                                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-                                    : "bg-stone-800 text-stone-400 border border-stone-700"
-                                }`}
-                              >
-                                {work.isAvailable !== false ? "Active" : "Off"}
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteWorkType(work.id)}
-                                className="p-1.5 text-stone-500 hover:text-rose-400 transition-colors cursor-pointer"
-                                title="Delete craft type"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* General Parameters & Live Test Simulator */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                {/* General Parameters */}
-                <div className="lg:col-span-5 bg-[#161616] border border-white/10 p-6 space-y-6">
-                  <div>
-                    <h3 className="text-base font-heading font-normal uppercase text-white tracking-wider">
-                      Calculation Formula Settings
-                    </h3>
-                    <p className="text-xs text-stone-400 font-light mt-0.5">
-                      वेस्टेज बफर व साइट फिटिंग खर्च
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="p-4 bg-white/5 border border-white/10 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-mono uppercase tracking-wider text-stone-300">
-                          Cutting &amp; Carving Wastage Buffer (%)
-                        </label>
-                        <span className="text-accent font-mono font-bold">{calcWastage}%</span>
-                      </div>
-                      <input
-                        type="number"
-                        min={0}
-                        max={30}
-                        value={calcWastage}
-                        onChange={(e) => setCalcWastage(Number(e.target.value) || 0)}
-                        className="w-full bg-black/60 border border-white/20 focus:border-accent text-white font-mono h-10 px-3 text-sm rounded-none focus:outline-none"
-                      />
-                      <p className="text-[11px] text-stone-400">
-                        Automatically added to square footage so the customer gets enough stone for corner joints and carving margins.
-                      </p>
-                    </div>
-
-                    <div className="p-4 bg-white/5 border border-white/10 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-mono uppercase tracking-wider text-stone-300">
-                          Site Installation Surcharge (₹ per Sq.Ft)
-                        </label>
-                        <span className="text-accent font-mono font-bold">₹{calcInstallation} / sq.ft</span>
-                      </div>
-                      <input
-                        type="number"
-                        min={0}
-                        max={2000}
-                        value={calcInstallation}
-                        onChange={(e) => setCalcInstallation(Number(e.target.value) || 0)}
-                        className="w-full bg-black/60 border border-white/20 focus:border-accent text-white font-mono h-10 px-3 text-sm rounded-none focus:outline-none"
-                      />
-                      <p className="text-[11px] text-stone-400">
-                        Added per sq.ft when customer checks "Include On-Site Fitting (+Pan-India)".
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Live Estimator Simulator */}
-                <div className="lg:col-span-7 bg-[#161616] border border-accent/40 p-6 space-y-5">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                    <div>
-                      <span className="text-[10px] font-mono text-accent uppercase font-bold tracking-widest block">
-                        ADMIN TEST SIMULATOR
-                      </span>
-                      <h3 className="text-base font-heading font-normal uppercase text-white tracking-wider">
-                        Live Estimator Preview (ग्राहकों को क्या रेट दिखेगा)
-                      </h3>
-                    </div>
-                    <span className="text-xs text-emerald-400 flex items-center gap-1.5 font-mono">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      Live Preview
-                    </span>
-                  </div>
-
-                  {/* Simulator Controls */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-stone-400 block mb-1">
-                        Select Craft
-                      </label>
-                      <select
-                        value={simWorkId}
-                        onChange={(e) => setSimWorkId(e.target.value)}
-                        className="w-full bg-black/60 border border-white/20 text-white text-xs h-10 px-3 rounded-none focus:border-accent"
-                      >
-                        {calcWorkTypes.map((w) => (
-                          <option key={w.id} value={w.id}>
-                            {w.nameEn} ({w.factor}x)
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-stone-400 block mb-1">
-                        Select Stone
-                      </label>
-                      <select
-                        value={simStoneId}
-                        onChange={(e) => setSimStoneId(e.target.value)}
-                        className="w-full bg-black/60 border border-white/20 text-white text-xs h-10 px-3 rounded-none focus:border-accent"
-                      >
-                        {calcStoneRates.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.nameEn} (₹{s.baseSqFtRate}/sq.ft)
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-stone-400 block mb-1">
-                        Length (Feet)
-                      </label>
-                      <input
-                        type="number"
-                        min={1}
-                        value={simLength}
-                        onChange={(e) => setSimLength(Number(e.target.value) || 1)}
-                        className="w-full bg-black/60 border border-white/20 text-white font-mono text-xs h-10 px-3 rounded-none focus:border-accent"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-stone-400 block mb-1">
-                        Height (Feet)
-                      </label>
-                      <input
-                        type="number"
-                        min={1}
-                        value={simHeight}
-                        onChange={(e) => setSimHeight(Number(e.target.value) || 1)}
-                        className="w-full bg-black/60 border border-white/20 text-white font-mono text-xs h-10 px-3 rounded-none focus:border-accent"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Simulator Calculations */}
-                  {(() => {
-                    const stone = calcStoneRates.find(s => s.id === simStoneId) || calcStoneRates[0] || { baseSqFtRate: 450, nameEn: "Stone" };
-                    const work = calcWorkTypes.find(w => w.id === simWorkId) || calcWorkTypes[0] || { factor: 1.0, nameEn: "Work" };
-                    const rawSqFt = Math.max(0, simLength * simHeight);
-                    const buffer = Math.round(rawSqFt * (calcWastage / 100));
-                    const totalSqFt = rawSqFt + buffer;
-                    const installCost = simIncludeInstallation ? calcInstallation : 0;
-                    const rate = Math.round(stone.baseSqFtRate * work.factor + installCost);
-                    const min = Math.round(totalSqFt * rate * 0.95);
-                    const max = Math.round(totalSqFt * rate * 1.15);
-
-                    return (
-                      <div className="p-4 bg-black/80 border border-accent/30 space-y-3">
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center border-b border-white/10 pb-3">
-                          <div>
-                            <span className="text-[10px] text-stone-400 uppercase font-mono block">Surface Area</span>
-                            <span className="text-white font-mono font-bold text-sm">{rawSqFt} sq.ft</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-stone-400 uppercase font-mono block">Buffer (+{calcWastage}%)</span>
-                            <span className="text-accent font-mono font-bold text-sm">+{buffer} sq.ft</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-stone-400 uppercase font-mono block">Total Sq.Ft</span>
-                            <span className="text-white font-mono font-bold text-sm">{totalSqFt} sq.ft</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-stone-400 uppercase font-mono block">Effective Rate</span>
-                            <span className="text-emerald-400 font-mono font-bold text-sm">₹{rate}/sq.ft</span>
-                          </div>
-                        </div>
-
-                        <div className="text-center pt-1">
-                          <span className="text-[10px] text-stone-400 uppercase tracking-wider block mb-1">
-                            Estimated Price Range Shown to Customer:
-                          </span>
-                          <span className="text-2xl sm:text-3xl font-heading font-bold text-accent tracking-wide">
-                            ₹{min.toLocaleString("en-IN")} - ₹{max.toLocaleString("en-IN")}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                </div>
-
-              </div>
-
-            </div>
-          )}
-
           {/* ================= TAB 5: WEBSITE CUSTOMIZATION & BRANDING STUDIO ================= */}
           {activeTab === "settings" && (
             <div className="max-w-5xl space-y-8 animate-in fade-in duration-300">
@@ -2986,7 +2281,7 @@ export default function AdminDashboard() {
                     <Input
                       value={siteSettings.gstNumber}
                       onChange={(e) => setSiteSettings({ ...siteSettings, gstNumber: e.target.value })}
-                      placeholder="e.g. 08AAAAA0000A1Z5"
+                      placeholder="e.g. 08CUUPS3588K1ZE"
                       className="bg-white/5 border-white/20 text-white font-mono text-xs h-10 rounded-none focus:border-accent"
                     />
                   </div>
@@ -3149,7 +2444,7 @@ export default function AdminDashboard() {
                     <Input
                       value={siteSettings.heroStonesStrip}
                       onChange={(e) => setSiteSettings({ ...siteSettings, heroStonesStrip: e.target.value })}
-                      placeholder="Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Makrana Marble"
+                      placeholder="Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Red Sandstone"
                       className="bg-white/5 border-white/20 text-white text-xs h-10 rounded-none focus:border-accent"
                     />
                   </div>
@@ -3335,7 +2630,7 @@ export default function AdminDashboard() {
                   value={form.name}
                   name="name"
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="e.g. Pure Makrana White Marble Vedic Mandir"
+                  placeholder="e.g. Handcrafted Dholpur Sandstone Mandir"
                   className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
                 />
               </div>
@@ -3399,7 +2694,7 @@ export default function AdminDashboard() {
                   value={form.stoneType || ""}
                   name="stoneType"
                   onChange={(e) => setForm({ ...form, stoneType: e.target.value })}
-                  placeholder="e.g. Makrana Pure White Marble"
+                  placeholder="e.g. Natural Dholpur & Bansi Sandstone"
                   className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
                 />
               </div>
@@ -3529,7 +2824,7 @@ export default function AdminDashboard() {
                   value={form.description}
                   name="description"
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  placeholder="Handcrafted in pristine Makrana white marble, featuring 100% monolithic calcite composition..."
+                  placeholder="Handcrafted in authentic Dholpur and Bansi Paharpur sandstone, featuring durable architectural carving..."
                   className="bg-white/5 border-white/20 text-white text-xs rounded-none focus:border-accent"
                 />
               </div>
@@ -3543,7 +2838,7 @@ export default function AdminDashboard() {
                   value={form.descriptionHi || ""}
                   name="descriptionHi"
                   onChange={(e) => setForm({ ...form, descriptionHi: e.target.value })}
-                  placeholder="शुद्ध मकराना संगमरमर से तराशा गया भव्य वैदिक मंदिर। बारीक नक्काशी व दीर्घायु टिकाऊपन..."
+                  placeholder="शुद्ध धौलपुर व बंसी पहाड़पुर सैंडस्टोन से तराशा गया भव्य मंदिर। बारीक नक्काशी व दीर्घायु टिकाऊपन..."
                   className="bg-white/5 border-white/20 text-white text-xs rounded-none focus:border-accent"
                 />
               </div>
@@ -3564,7 +2859,7 @@ export default function AdminDashboard() {
                       addFeature();
                     }
                   }}
-                  placeholder="e.g. 100% Genuine Makrana 98%+ Calcite Marble (Press Enter or Add)"
+                  placeholder="e.g. 100% Genuine Weatherproof Sandstone (Press Enter or Add)"
                   className="bg-white/5 border-white/20 text-white text-xs h-10 rounded-none focus:border-accent"
                 />
                 <Button
@@ -3731,8 +3026,8 @@ export default function AdminDashboard() {
                   onChange={(e) => setManualInquiry({ ...manualInquiry, stonePreference: e.target.value })}
                   className="w-full bg-[#1e1e1e] border border-white/20 text-white text-xs h-10 px-2.5 rounded-none"
                 >
-                  <option>Makrana White Marble</option>
-                  <option>Bansi Paharpur Pink Sandstone</option>
+                  <option>Dholpur Beige Sandstone</option>
+                  <option>Red Sandstone (Agra/Karauli)</option>
                   <option>Dholpur Beige Sandstone</option>
                   <option>Gwalior White Mint</option>
                   <option>Imperial Red Sandstone</option>
@@ -3859,172 +3154,6 @@ export default function AdminDashboard() {
         </DialogContent>
       </Dialog>
 
-      {/* ================= MODAL: ADD NEW STONE RATE ================= */}
-      <Dialog open={showAddStoneModal} onOpenChange={setShowAddStoneModal}>
-        <DialogContent className="w-[95vw] sm:max-w-lg bg-[#141414] border border-white/20 text-white rounded-none p-4 sm:p-8 max-h-[92vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-heading font-normal uppercase text-white tracking-wide">
-              Add New Stone Variety Rate
-            </DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleAddStone} className="space-y-4 pt-3">
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Stone Name (English) *
-              </label>
-              <Input
-                required
-                value={newStone.nameEn}
-                onChange={(e) => setNewStone({ ...newStone, nameEn: e.target.value })}
-                placeholder="e.g. Kota Brown Natural Stone"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Stone Name (हिंदी)
-              </label>
-              <Input
-                value={newStone.nameHi}
-                onChange={(e) => setNewStone({ ...newStone, nameHi: e.target.value })}
-                placeholder="उदा. कोटा ब्राउन नेचुरल स्टोन"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Direct Quarry Rate (₹ per Sq.Ft) *
-              </label>
-              <Input
-                required
-                type="number"
-                min={50}
-                max={20000}
-                value={newStone.baseSqFtRate}
-                onChange={(e) => setNewStone({ ...newStone, baseSqFtRate: Number(e.target.value) || 0 })}
-                placeholder="e.g. 520"
-                className="bg-white/5 border-white/20 text-white font-mono text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Short Description (English)
-              </label>
-              <Input
-                value={newStone.descEn}
-                onChange={(e) => setNewStone({ ...newStone, descEn: e.target.value })}
-                placeholder="e.g. Ideal for exterior flooring & carved boundary panels"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Short Description (हिंदी)
-              </label>
-              <Input
-                value={newStone.descHi}
-                onChange={(e) => setNewStone({ ...newStone, descHi: e.target.value })}
-                placeholder="उदा. बाहरी फर्श व चारदीवारी पैनल के लिए उपयुक्त"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <DialogFooter className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowAddStoneModal(false)}
-                className="border-white/20 text-white hover:text-white hover:bg-white/10 text-xs uppercase rounded-none"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="bg-accent hover:bg-accent/90 text-stone-950 font-bold uppercase text-xs px-6 rounded-none cursor-pointer shadow-gold"
-              >
-                Add Stone to Table
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* ================= MODAL: ADD NEW WORK TYPE ================= */}
-      <Dialog open={showAddWorkModal} onOpenChange={setShowAddWorkModal}>
-        <DialogContent className="w-[95vw] sm:max-w-lg bg-[#141414] border border-white/20 text-white rounded-none p-4 sm:p-8 max-h-[92vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-heading font-normal uppercase text-white tracking-wide">
-              Add New Craft Category Multiplier
-            </DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleAddWorkType} className="space-y-4 pt-3">
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Craft Category Name (English) *
-              </label>
-              <Input
-                required
-                value={newWorkType.nameEn}
-                onChange={(e) => setNewWorkType({ ...newWorkType, nameEn: e.target.value })}
-                placeholder="e.g. Ornate Fluted Pillars & Arches"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Craft Category Name (हिंदी)
-              </label>
-              <Input
-                value={newWorkType.nameHi}
-                onChange={(e) => setNewWorkType({ ...newWorkType, nameHi: e.target.value })}
-                placeholder="उदा. नक्काशीदार खंभे व मेहराब"
-                className="bg-white/5 border-white/20 text-white text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-mono uppercase tracking-wider text-stone-300 mb-1.5 block">
-                Complexity Multiplier Factor (e.g. 1.0 for CNC Jali, 1.8 for Temple) *
-              </label>
-              <Input
-                required
-                type="number"
-                step={0.05}
-                min={0.2}
-                max={10}
-                value={newWorkType.factor}
-                onChange={(e) => setNewWorkType({ ...newWorkType, factor: Number(e.target.value) || 1.0 })}
-                placeholder="e.g. 1.45"
-                className="bg-white/5 border-white/20 text-white font-mono text-xs h-11 rounded-none focus:border-accent"
-              />
-            </div>
-
-            <DialogFooter className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowAddWorkModal(false)}
-                className="border-white/20 text-white hover:text-white hover:bg-white/10 text-xs uppercase rounded-none"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="bg-accent hover:bg-accent/90 text-stone-950 font-bold uppercase text-xs px-6 rounded-none cursor-pointer shadow-gold"
-              >
-                Add Craft Category
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       {/* ================= MODAL: INQUIRY DOSSIER & CRM ================= */}
       <Dialog open={!!selectedInquiry} onOpenChange={() => setSelectedInquiry(null)}>

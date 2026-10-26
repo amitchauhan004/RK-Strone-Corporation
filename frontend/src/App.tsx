@@ -21,7 +21,6 @@ import StoneTempleJaipur from './pages/StoneTempleJaipur';
 import CncJaliJaipur from './pages/CncJaliJaipur';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
-import Materials from './pages/Materials';
 import Architects from './pages/Architects';
 import Portfolio from './pages/Portfolio';
 import HeritageHavelis from './pages/HeritageHavelis';
@@ -66,8 +65,8 @@ function RouterContent() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/stone-temple-jaipur" element={<StoneTempleJaipur />} />
           <Route path="/cnc-jali-jaipur" element={<CncJaliJaipur />} />
-          <Route path="/sandstone-supplier-jaipur" element={<Navigate to="/materials" replace />} />
-          <Route path="/materials" element={<Materials />} />
+          <Route path="/sandstone-supplier-jaipur" element={<Navigate to="/shop" replace />} />
+          <Route path="/materials" element={<Navigate to="/shop" replace />} />
           <Route path="/architects" element={<Architects />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/heritage-havelis" element={<HeritageHavelis />} />

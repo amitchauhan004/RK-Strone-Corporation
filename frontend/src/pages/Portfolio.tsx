@@ -29,20 +29,20 @@ export default function Portfolio() {
   const caseStudies = [
     {
       id: "sovereign-mandir-hyderabad",
-      title: l("White Marble Home Mandir", "भव्य सफेद संगमरमर मंदिर"),
+      title: l("Handcrafted Sandstone Home Mandir", "भव्य नक्काशीदार सैंडस्टोन मंदिर"),
       category: "temples" as const,
       categoryLabel: l("Sacred Temple Architecture", "पारंपरिक मंदिर शिल्प"),
       location: l("Jubilee Hills, Hyderabad", "जुबली हिल्स, हैदराबाद"),
       year: "2024",
-      materialsUsed: l("Pristine Makrana White Marble (Pure Calcite)", "शुद्ध मकराना सफेद संगमरमर (प्योर मार्बल)"),
+      materialsUsed: l("Royal Dholpur Beige & Bansi Paharpur Pink Sandstone", "धौलपुर बेज व बंसी पहाड़पुर गुलाबी सैंडस्टोन"),
       scope: l("12-Foot Carved Shikhar, Garbhagriha, 8 Carved Pillars", "12 फीट ऊंचा शिखर, गर्भगृह, 8 नक्काशीदार खंभे"),
       description: l(
-        "Handcrafted for a private residence in Jubilee Hills. Made from 100% natural Makrana White marble. The shikhar and pillars feature detailed traditional hand-carvings made to exact proportions.",
-        "हैदराबाद के निजी आवास के लिए तैयार किया गया। बिना किसी केमिकल पॉलिश के शुद्ध मकराना सफेद संगमरमर से निर्मित। शिखर और खंभों पर पारंपरिक वैदिक अनुपातों में बारीक नक्काशी की गई है।"
+        "Handcrafted for a private residence in Jubilee Hills. Made from 100% natural Dholpur and Bansi Paharpur sandstone. The shikhar and pillars feature detailed traditional hand-carvings made to exact proportions.",
+        "हैदराबाद के निजी आवास के लिए तैयार किया गया। शुद्ध धौलपुर व बंसी पहाड़पुर सैंडस्टोन से निर्मित। शिखर और खंभों पर पारंपरिक वैदिक अनुपातों में बारीक नक्काशी की गई है।"
       ),
       image: templeImg,
       highlights: [
-        l("100% Calcitic Non-Yellowing Marble", "शुद्ध मकराना संगमरमर"),
+        l("100% Weatherproof Natural Sandstone", "100% मजबूत प्राकृतिक सैंडस्टोन"),
         l("Invisible Precision Joints", "सटीक जोड़ व फिटिंग"),
         l("Sanctum Lighting Integration", "लाइटिंग के लिए विशेष प्रावधान")
       ]
@@ -94,7 +94,7 @@ export default function Portfolio() {
       categoryLabel: l("Courtyard Artifacts", "आंगन व गार्डन शिल्प"),
       location: l("Lake Pichola Private Villa, Udaipur", "पिछोला झील विला, उदयपुर"),
       year: "2023",
-      materialsUsed: l("Jodhpur Imperial Sandstone & Makrana Marble", "जोधपुर सैंडस्टोन व मकराना मार्बल"),
+      materialsUsed: l("Jodhpur Imperial Sandstone & Dholpur Stone", "जोधपुर सैंडस्टोन व धौलपुर पत्थर"),
       scope: l("18-Foot Diameter Octagonal Lotus Basin, 3-Tier Fountain", "18 फीट चौड़ा कमल कुंड, 3-स्तरीय फव्वारा"),
       description: l(
         "Hand-turned and chiseled from single monolithic sandstone drums. The fountain features hand-carved lion spouts, fluted water channels, and soothing water cascade acoustics for the villa courtyard.",
@@ -164,7 +164,7 @@ export default function Portfolio() {
           "Explore our portfolio of sacred temples, palatial haveli facades, CNC jali screens, and fountains commissioned across India.",
           "हमारे द्वारा बनाए गए पत्थर के मंदिर, हवेलियों के एलिवेशन, सीएनसी जालियां और वाटर फाउंटेन के वास्तविक प्रोजेक्ट्स देखें।"
         )}
-        keywords="stone temple portfolio, haveli facade projects, luxury stone architecture cases, makrana marble temple photos, stone carving jaipur works"
+        keywords="stone temple portfolio, haveli facade projects, luxury stone architecture cases, sandstone temple photos, stone carving jaipur works"
       />
 
       {/* Editorial Hero Header */}

@@ -56,13 +56,13 @@ export default function Privacy() {
       descHi: "हम केवल वही जानकारी लेते हैं जो पत्थर आर्डर और कोटेशन के लिए जरूरी होती है।",
       pointsEn: [
         "Contact Data: Name, mobile/WhatsApp telephone number, email address, and architectural studio affiliation.",
-        "Project Details: Stone preferences (e.g., Makrana Marble, Dholpur Sandstone), dimensions, site delivery location (City/State), and project notes.",
+        "Project Details: Stone preferences (e.g., Red Sandstone, Dholpur Sandstone), dimensions, site delivery location (City/State), and project notes.",
         "Technical Attachments: Photographs of site conditions, reference stone artifacts, and CAD blueprints uploaded via our portal.",
         "Commercial Billing Information: GSTIN number, billing address, and consignee details for e-Way bills and freight transport."
       ],
       pointsHi: [
         "संपर्क जानकारी: आपका नाम, मोबाइल/व्हाट्सएप नंबर, ईमेल और शहर।",
-        "प्रोजेक्ट विवरण: पसंद का पत्थर (मकराना मार्बल, सैंडस्टोन), साइज, डिलीवरी का स्थान और आवश्यक विवरण।",
+        "प्रोजेक्ट विवरण: पसंद का पत्थर (लाल सैंडस्टोन, धौलपुर सैंडस्टोन), साइज, डिलीवरी का स्थान और आवश्यक विवरण।",
         "संलग्न फाइलें: आपके द्वारा वेबसाइट पर अपलोड की गई फोटो, स्केच व CAD फाइलें।",
         "बिलिंग विवरण: ई-वे बिल और सुरक्षित ट्रांसपोर्ट के लिए आवश्यक जीएसटी नंबर व पता।"
       ]

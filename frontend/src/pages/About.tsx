@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Seo } from "@/components/Seo";
 import { Reveal } from "@/components/ui/Reveal";
 import workshopImg from "@/assets/about-workshop.jpg";
+import logo from "@/assets/logo.png";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { categories } from "@/data/products";
 
@@ -50,31 +51,24 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/80 to-stone-950/50" />
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          
-          {/* Badge */}
-          <Reveal direction="down">
-            <span className="inline-block py-1.5 px-4 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs font-mono tracking-widest uppercase mb-4">
-              {l("ESTABLISHED IN 2009 • JAIPUR, RAJASTHAN", "स्थापना वर्ष 2009 • जयपुर, राजस्थान")}
-            </span>
-          </Reveal>
+        
 
           {/* Heading */}
           <Reveal direction="down" duration={0.9}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-normal uppercase text-white tracking-wide leading-[1.12] mb-6">
-              {l("TIMELESS DEVOTION & ARCHITECTURE,", "सच्चे पत्थरों में तराशी कला,")}{" "}
-              <br className="hidden sm:inline" />
-              <span className="text-accent font-serif italic normal-case font-normal">
-                {l("Chiseled by Master Artisans", "आस्था व शिल्पकला का संगम")}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-medium uppercase text-white tracking-wide leading-tight mb-5">
+              {l("ABOUT RK STONE CORPORATION", "आरके स्टोन कॉर्पोरेशन")} <br className="hidden sm:inline" />
+              <span className="text-accent font-serif italic normal-case font-normal text-2xl sm:text-4xl lg:text-5xl block mt-2">
+                {l("Handcrafted Stone Temples & Architecture Since 2009", "सैंडस्टोन मंदिर, 3D सीएनसी जाली व वास्तुकला शिल्प • स्थापना 2009")}
               </span>
             </h1>
           </Reveal>
 
           {/* Paragraph */}
           <Reveal direction="up" delay={0.15} duration={0.9}>
-            <p className="text-base sm:text-lg lg:text-xl text-white/80 font-light leading-relaxed max-w-3xl mx-auto mb-10">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 font-light leading-relaxed max-w-3xl mx-auto mb-8">
               {l(
-                "RK Stone Corporation, established in 2009 by Mr. Rajendra Saini, is a renowned Manufacturer and Supplier of premium sandstone products based in Rajasthan, India.",
-                "श्री राजेंद्र सैनी द्वारा 2009 में स्थापित, आरके स्टोन कॉर्पोरेशन राजस्थान में प्रीमियम सैंडस्टोन उत्पादों का एक प्रतिष्ठित निर्माता व आपूर्तिकर्ता है।"
+                "Founded in 2009 by Mr. Rajendra Saini in Jaipur, Rajasthan, RK Stone Corporation is a trusted manufacturer and supplier of authentic sandstone temples, 3D CNC jalis, royal gazebos (chhatris), and stone fountains delivered directly from our Jaipur workshop to clients across India.",
+                "2009 में संस्थापक श्री राजेंद्र सैनी द्वारा जयपुर (राजस्थान) में स्थापित, आरके स्टोन कॉर्पोरेशन सैंडस्टोन मंदिर, 3D सीएनसी जाली, नक्काशीदार छतरियां व वाटर फाउंटेन का एक विश्वसनीय निर्माता व सप्लायर है — जो सीधे हमारी जयपुर वर्कशॉप से पूरे भारत में डिलीवर किया जाता है।"
               )}
             </p>
           </Reveal>
@@ -114,7 +108,7 @@ export default function About() {
                 <div className="flex items-center gap-3">
                   <span className="w-1.5 h-8 bg-accent rounded-full shrink-0" />
                   <h2 className="text-2xl sm:text-4xl font-heading font-normal uppercase text-stone-950 tracking-wide leading-tight">
-                    {l("ABOUT RK STONE CORPORATION", "आरके स्टोन कॉर्पोरेशन का परिचय")}
+                    {l("OUR STORY & WORKSHOP HERITAGE", "हमारी यात्रा व शिल्प विरासत")}
                   </h2>
                 </div>
               </Reveal>
@@ -162,22 +156,24 @@ export default function About() {
               </Reveal>
             </div>
 
-            {/* Right Photo Frame */}
+            {/* Right Logo Frame */}
             <Reveal direction="right" duration={0.9} className="lg:col-span-6">
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 <div className="absolute -inset-3 sm:-inset-4 rounded-2xl border-2 border-accent/40 translate-x-3 translate-y-3 pointer-events-none" />
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-950 aspect-[4/3] sm:aspect-[5/4] border border-stone-200">
-                  <img
-                    src={workshopImg}
-                    alt="RK Stone Corporation Stone Workshop in Jaipur"
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-80" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white text-xs font-body tracking-wide">
-                    <div className="text-accent uppercase tracking-widest text-[10px] mb-1 font-mono font-semibold">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-b from-white via-white to-stone-50 aspect-[4/3] sm:aspect-[5/4] border border-stone-200 flex flex-col items-center justify-center p-6 sm:p-10 text-center group">
+                  <div className="w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 my-auto">
+                    <img
+                      src={logo}
+                      alt="RK Stone Corporation Official Logo"
+                      className="w-full h-full object-contain filter drop-shadow-md"
+                    />
+                  </div>
+                  
+                  <div className="w-full pt-4 border-t border-stone-200 text-stone-700 text-xs font-body tracking-wide">
+                    <div className="text-accent uppercase tracking-widest text-[10px] mb-1 font-mono font-bold">
                       {l("WORKSHOP & MANUFACTURING YARD", "वर्कशॉप व निर्माण केंद्र")}
                     </div>
-                    <div className="text-sm font-semibold">
+                    <div className="text-xs sm:text-sm font-semibold text-stone-900">
                       {l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
                     </div>
                   </div>
@@ -329,11 +325,8 @@ export default function About() {
                   </div>
                   <div className="p-4">
                     <h3 className="font-heading font-medium text-sm sm:text-base text-stone-950 group-hover:text-accent transition-colors line-clamp-1">
-                      {cat.name}
+                      {l(cat.name, cat.hindi)}
                     </h3>
-                    <div className="text-xs font-body text-stone-500 mt-1 line-clamp-1">
-                      {cat.hindi}
-                    </div>
                     <div className="mt-3 flex items-center gap-1.5 text-xs text-accent font-semibold group-hover:translate-x-1 transition-transform">
                       <span>{l("View Products", "उत्पाद देखें")}</span>
                       <ArrowRight className="w-3.5 h-3.5" />

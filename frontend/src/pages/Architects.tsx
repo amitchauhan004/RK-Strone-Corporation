@@ -184,8 +184,8 @@ export default function Architects() {
       step: "02",
       title: l("Quarry Block Selection", "खदान से पत्थर चयन"),
       description: l(
-        "We hand-select solid stone blocks at Makrana or Dholpur quarries. Inspect blocks in-person or via live video call.",
-        "मकराना या धौलपुर खदान से मजबूत पत्थर चुने जाते हैं। आप व्यक्तिगत रूप से या लाइव वीडियो कॉल पर ब्लॉक देख सकते हैं।"
+        "We hand-select solid stone blocks at Dholpur, Bansi Paharpur, or Karauli quarries. Inspect blocks in-person or via live video call.",
+        "धौलपुर, बंसी पहाड़पुर या करौली खदान से मजबूत पत्थर चुने जाते हैं। आप व्यक्तिगत रूप से या लाइव वीडियो कॉल पर ब्लॉक देख सकते हैं।"
       )
     },
     {
@@ -516,8 +516,8 @@ export default function Architects() {
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                     placeholder={l(
-                      "Specify stone preference (Makrana Marble, Dholpur Sandstone), dimensions, heights, or queries...",
-                      "पत्थर की पसंद (मकराना मार्बल, धौलपुर सैंडस्टोन), अनुमानित नाप, ऊंचाई आदि लिखें..."
+                      "Specify stone preference (Dholpur Sandstone, Red Sandstone, Bansi Paharpur), dimensions, heights, or queries...",
+                      "पत्थर की पसंद (धौलपुर सैंडस्टोन, लाल सैंडस्टोन, बंसी पहाड़पुर), अनुमानित नाप, ऊंचाई आदि लिखें..."
                     )}
                     className="w-full px-4 py-3 bg-[#FAF8F5] border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-stone-950"
                   />

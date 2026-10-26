@@ -33,8 +33,8 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    projectType: "Sacred Stone Temple / Mandir",
-    stonePreference: "Makrana White Marble",
+    projectType: "Sandstone Temple / Mandir",
+    stonePreference: "Dholpur Beige Sandstone",
     message: "",
   });
   const [loading, setLoading] = useState(false);
@@ -150,19 +150,19 @@ export default function Contact() {
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
           <Reveal direction="down">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-normal uppercase text-white tracking-wide leading-[1.08] mb-6">
-              {l("CONNECT WITH OUR CRAFTSMEN", "हमारे कारीगरों से संपर्क करें")} <br className="hidden sm:inline" />
-              <span className="text-accent font-serif italic normal-case font-normal">
-                {l("in Sacred Natural Stone", "सुंदर प्राकृतिक पत्थरों के कार्य के लिए")}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-medium uppercase text-white tracking-wide leading-tight mb-5">
+              {l("GET IN TOUCH WITH US", "हमसे संपर्क करें")} <br className="hidden sm:inline" />
+              <span className="text-accent font-serif italic normal-case font-normal text-2xl sm:text-4xl lg:text-5xl block mt-2">
+                {l("For Custom Stone Temples, CNC Jalis & Gazebos", "सैंडस्टोन मंदिर, 3D सीएनसी जाली व छतरी निर्माण के लिए")}
               </span>
             </h1>
           </Reveal>
 
           <Reveal direction="up" delay={150}>
-            <p className="text-base sm:text-lg lg:text-xl text-white/80 font-light leading-relaxed max-w-3xl mx-auto mb-10">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 font-light leading-relaxed max-w-2xl mx-auto mb-8">
               {l(
-                "Whether planning a marble temple, royal haveli restoration, or custom CNC stone screens, speak directly with our craftsmen and fabrication team in Jaipur.",
-                "संगमरमर का मंदिर, हवेली का कार्य, या सीएनसी जाली बनवाने की योजना बना रहे हैं? जयपुर में हमारे अनुभवी कारीगरों से सीधे बात करें।"
+                "Planning a stone temple, CNC jali, royal gazebo, or garden fountain? Talk directly with our craftsmen in Jaipur for custom designs, direct workshop prices, and fast delivery across India.",
+                "सैंडस्टोन मंदिर, 3D सीएनसी जाली, छतरी (गज़ेबो) या वाटर फाउंटेन बनवाना चाहते हैं? कस्टम डिज़ाइन, सीधी वर्कशॉप कीमत और पूरे भारत में सुरक्षित डिलीवरी के लिए सीधे हमारी टीम से बात करें।"
               )}
             </p>
           </Reveal>
@@ -296,11 +296,13 @@ export default function Contact() {
                             onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                             className="w-full px-3 py-2.5 bg-[#FAF8F5] border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-stone-950"
                           >
-                            <option value="Sacred Stone Temple / Mandir">{l("Sacred Stone Temple / Mandir", "पत्थर का मंदिर / होम मंदिर")}</option>
-                            <option value="Heritage Haveli Facade / Carved Columns">{l("Heritage Haveli Facade / Carved Columns", "हवेली एलिवेशन / नक्काशीदार खंभे")}</option>
-                            <option value="Contemporary CNC Stone Jalis / Panels">{l("Contemporary CNC Stone Jalis / Panels", "सीएनसी स्टोन जाली / वॉल पैनल")}</option>
-                            <option value="Courtyard Water Fountain / Chhatri">{l("Courtyard Water Fountain / Chhatri", "वाटर फाउंटेन / पत्थर की छतरी")}</option>
+                            <option value="Sandstone Temple / Mandir">{l("Sandstone Temple / Mandir", "सैंडस्टोन मंदिर / होम मंदिर")}</option>
+                            <option value="Temple Entry Gate / Toran Dwar">{l("Temple Entry Gate / Toran Dwar", "मंदिर प्रवेश तोरण द्वार")}</option>
+                            <option value="3D CNC Stone Jalis / Wall Panels">{l("3D CNC Stone Jalis / Wall Panels", "3D सीएनसी जाली / वॉल पैनल")}</option>
+                            <option value="Carved Stone Columns / Pillars & Jharokhas">{l("Carved Stone Columns / Pillars & Jharokhas", "नक्काशीदार खंभे, पिलर व झरोखे")}</option>
+                            <option value="Sandstone Gazebo (Chhatri) / Fountains">{l("Sandstone Gazebo (Chhatri) / Fountains", "सैंडस्टोन छतरी व वाटर फाउंटेन")}</option>
                             <option value="Raw Quarry Sandstone Block Supply">{l("Raw Quarry Sandstone Block Supply", "सीधा कच्चा पत्थर सैंडस्टोन सप्लाई")}</option>
+                            <option value="Other Custom Stone Work">{l("Other Custom Stone Work", "अन्य नक्काशीदार पत्थर कार्य")}</option>
                           </select>
                         </div>
                       </div>
@@ -314,9 +316,9 @@ export default function Contact() {
                           onChange={(e) => setFormData({ ...formData, stonePreference: e.target.value })}
                           className="w-full px-3 py-2.5 bg-[#FAF8F5] border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-stone-950"
                         >
-                          <option value="Makrana White Marble">{l("Makrana White Marble (Pure Sangemarmar)", "मकराना सफेद संगमरमर (प्योर मार्बल)")}</option>
-                          <option value="Bansi Paharpur Pink Sandstone">{l("Bansi Paharpur Pink Sandstone", "बंसी पहाड़पुर गुलाबी सैंडस्टोन")}</option>
                           <option value="Dholpur Beige Sandstone">{l("Royal Dholpur Beige Sandstone", "धौलपुर बेज / क्रीम सैंडस्टोन")}</option>
+                          <option value="Red Sandstone">{l("Red Sandstone (Agra / Karauli)", "लाल सैंडस्टोन (आगरा / करौली)")}</option>
+                          <option value="Bansi Paharpur Pink Sandstone">{l("Bansi Paharpur Pink Sandstone", "बंसी पहाड़पुर गुलाबी सैंडस्टोन")}</option>
                           <option value="Jodhpur Red Sandstone">{l("Jodhpur Red Sandstone", "जोधपुर लाल सैंडस्टोन")}</option>
                           <option value="Gwalior Mint Sandstone">{l("Gwalior White Mint Sandstone", "ग्वालियर मिंट सैंडस्टोन")}</option>
                           <option value="Guide Me">{l("Guide Me Based on My Project", "सलाह दें कि कौन सा पत्थर सही रहेगा")}</option>
@@ -475,7 +477,7 @@ export default function Contact() {
                       {l("GST REGISTRATION NUMBER", "जीएसटी नंबर (GSTIN)")}
                     </span>
                     <span className="font-body text-sm font-bold text-stone-950 tracking-wider">
-                      {siteSettings.gstNumber || "08CUUPS3588K1ZE"}
+                      {siteSettings.gstNumber && siteSettings.gstNumber !== "08AAAAA0000A1Z5" ? siteSettings.gstNumber : "08CUUPS3588K1ZE"}
                     </span>
                   </div>
                 </div>

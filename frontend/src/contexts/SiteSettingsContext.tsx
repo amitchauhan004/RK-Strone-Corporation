@@ -31,7 +31,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   workshopAddress: "Front of Surya City, Paldi Meena, Agra Road, Jaipur 302031, Rajasthan, India",
   workshopCity: "Jaipur, Rajasthan",
   workingHours: "Mon - Sun: 8:00 AM - 7:00 PM",
-  gstNumber: "08AAAAA0000A1Z5",
+  gstNumber: "08CUUPS3588K1ZE",
   announcementActive: true,
   announcementText: "✨ DIRECT JAIPUR WORKSHOP & MANUFACTURER: Handcrafted Temples, 3D CNC Stone Jalis & Chhatris",
   heroBadge: "DIRECT JAIPUR WORKSHOP & MANUFACTURER",

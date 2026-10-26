@@ -3,6 +3,7 @@ import { User, Calendar, Users, Briefcase, ArrowRight, MapPin, Building, ShieldC
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logo from "@/assets/logo.png";
 import aboutWorkshop from "@/assets/about-workshop.jpg";
 
 export function AboutSection() {
@@ -13,29 +14,30 @@ export function AboutSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: Image with Decorative Gold Outline Frame */}
+          {/* Left Column: Official Brand Logo with Decorative Gold Outline Frame */}
           <div className="lg:col-span-5 relative">
             <Reveal direction="left" duration={0.8}>
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 {/* Decorative offset frame */}
                 <div className="absolute -inset-3 sm:-inset-4 rounded-2xl border-2 border-accent/40 translate-x-3 translate-y-3 pointer-events-none" />
                 
-                {/* Main image container */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-950 aspect-[4/3] sm:aspect-[5/4] border border-stone-200">
-                  <img
-                    src={aboutWorkshop}
-                    alt="RK Stone Corporation Manufacturing Workshop & Studio"
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-stone-950/20 to-transparent" />
+                {/* Main Logo Container */}
+                <div className="relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-b from-white via-white to-stone-50 aspect-[4/3] sm:aspect-[5/4] border border-stone-200 flex flex-col items-center justify-center p-6 sm:p-10 text-center group">
+                  <div className="w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 my-auto">
+                    <img
+                      src={logo}
+                      alt="RK Stone Corporation Official Logo"
+                      className="w-full h-full object-contain filter drop-shadow-md"
+                    />
+                  </div>
                   
-                  {/* Badge overlay on image */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-stone-950/85 backdrop-blur-md p-3.5 rounded-xl border border-white/10 text-white">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
+                  {/* Badge below logo */}
+                  <div className="w-full pt-4 border-t border-stone-200 text-stone-700 text-xs font-body tracking-wide">
+                    <div className="text-accent uppercase tracking-widest text-[10px] mb-1 font-mono font-bold">
                       {l("JAIPUR WORKSHOP & HEADQUARTERS", "जयपुर वर्कशॉप व मुख्यालय")}
                     </div>
-                    <div className="text-xs sm:text-sm font-heading font-medium tracking-wide mt-0.5">
-                      {l("Agra Road, Paldi Meena, Jaipur, Rajasthan", "पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
+                    <div className="text-xs sm:text-sm font-semibold text-stone-900">
+                      {l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
                     </div>
                   </div>
                 </div>

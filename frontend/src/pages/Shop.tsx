@@ -62,11 +62,12 @@ const categoryAliases: Record<string, string[]> = {
 };
 
 const stoneTypes = [
-  { id: 'gwalior', nameEn: 'Gwalior Mint Stone', nameHi: 'ग्वालियर मिंट स्टोन' },
   { id: 'dholpur', nameEn: 'Dholpur Beige / Pink', nameHi: 'धौलपुर सैंडस्टोन' },
+  { id: 'red', nameEn: 'Red Sandstone', nameHi: 'लाल सैंडस्टोन' },
   { id: 'bansi-paharpur', nameEn: 'Bansi Paharpur Pink', nameHi: 'बंसी पहाड़पुर पिंक स्टोन' },
-  { id: 'makrana', nameEn: 'Makrana White Marble', nameHi: 'मकराना सफेद संगमरमर' },
-  { id: 'jodhpur', nameEn: 'Jodhpur Imperial Red', nameHi: 'जोधपुर लाल पत्थर' },
+  { id: 'gwalior', nameEn: 'Gwalior Mint Stone', nameHi: 'ग्वालियर मिंट स्टोन' },
+  { id: 'jodhpur', nameEn: 'Jodhpur Sandstone', nameHi: 'जोधपुर लाल पत्थर' },
+  { id: 'teakwood', nameEn: 'Teakwood / Khatu Stone', nameHi: 'टीकवुड / खाटू स्टोन' },
 ];
 
 const Shop = () => {
@@ -147,10 +148,16 @@ const Shop = () => {
 
     const matchesStone =
       selectedStones.length === 0 ||
-      selectedStones.some((st) =>
-        (product.stoneType || "").toLowerCase().includes(st.toLowerCase()) ||
-        (product.name || "").toLowerCase().includes(st.toLowerCase())
-      );
+      selectedStones.some((st) => {
+        const text = `${product.stoneType || ""} ${product.name || ""} ${product.description || ""}`.toLowerCase();
+        if (st === "red") return text.includes("red") || text.includes("लाल") || text.includes("ashok");
+        if (st === "dholpur") return text.includes("dholpur") || text.includes("धौलपुर");
+        if (st === "bansi-paharpur") return text.includes("bansi") || text.includes("paharpur") || text.includes("बंसी");
+        if (st === "gwalior") return text.includes("gwalior") || text.includes("mint") || text.includes("ग्वालियर");
+        if (st === "jodhpur") return text.includes("jodhpur") || text.includes("जोधपुर");
+        if (st === "teakwood") return text.includes("teakwood") || text.includes("khatu") || text.includes("टीकवुड");
+        return text.includes(st.toLowerCase());
+      });
 
     return matchesSearch && matchesCategory && matchesStone;
   });
@@ -164,12 +171,17 @@ const Shop = () => {
   return (
     <div className="bg-[#FAF8F5] text-stone-900 min-h-screen">
       <Seo
-        title="Stone Collection | Custom Mandirs, Jalis, Chhatris & Havelis | RK Stone Corporation"
-        description="Explore RK Stone Corporation's work: handcrafted stone temples, royal chhatris, 3D CNC jalis, jharokhas, and water fountains in Gwalior, Dhaulpur, and Makrana stones."
-        type="website"
+        title={l(
+          "Handcrafted Stone Catalog | Mandirs, CNC Jalis, Gazebos & Fountains | RK Stone Corporation",
+          "सैंडस्टोन मंदिर, सीएनसी जाली व छतरी कैटलॉग | आरके स्टोन कॉर्पोरेशन जयपुर"
+        )}
+        description={l(
+          "Browse Jaipur's finest sandstone temples, 3D CNC jalis, royal gazebos, and stone fountains in authentic Dholpur, Red Sandstone, and Bansi Paharpur stones.",
+          "जयपुर में बने सैंडस्टोन मंदिर, 3D सीएनसी जाली, छतरियां और वाटर फाउंटेन का संपूर्ण संग्रह देखें।"
+        )}
       />
 
-      {/* Editorial Luxury Header (Matching About / Materials pages) */}
+      {/* Editorial Luxury Header (Matching About & Contact pages) */}
       <section className="relative pt-36 pb-16 md:pt-44 md:pb-24 bg-stone-950 text-white overflow-hidden border-b border-white/10 select-none">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity scale-105"
@@ -179,13 +191,16 @@ const Shop = () => {
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
           <Reveal direction="down" duration={0.8}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-normal uppercase text-white tracking-wide leading-[1.1] mb-4">
-              {l("OUR STONE COLLECTION", "हमारा पत्थर संग्रह")}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-medium uppercase text-white tracking-wide leading-tight mb-5">
+              {l("STONE CATALOG & COLLECTION", "सैंडस्टोन शिल्प संग्रह")} <br className="hidden sm:inline" />
+              <span className="text-accent font-serif italic normal-case font-normal text-2xl sm:text-4xl lg:text-5xl block mt-2">
+                {l("Temples, 3D CNC Jalis, Gazebos & Fountains", "सैंडस्टोन मंदिर, 3D सीएनसी जाली, छतरियां व फाउंटेन")}
+              </span>
             </h1>
-            <p className="text-white/80 text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 font-light leading-relaxed max-w-3xl mx-auto">
               {l(
-                "Handcrafted temples, royal chhatris, 3D CNC jalis, haveli jharokhas, and courtyard fountains custom made in Gwalior, Dholpur, and Makrana stones.",
-                "हाथ से तराशे मंदिर, छतरियां, सीएनसी जाली, झरोखे और फव्वारे। ग्वालियर, धौलपुर और मकराना पत्थर में उपलब्ध।"
+                "Explore our complete workshop collection of handcrafted sandstone temples, royal chhatris, 3D CNC jalis, entry gates, and courtyard fountains custom crafted in authentic Dholpur, Red Sandstone, Bansi Paharpur, and Gwalior stones with delivery across India.",
+                "जयपुर वर्कशॉप में सीधे तैयार सैंडस्टोन मंदिर, छतरियां, 3D सीएनसी जाली, तोरण प्रवेश द्वार और वाटर फाउंटेन का संपूर्ण संग्रह शुद्ध धौलपुर, लाल सैंडस्टोन व बंसी पहाड़पुर पत्थरों में मनचाहे साइज और पूरे भारत में सुरक्षित डिलीवरी के साथ।"
               )}
             </p>
           </Reveal>
@@ -194,7 +209,7 @@ const Shop = () => {
 
       {/* Main Body with Fixed/Sticky Sidebar */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        
+
         {/* Search & Sort Controls Bar */}
         <div className="mb-8 p-4 sm:p-5 bg-white border border-stone-200 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           <div className="relative flex-1">
@@ -288,15 +303,14 @@ const Shop = () => {
 
         {/* Layout: Sticky Fixed Sidebar + Products Grid */}
         <div className="relative flex flex-col lg:flex-row gap-8 items-start">
-          
+
           {/* ================= STICKY FIXED SIDEBAR ================= */}
           <aside
-            className={`${
-              showFilters ? "block" : "hidden"
-            } lg:block w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-28 lg:self-start lg:max-h-[calc(100vh-8.5rem)] lg:overflow-y-auto pr-1 select-none z-20`}
+            className={`${showFilters ? "block" : "hidden"
+              } lg:block w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-28 lg:self-start lg:max-h-[calc(100vh-8.5rem)] lg:overflow-y-auto pr-1 select-none z-20`}
           >
             <div className="bg-white border border-stone-200 shadow-sm p-6 space-y-6">
-              
+
               {/* Sidebar Header */}
               <div className="flex items-center justify-between pb-4 border-b border-stone-200">
                 <div className="flex items-center gap-2">
@@ -328,17 +342,16 @@ const Shop = () => {
                       <div
                         key={stone.id}
                         onClick={() => handleStoneToggle(stone.id)}
-                        className={`flex items-center justify-between p-2 text-xs border cursor-pointer transition-colors ${
-                          isChecked
+                        className={`flex items-center justify-between p-2 text-xs border cursor-pointer transition-colors ${isChecked
                             ? "bg-accent/15 border-accent text-stone-950 font-bold"
                             : "border-stone-200 hover:border-stone-300 text-stone-700 bg-stone-50/50"
-                        }`}
+                          }`}
                       >
                         <span className="truncate">{l(stone.nameEn, stone.nameHi)}</span>
                         <input
                           type="checkbox"
                           checked={isChecked}
-                          onChange={() => {}}
+                          onChange={() => { }}
                           className="w-3.5 h-3.5 accent-stone-950 pointer-events-none"
                         />
                       </div>
@@ -359,11 +372,10 @@ const Shop = () => {
                     return (
                       <label
                         key={category.id}
-                        className={`flex items-center justify-between p-2 text-xs border cursor-pointer transition-colors ${
-                          isChecked
+                        className={`flex items-center justify-between p-2 text-xs border cursor-pointer transition-colors ${isChecked
                             ? "bg-stone-900 text-white border-stone-900 font-semibold"
                             : "border-stone-100 hover:border-stone-300 hover:bg-stone-50 text-stone-700"
-                        }`}
+                          }`}
                       >
                         <span className="truncate">{l(category.name, category.hindi)}</span>
                         <input
@@ -415,7 +427,7 @@ const Shop = () => {
 
           {/* ================= PRODUCTS GRID ================= */}
           <div className="flex-1 w-full min-w-0">
-            
+
             {/* Header info */}
             <div className="flex items-center justify-between mb-6 pb-2 border-b border-stone-200">
               <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
@@ -449,7 +461,7 @@ const Shop = () => {
                   return (
                     <Reveal key={product._id || product.id || index} direction={dir} delay={(index % 3) * 80}>
                       <div className="group bg-white border border-stone-200 overflow-hidden shadow-xs hover:shadow-2xl hover:border-accent transition-all duration-500 h-full flex flex-col justify-between">
-                        
+
                         <div>
                           {/* Image Box */}
                           <Link to={productLink} className="block relative aspect-[4/3] bg-stone-950 overflow-hidden">

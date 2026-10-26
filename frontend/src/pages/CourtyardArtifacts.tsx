@@ -27,7 +27,7 @@ export default function CourtyardArtifacts() {
       title: l("Multi-Tiered Lotus Fountains", "बहुस्तरीय पत्थर कमल फव्वारा"),
       subtitle: l("Natural Stone Cascading Water Fountains", "प्राकृतिक पत्थर से बना मधुर जल प्रवाह"),
       category: "fountain" as const,
-      stoneType: l("Jodhpur Imperial Sandstone & Makrana Marble", "जोधपुर सैंडस्टोन व मकराना मार्बल"),
+      stoneType: l("Jodhpur Imperial Sandstone & Dholpur Stone", "जोधपुर सैंडस्टोन व धौलपुर पत्थर"),
       dimensionsAvailable: l("Diameters: 5 Feet to 20 Feet | Heights: 5 Feet to 16 Feet", "व्यास: 5 से 20 फीट | ऊंचाई: 5 से 16 फीट"),
       description: l(
         "Carved from solid sandstone drums with scalloped lotus-petal reservoirs and lion-head spouts. Calibrated so the gentle sound of falling water creates an oasis of serene luxury across open courtyards and villa gardens.",

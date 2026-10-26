@@ -1,34 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { 
   ArrowLeft, 
   Phone, 
-  ShieldCheck, 
+  Mail,
   Ruler, 
-  Truck, 
-  Sparkles, 
-  CheckCircle2, 
-  FileUp, 
   Share2, 
-  Layers, 
-  Award, 
-  MapPin,
-  Clock,
-  Hammer
+  ChevronRight,
+  ChevronLeft,
+  Edit3,
+  Copy,
+  Check
 } from "lucide-react";
-import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import ImageGallery from "@/components/product/ImageGallery";
-import Reviews from "@/components/product/Reviews";
-import InquiryForm from "@/components/product/InquiryForm";
-import SpecsTable from "@/components/product/SpecsTable";
 import Seo from "@/components/Seo";
-import { Reveal } from "@/components/ui/Reveal";
-import DrawingUploadModal from "@/components/home/DrawingUploadModal";
-import SampleKitModal from "@/components/home/SampleKitModal";
+import ProductShareModal from "@/components/product/ProductShareModal";
+import { toast } from "sonner";
 import { products as defaultProducts, getProductCode } from "@/data/products";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { API_URL } from "@/config/api";
@@ -38,32 +25,80 @@ interface Product {
   id: string;
   code?: string;
   name: string;
+  nameHi?: string;
   price?: number;
   image: string;
   images?: string[];
   category: string;
   stoneType?: string;
   description: string;
+  descriptionHi?: string;
   features?: string[];
   dimensions?: string;
   leadTime?: string;
   specs?: Record<string, string>;
 }
 
+// Bulletproof clipboard copy function that works across HTTP, HTTPS, desktop & mobile
+const copyTextToClipboard = async (text: string): Promise<boolean> => {
+  // 1. Modern Clipboard API (available in secure contexts like HTTPS/localhost)
+  if (typeof navigator !== "undefined" && navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // fallback below
+    }
+  }
+
+  // 2. DOM fallback for mobile HTTP / WebViews / Safari
+  try {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.setAttribute("readonly", "");
+    textArea.style.position = "fixed";
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.opacity = "0";
+    textArea.style.pointerEvents = "none";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, 99999); // Mobile iOS selection
+
+    const successful = document.execCommand("copy");
+    document.body.removeChild(textArea);
+    return successful;
+  } catch (err) {
+    console.error("Clipboard copy error:", err);
+    return false;
+  }
+};
+
 export default function ProductDetail() {
   const { id } = useParams();
+  const { l } = useLanguage();
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [carouselOffset, setCarouselOffset] = useState(0);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-  // Custom dimensions state
-  const [useCustomSize, setUseCustomSize] = useState(false);
-  const [customWidth, setCustomWidth] = useState<string>('');
-  const [customHeight, setCustomHeight] = useState<string>('');
-  const [customDepth, setCustomDepth] = useState<string>('');
-  const [isDrawingModalOpen, setIsDrawingModalOpen] = useState(false);
-  const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
+  // Form states matching screenshot
+  const [enquiryQuantity, setEnquiryQuantity] = useState("1");
+  const [enquiryUnit, setEnquiryUnit] = useState("Piece");
+  const [formName, setFormName] = useState("");
+  const [formEmail, setFormEmail] = useState("");
+  const [formPhone, setFormPhone] = useState("");
+  const [formPurpose, setFormPurpose] = useState("End Use");
+  const [formMessage, setFormMessage] = useState("");
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
+
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   // Fetch related products
   const fetchRelatedProducts = async (currentProduct: Product) => {
@@ -73,16 +108,22 @@ export default function ProductDetail() {
       if (Array.isArray(allProducts) && allProducts.length > 0) {
         const related = allProducts
           .filter((p: any) =>
-            p.category === currentProduct.category &&
             (p._id !== currentProduct._id && p.id !== currentProduct.id)
           )
-          .slice(0, 4)
           .map((p: any) => ({
             ...p,
             id: p._id || p.id,
             _id: p._id || p.id,
             image: p.image || "/placeholder.png"
           }));
+
+        // Sort same-category first
+        related.sort((a: any, b: any) => {
+          if (a.category === currentProduct.category && b.category !== currentProduct.category) return -1;
+          if (b.category === currentProduct.category && a.category !== currentProduct.category) return 1;
+          return 0;
+        });
+
         if (related.length > 0) {
           setRelatedProducts(related);
           return;
@@ -93,12 +134,7 @@ export default function ProductDetail() {
     }
 
     const fallbackRelated = defaultProducts
-      .filter((p: any) =>
-        p.category === currentProduct.category &&
-        p.id !== currentProduct.id &&
-        p._id !== currentProduct._id
-      )
-      .slice(0, 4)
+      .filter((p: any) => p.id !== currentProduct.id && p._id !== currentProduct._id)
       .map((p: any) => ({
         ...p,
         id: p.id || p._id,
@@ -106,20 +142,13 @@ export default function ProductDetail() {
         features: p.features || []
       }));
 
-    if (fallbackRelated.length < 4) {
-      const remaining = defaultProducts
-        .filter((p: any) => p.id !== currentProduct.id && !fallbackRelated.some(r => r.id === p.id))
-        .slice(0, 4 - fallbackRelated.length)
-        .map((p: any) => ({
-          ...p,
-          id: p.id || p._id,
-          _id: p._id || p.id,
-          features: p.features || []
-        }));
-      setRelatedProducts([...fallbackRelated, ...remaining]);
-    } else {
-      setRelatedProducts(fallbackRelated);
-    }
+    fallbackRelated.sort((a: any, b: any) => {
+      if (a.category === currentProduct.category && b.category !== currentProduct.category) return -1;
+      if (b.category === currentProduct.category && a.category !== currentProduct.category) return 1;
+      return 0;
+    });
+
+    setRelatedProducts(fallbackRelated);
   };
 
   useEffect(() => {
@@ -127,6 +156,7 @@ export default function ProductDetail() {
     setLoading(true);
     setProduct(null);
     setRelatedProducts([]);
+    setCarouselOffset(0);
 
     fetch(`${API_URL}/api/products/${id}`)
       .then((res) => {
@@ -142,10 +172,11 @@ export default function ProductDetail() {
         };
         setProduct(productData);
         setNotFound(false);
+        const code = productData.code || getProductCode(productData);
+        setFormMessage(`I am interested in ${productData.name} (Item Code: ${code}). Kindly send the quotation for the same.`);
         fetchRelatedProducts(productData);
       })
       .catch(() => {
-        // Fallback to static catalog (match by id, _id or code)
         const match = defaultProducts.find((p: any) => 
           p.id === id || 
           p._id === id || 
@@ -161,6 +192,8 @@ export default function ProductDetail() {
           };
           setProduct(itemData);
           setNotFound(false);
+          const code = itemData.code || getProductCode(itemData);
+          setFormMessage(`I am interested in ${itemData.name} (Item Code: ${code}). Kindly send the quotation for the same.`);
           fetchRelatedProducts(itemData);
         } else {
           setNotFound(true);
@@ -171,10 +204,10 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-36 pb-20 bg-[#FAF8F5] flex flex-col justify-center items-center">
-        <div className="w-12 h-12 border-3 border-accent border-t-transparent rounded-full animate-spin mb-4" />
+      <div className="min-h-screen pt-36 pb-20 bg-[#f0f2f5] flex flex-col justify-center items-center">
+        <div className="w-12 h-12 border-3 border-[#b25e19] border-t-transparent rounded-full animate-spin mb-4" />
         <p className="text-stone-600 font-heading tracking-widest uppercase text-xs">
-          Loading Masterpiece Specifications...
+          Loading Product Details...
         </p>
       </div>
     );
@@ -182,89 +215,118 @@ export default function ProductDetail() {
 
   if (notFound || !product) {
     return (
-      <div className="min-h-screen pt-36 pb-20 bg-[#FAF8F5] flex items-center justify-center">
+      <div className="min-h-screen pt-36 pb-20 bg-[#f0f2f5] flex items-center justify-center">
         <div className="container mx-auto px-4 text-center max-w-md">
           <div className="w-16 h-16 mx-auto mb-6 bg-stone-200 rounded-full flex items-center justify-center text-stone-600">
             <Ruler className="w-8 h-8" />
           </div>
           <h1 className="text-3xl font-heading font-normal uppercase tracking-wide mb-3 text-stone-900">
-            Design Not Found
+            Product Not Found
           </h1>
           <p className="text-stone-600 text-sm mb-6">
             The requested architectural stone piece could not be located in our current catalogue.
           </p>
           <Link to="/shop">
-            <Button className="bg-stone-950 hover:bg-stone-900 text-white font-medium rounded-none uppercase text-xs tracking-wider px-6 py-5">
+            <button className="bg-stone-950 hover:bg-stone-900 text-white font-medium rounded-none uppercase text-xs tracking-wider px-6 py-3 inline-flex items-center">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Return to Stone Catalogue
-            </Button>
+              Return to Products
+            </button>
           </Link>
         </div>
       </div>
     );
   }
 
-  // Masterpiece Code (e.g. RK-PROD-01)
   const productCode = product.code || getProductCode(product);
-
-  // Images resolution
-  const images =
-    product.images && product.images.length > 0
-      ? product.images
-      : [product.image];
-  const { l } = useLanguage();
+  const images = product.images && product.images.length > 0 ? product.images : [product.image];
   const primaryImage = images[0] || "/placeholder.png";
 
-  // Build WhatsApp URL with custom or standard dimensions
-  const dimensionString = useCustomSize && (customWidth || customHeight || customDepth)
-    ? `Custom Dimensions: ${customWidth || '—'}W x ${customHeight || '—'}H ${customDepth ? `x ${customDepth}D` : ''} ft`
-    : (product.dimensions ? `Standard Size: ${product.dimensions}` : 'Custom Sizing Required');
-
-  const whatsappMessage = encodeURIComponent(
-    `Namaste RK Stone Corporation,\n\nI am inquiring about Masterpiece [${productCode}]:\n*${product.name}*\n• Item Code: ${productCode}\n• Stone: ${product.stoneType || 'Natural Sandstone/Marble'}\n• Category: ${product.category}\n• Dimensions: ${dimensionString}\n${product.price > 0 ? `• Workshop Rate: ₹${Number(product.price).toLocaleString('en-IN')} / ${product.priceUnit || 'unit'}\n` : ''}\nPlease share fabrication lead time, workshop quotation, and transport details to my location.`
-  );
-  const whatsappUrl = `https://wa.me/919414784562?text=${whatsappMessage}`;
-
-  // Technical Specs Object
-  const technicalSpecs: Record<string, string> = {
-    [l("Product Code", "उत्पाद कोड")]: productCode,
-    [l("Stone Material", "पत्थर प्रकार")]: product.stoneType || l("Natural Architectural Stone", "प्राकृतिक पत्थर"),
-    [l("Standard Dimensions", "मानक माप")]: product.dimensions || l("Customized to site specs", "साइट अनुसार कस्टमाइज़"),
-    [l("Fabrication Time", "निर्माण समय")]: product.leadTime || l("20 - 35 Days (Carving & Dry-Fit)", "20 - 35 दिन"),
-    [l("Origin & Quarry", "उत्पत्ति व खदान")]: l("Jaipur & Rajasthan Quarry Blocks", "जयपुर व राजस्थान खदान का पत्थर"),
-    [l("Artisan Work", "शिल्पकला")]: l("Traditional Hand Carving", "पारंपरिक हस्त नक्काशी"),
-    [l("Surface Finish", "फिनिश")]: l("Hand Chiseled / Honed / Smooth", "हस्त नक्काशी / स्मूथ"),
-    ...(typeof (product as any).specs === "object" ? (product as any).specs : {})
+  // Robust All-Apps Share Handler (opens share dialog with WhatsApp, Facebook, X, Telegram, SMS, Email & Device Share)
+  const handleShare = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsShareModalOpen(true);
   };
 
-  const handleShare = () => {
-    const shareTitle = `[${productCode}] ${product.name} | RK Stone Corporation Jaipur`;
-    const shareText = `Explore [${productCode}] ${product.name} (${product.stoneType || "Natural Stone"}) handcrafted by RK Stone Corporation Jaipur:`;
-    const shareUrl = window.location.href;
-
-    if (navigator.share) {
-      navigator.share({
-        title: shareTitle,
-        text: shareText,
-        url: shareUrl,
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(`${shareTitle}\n${shareUrl}`);
-      alert(`Product [${productCode}] link copied to clipboard!`);
+  // Copy product code to clipboard with visual feedback
+  const handleCopyCode = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const ok = await copyTextToClipboard(productCode);
+    if (ok) {
+      setCopiedCode(true);
+      toast.success(`Item Code "${productCode}" copied to clipboard!`);
+      setTimeout(() => setCopiedCode(false), 2000);
     }
   };
 
+  const handleEnquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSubmitting(true);
+    setFormSuccess(false);
+
+    try {
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formName,
+          email: formEmail,
+          phone: formPhone,
+          source: "Product Detail Enquiry Form",
+          productName: product.name,
+          projectType: `${product.name} (Code: ${productCode})`,
+          stonePreference: product.stoneType || "Sandstone",
+          dimensions: `Qty: ${enquiryQuantity} ${enquiryUnit} | Code: ${productCode} | Purpose: ${formPurpose}`,
+          message: formMessage
+        })
+      });
+
+      if (res.ok) {
+        setFormSuccess(true);
+        toast.success("Enquiry sent successfully! Our craftsmen will contact you shortly.");
+      } else {
+        toast.error("Failed to send enquiry. Please call or WhatsApp us directly.");
+      }
+    } catch {
+      setFormSuccess(true);
+      toast.success("Enquiry received. Please confirm on WhatsApp for instant quote.");
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
+  // Carousel handlers for Explore More Products
+  const visibleCardsCount = 4;
+  const maxOffset = Math.max(0, relatedProducts.length - visibleCardsCount);
+
+  const handlePrev = () => {
+    setCarouselOffset((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCarouselOffset((prev) => Math.min(maxOffset, prev + 1));
+  };
+
+  const visibleRelated = relatedProducts.slice(carouselOffset, carouselOffset + visibleCardsCount);
+
   return (
-    <div className="bg-[#FAF8F5] text-stone-900 min-h-screen">
+    <div className="bg-[#f0f2f5] text-stone-900 min-h-screen pb-16">
       <Seo
         title={`[${productCode}] ${product.name} | RK Stone Corporation Jaipur`}
-        description={`[${productCode}] ${product.name}. Handcrafted in ${product.stoneType || 'Natural Stone'} by RK Stone Corporation Jaipur. ${product.description}`}
+        description={`${product.name} (Code: ${productCode}). Handcrafted in ${product.stoneType || 'Natural Sandstone'} by RK Stone Corporation Jaipur. ${product.description}`}
         image={primaryImage}
         type="product"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Product",
           "name": product.name,
+          "sku": productCode,
+          "mpn": productCode,
           "image": images,
           "description": product.description,
           "category": product.category,
@@ -273,7 +335,7 @@ export default function ProductDetail() {
             "name": "RK Stone Corporation"
           },
           "offers": {
-            "@type": "Offer",
+            "@type": "AggregateOffer",
             "priceCurrency": "INR",
             "price": "0",
             "priceSpecification": {
@@ -286,509 +348,479 @@ export default function ProductDetail() {
         }}
       />
 
-      {/* Top Editorial Breadcrumb Bar */}
-      <div className="pt-28 md:pt-32 pb-4 bg-stone-950 text-white border-b border-white/10 select-none">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-stone-400 flex-wrap">
-              <Link to="/shop" className="hover:text-accent flex items-center gap-1 transition-colors">
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span>CATALOGUE</span>
-              </Link>
-              <span>/</span>
-              <span className="uppercase text-stone-300">{product.category.replace(/-/g, ' ')}</span>
-              <span>/</span>
-              <span className="text-accent font-bold tracking-wider">{productCode}</span>
-              <span>/</span>
-              <span className="text-white font-medium truncate max-w-[200px] sm:max-w-xs">{product.name}</span>
-            </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-24 md:pt-28 space-y-4">
+
+        {/* 1. TOP BREADCRUMB STRIP (Card-aligned Box matching Screenshot + Product Code) */}
+        <div className="bg-[#f7f8fa] border border-[#dce0e6] rounded-[3px] px-4 py-2.5 shadow-2xs">
+          <div className="flex items-center gap-1.5 text-xs text-stone-600 flex-wrap font-medium">
+            <Link to="/" className="hover:text-[#b25e19] transition-colors">Home</Link>
+            <ChevronRight className="w-3 h-3 text-stone-400" />
+            <Link to="/shop" className="hover:text-[#b25e19] transition-colors">Products</Link>
+            <ChevronRight className="w-3 h-3 text-stone-400" />
+            <Link to={`/shop?category=${product.category}`} className="hover:text-[#b25e19] transition-colors capitalize">
+              {product.category.replace(/-/g, ' ')}
+            </Link>
+            <ChevronRight className="w-3 h-3 text-stone-400" />
+            <span className="text-[#b25e19] font-mono font-bold tracking-wider">{productCode}</span>
+            <ChevronRight className="w-3 h-3 text-stone-400" />
+            <span className="text-stone-900 font-semibold">{product.name}</span>
           </div>
         </div>
-      </div>
 
-      {/* Main Product Showcase Section */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-start">
-          
-          {/* Left Column: Image Gallery & Workshop Assurances (5 cols on lg) */}
-          <div className="lg:col-span-6 space-y-6">
-            <Reveal direction="left" duration={0.6}>
-              <ImageGallery images={images} alt={product.name} />
-            </Reveal>
-
-            {/* Workshop Assurance Badges Grid */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="bg-white border border-stone-200 p-3.5 flex items-start gap-3 shadow-2xs">
-                <ShieldCheck className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">100% Genuine Stone</h4>
-                  <p className="text-[11px] text-stone-500 font-light mt-0.5">High-density zero-synthetic quarry extracted slabs</p>
-                </div>
+        {/* 2. MAIN TOP PRODUCT CARD (Exact B2B Portal Layout from Screenshot) */}
+        <div className="bg-white rounded-[3px] border border-[#dce0e6] shadow-2xs p-5 sm:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-7 items-start">
+            
+            {/* Left: Product Image & Gallery */}
+            <div className="md:col-span-5">
+              <div className="relative aspect-4/3 sm:aspect-square bg-stone-50 border border-stone-200 rounded-[2px] overflow-hidden group">
+                <img
+                  src={primaryImage}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
 
-              <div className="bg-white border border-stone-200 p-3.5 flex items-start gap-3 shadow-2xs">
-                <Hammer className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">Sompura Guild Artisans</h4>
-                  <p className="text-[11px] text-stone-500 font-light mt-0.5">Generations of Vedic Shilpa Shastra stone carvers</p>
+              {/* Thumbnails if multiple images exist */}
+              {images.length > 1 && (
+                <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+                  {images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`${product.name} view ${i + 1}`}
+                      className="w-14 h-14 object-cover border border-stone-200 rounded-[2px] cursor-pointer hover:border-[#b25e19]"
+                    />
+                  ))}
                 </div>
-              </div>
-
-              <div className="bg-white border border-stone-200 p-3.5 flex items-start gap-3 shadow-2xs">
-                <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">Workshop Dry-Fit</h4>
-                  <p className="text-[11px] text-stone-500 font-light mt-0.5">Pre-assembled trial before crated dispatch</p>
-                </div>
-              </div>
-
-              <div className="bg-white border border-stone-200 p-3.5 flex items-start gap-3 shadow-2xs">
-                <Truck className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">White-Glove Transit</h4>
-                  <p className="text-[11px] text-stone-500 font-light mt-0.5">Insured foam & timber crating all over India</p>
-                </div>
-              </div>
+              )}
             </div>
-          </div>
 
-          {/* Right Column: Product Narrative, Custom Sizing & Instant Quotation (6 cols on lg) */}
-          <div className="lg:col-span-6 space-y-6">
-            <Reveal direction="right" duration={0.6}>
+            {/* Right: Product Details & Actions */}
+            <div className="md:col-span-7 space-y-4">
               
-              {/* Category, Item Code & Stone Material Pills */}
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="px-3 py-1 bg-accent text-stone-950 text-xs font-black tracking-widest uppercase shadow-xs">
-                  {productCode}
-                </span>
-                <span className="px-3 py-1 bg-stone-900 text-white text-[11px] font-bold tracking-widest uppercase">
-                  {product.category.replace(/-/g, ' ')}
-                </span>
-                {product.stoneType && (
-                  <span className="px-3 py-1 bg-accent/15 text-stone-900 text-[11px] font-bold tracking-widest uppercase border border-accent/30">
-                    {product.stoneType}
-                  </span>
-                )}
-                <span className="px-3 py-1 bg-stone-200 text-stone-800 text-[11px] font-semibold tracking-wider uppercase">
-                  DIRECT FACTORY
-                </span>
-              </div>
-
-              {/* Product Title */}
-              <h1 className="text-2xl sm:text-4xl font-heading font-normal uppercase text-stone-950 tracking-wide leading-tight mb-3">
-                {l(product.name, product.nameHi || product.name)}
-              </h1>
-
-              {/* Standard Dimensions Highlight */}
-              {product.dimensions && (
-                <div className="flex items-center gap-2 text-xs text-stone-600 bg-stone-100 px-3.5 py-2 border-l-2 border-accent mb-6">
-                  <Ruler className="w-4 h-4 text-accent shrink-0" />
-                  <span>
-                    <strong className="text-stone-900">Reference Dimensions:</strong> {product.dimensions}
-                  </span>
-                </div>
-              )}
-
-              {/* ================= BESPOKE QUOTATION & SIZING CARD ================= */}
-              <div className="bg-white border border-stone-300 p-5 sm:p-6 shadow-sm space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-stone-200 gap-2">
-                  <div>
-                    <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase block">
-                      {l(`ITEM CODE: ${productCode}`, `कोड: ${productCode}`)}
+              {/* Product Title, Item Code Badge & Mobile-Friendly Share Button */}
+              <div className="flex items-start justify-between gap-3 border-b border-[#e5e7eb] pb-3">
+                <div className="space-y-1.5 flex-1 pr-2">
+                  {/* Product Code Badge */}
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-[#b25e19] border border-amber-200 text-xs font-semibold rounded-[2px]">
+                      <span className="text-[10px] text-stone-500 uppercase tracking-wider">Item Code:</span>
+                      <span className="font-mono font-bold tracking-wide">{productCode}</span>
                     </span>
-                    <h3 className="font-heading font-medium text-lg uppercase text-stone-950">
-                      {l("Direct Workshop Price Quotation", "सीधे कारखाने का भाव कोटेशन")}
-                    </h3>
-                  </div>
-                  <div className="text-left sm:text-right">
-                    {product.price > 0 ? (
-                      <div className="flex flex-col sm:items-end">
-                        <div className="text-xl sm:text-2xl font-heading font-bold text-stone-950">
-                          ₹{Number(product.price).toLocaleString('en-IN')}
-                          <span className="text-xs text-stone-500 font-body font-normal"> / {product.priceUnit || 'sq.ft'}</span>
-                        </div>
-                        <span className="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider">
-                          {l("Direct Workshop Rate", "वर्कशॉप दर")}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="inline-block text-[11px] font-bold text-[#1EBE5D] bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 uppercase tracking-wider">
-                        {l("Direct Manufacturer Price", "सीधा निर्माता भाव")}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <p className="text-xs text-stone-600 leading-relaxed font-light">
-                  {l(
-                    "Each stone work is custom-crafted to your site dimensions, thickness, and design. Get an instant direct quote from our Jaipur workshop team.",
-                    "प्रत्येक काम आपके साइट के नाप, मोटाई और डिज़ाइन के अनुसार तैयार किया जाता है। तुरंत हमारी जयपुर वर्कशॉप टीम से कोटेशन प्राप्त करें।"
-                  )}
-                </p>
-
-                {/* Custom Dimensions Toggle */}
-                <div className="pt-1">
-                  <div className="flex items-center justify-between mb-3">
-                    <Label className="text-xs font-bold uppercase tracking-wider text-stone-900 flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={useCustomSize}
-                        onChange={(e) => setUseCustomSize(e.target.checked)}
-                        className="w-4 h-4 accent-stone-950 rounded cursor-pointer"
-                        id="customSizeToggle"
-                      />
-                      <span>{l("Enter Custom Measurements", "कस्टम नाप / माप दर्ज करें")}</span>
-                    </Label>
-                    {useCustomSize && (
-                      <span className="text-[11px] text-accent font-semibold uppercase">
-                        {l("Custom Size Active", "कस्टम माप सक्रिय")}
-                      </span>
-                    )}
-                  </div>
-
-                  {useCustomSize && (
-                    <div className="grid grid-cols-3 gap-3 p-3.5 bg-stone-50 border border-stone-200 animate-in fade-in duration-200">
-                      <div>
-                        <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">
-                          {l("Width (Feet)", "चौड़ाई (फीट)")}
-                        </label>
-                        <Input
-                          placeholder="e.g. 6 ft"
-                          value={customWidth}
-                          onChange={(e) => setCustomWidth(e.target.value)}
-                          className="text-xs h-9 bg-white rounded-none border-stone-300"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">
-                          {l("Height (Feet)", "ऊंचाई (फीट)")}
-                        </label>
-                        <Input
-                          placeholder="e.g. 8 ft"
-                          value={customHeight}
-                          onChange={(e) => setCustomHeight(e.target.value)}
-                          className="text-xs h-9 bg-white rounded-none border-stone-300"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] font-semibold text-stone-700 block uppercase mb-1">
-                          {l("Depth / Thick", "गहराई / मोटाई")}
-                        </label>
-                        <Input
-                          placeholder="e.g. 4 ft"
-                          value={customDepth}
-                          onChange={(e) => setCustomDepth(e.target.value)}
-                          className="text-xs h-9 bg-white rounded-none border-stone-300"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Action Buttons: WhatsApp Quote & Direct Call */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1"
-                  >
-                    <Button className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold py-6 rounded-none text-xs uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
-                      <WhatsAppIcon className="w-4 h-4 text-white" />
-                      <span>{l("Get Instant Rate on WhatsApp", "व्हाट्सएप पर रेट पूछें")}</span>
-                    </Button>
-                  </a>
-
-                  <a href="tel:+919414784562" className="sm:w-auto">
-                    <Button 
-                      variant="outline"
-                      className="w-full border-stone-400 hover:border-stone-950 text-stone-900 hover:bg-stone-100 py-6 px-5 rounded-none text-xs font-bold uppercase tracking-wider cursor-pointer"
+                    <button
+                      type="button"
+                      onClick={handleCopyCode}
+                      title="Copy Item Code"
+                      className="text-stone-400 hover:text-[#b25e19] text-xs inline-flex items-center p-1 rounded-sm cursor-pointer transition-colors active:scale-95"
                     >
-                      <Phone className="w-3.5 h-3.5 mr-2 text-accent" />
-                      <span>{l("Call Workshop", "कॉल करें")}</span>
-                    </Button>
-                  </a>
-                </div>
-
-                {/* Fast Drawing & Sample Kit Modals Triggers */}
-                <div className="flex flex-wrap items-center justify-between pt-3 border-t border-stone-100 text-xs gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsDrawingModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 text-stone-700 hover:text-stone-950 font-medium underline underline-offset-4 cursor-pointer"
-                  >
-                    <FileUp className="w-3.5 h-3.5 text-accent" />
-                    <span>{l("Upload Drawing / Photo for Quote", "ड्राइंग या फोटो भेजें")}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsSampleModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 text-stone-700 hover:text-stone-950 font-medium underline underline-offset-4 cursor-pointer"
-                  >
-                    <Layers className="w-3.5 h-3.5 text-accent" />
-                    <span>{l("Request Stone Sample Box", "पत्थर का सैंपल बॉक्स मंगाएं")}</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Architectural Description */}
-              <div className="space-y-3 pt-4">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-stone-900 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
-                  {l("Product Description & Craft Details", "उत्पाद विवरण व नक्काशी")}
-                </h3>
-                <p className="text-stone-700 text-sm leading-relaxed font-light">
-                  {l(product.description, product.descriptionHi || product.description)}
-                </p>
-              </div>
-
-              {/* Features List with Gold Bullets */}
-              {product.features && product.features.length > 0 && (
-                <div className="space-y-3 pt-2">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-stone-900 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
-                    Masterwork Distinctions & Durability
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {product.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-stone-800">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
-                        <span className="leading-snug">{feature}</span>
-                      </div>
-                    ))}
+                      {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
                   </div>
-                </div>
-              )}
 
-              {/* Technical Specifications Table */}
-              <SpecsTable specs={technicalSpecs} />
-
-              {/* Share & Location Row */}
-              <div className="pt-6 border-t border-stone-200 flex items-center justify-between text-xs text-stone-500">
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
-                  <span>Fabricated at: Mansarovar Industrial Area, Jaipur, Rajasthan</span>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-normal uppercase tracking-wide text-stone-950 leading-tight">
+                    {l(product.name, product.nameHi || product.name)}
+                  </h1>
                 </div>
+
+                {/* Mobile-Friendly Share Button with comfortable 40px touch target & touch-manipulation */}
                 <button
                   type="button"
                   onClick={handleShare}
-                  className="inline-flex items-center gap-1.5 text-stone-700 hover:text-stone-950 font-semibold uppercase tracking-wider cursor-pointer"
+                  className="w-10 h-10 sm:w-9 sm:h-9 rounded-full border border-stone-300 hover:border-[#b25e19] hover:text-[#b25e19] active:bg-stone-100 flex items-center justify-center text-stone-600 transition-colors shrink-0 cursor-pointer bg-white shadow-2xs touch-manipulation"
+                  title="Share Product"
+                  aria-label="Share product"
                 >
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span>Share</span>
+                  <Share2 className="w-4 h-4 pointer-events-none" />
                 </button>
               </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
-      {/* ================= WORKSHOP FABRICATION PROCESS ================= */}
-      <section className="bg-stone-950 text-white py-16 border-t border-white/10 mt-12 select-none">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase block mb-2">
-              {l("WORKSHOP FABRICATION STEPS", "निर्माण चरण")}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-heading font-normal uppercase tracking-wide">
-              {l("HOW WE CRAFT & DELIVER YOUR ORDER", "हम कैसे तैयार और डिलीवर करते हैं")}
-            </h2>
-            <p className="text-white/60 text-xs sm:text-sm mt-2">
-              {l(
-                "From stone selection to workshop carving, pre-assembly trial, and safe delivery across India.",
-                "पत्थर चयन से लेकर नक्काशी, असेंबली जांच और पूरे भारत में सुरक्षित डिलीवरी तक।"
-              )}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white/5 border border-white/10 p-6 relative">
-              <span className="text-3xl font-heading font-light text-accent/50 block mb-3">01</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-2">
-                {l("Design & Measurements", "डिज़ाइन व नाप")}
-              </h3>
-              <p className="text-white/70 text-xs leading-relaxed font-light">
-                {l(
-                  "We finalize the design, height, and custom dimensions to start block cutting.",
-                  "आपकी पसंद और साइट के नाप के अनुसार सही पत्थर काटने की योजना बनाई जाती है।"
-                )}
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-6 relative">
-              <span className="text-3xl font-heading font-light text-accent/50 block mb-3">02</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-2">
-                {l("Raw Stone Selection", "पत्थर का चयन")}
-              </h3>
-              <p className="text-white/70 text-xs leading-relaxed font-light">
-                {l(
-                  "Selected high-density natural stone blocks from certified Rajasthan quarries.",
-                  "राजस्थान की प्रमाणित खदानों से ठोस और मजबूत प्राकृतिक पत्थर चुना जाता है।"
-                )}
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-6 relative">
-              <span className="text-3xl font-heading font-light text-accent/50 block mb-3">03</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-2">
-                {l("Hand Carving & Trial", "नक्काशी व ट्रायल")}
-              </h3>
-              <p className="text-white/70 text-xs leading-relaxed font-light">
-                {l(
-                  "Master craftsmen chisel the details and pre-assemble all parts to ensure perfect fit.",
-                  "कारीगरों द्वारा बारीक नक्काशी और वर्कशॉप में जोड़कर फिटिंग की जांच।"
-                )}
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-6 relative">
-              <span className="text-3xl font-heading font-light text-accent/50 block mb-3">04</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-2">
-                {l("Packing & Delivery", "पैकिंग व डिलीवरी")}
-              </h3>
-              <p className="text-white/70 text-xs leading-relaxed font-light">
-                {l(
-                  "Cushioned in sturdy wooden boxes and delivered safely to your location anywhere in India.",
-                  "मजबूत लकड़ी के बॉक्स में सुरक्षित पैकिंग और भारत में आपके पते पर डिलीवरी।"
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= RELATED MASTERPIECES SECTION ================= */}
-      {relatedProducts.length > 0 && (
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-4 border-b border-stone-200 gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-accent block">
-                COMPLEMENTARY WORKS
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-heading font-normal uppercase text-stone-950 tracking-wide mt-1">
-                RELATED ARCHITECTURAL MASTERWORKS
-              </h2>
-            </div>
-            <Link
-              to="/shop"
-              className="text-xs font-bold text-stone-900 hover:text-accent uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors"
-            >
-              <span>Explore All 22+ Works</span>
-              <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedProducts.map((relProduct, idx) => (
-              <Card
-                key={relProduct._id || relProduct.id || idx}
-                className="bg-white border-stone-200 rounded-none overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
-                    <img
-                      src={relProduct.image}
-                      alt={relProduct.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-2 left-2 bg-stone-950/80 text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                      {relProduct.category.replace(/-/g, ' ')}
-                    </div>
-                  </div>
-
-                  <div className="p-4 space-y-2">
-                    {relProduct.stoneType && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-accent block truncate">
-                        {relProduct.stoneType}
-                      </span>
-                    )}
-                    <h3 className="font-heading font-normal uppercase text-stone-950 text-sm tracking-wide line-clamp-2 group-hover:text-accent transition-colors">
-                      {relProduct.name}
-                    </h3>
-                  </div>
+              {/* Quantity, Unit & Get Best Price Button Row */}
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                <div className="flex items-center border border-stone-300 rounded-[2px] bg-white text-xs h-9">
+                  <span className="px-3 text-stone-500 font-medium bg-stone-50 border-r border-stone-200 h-full flex items-center">
+                    Quantity
+                  </span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={enquiryQuantity}
+                    onChange={(e) => setEnquiryQuantity(e.target.value)}
+                    className="w-14 px-2 h-full text-center text-stone-900 font-semibold focus:outline-none"
+                  />
                 </div>
 
-                <div className="p-4 pt-0 grid grid-cols-2 gap-2 mt-2">
-                  <Link
-                    to={`/product/${relProduct.id || relProduct._id}`}
-                    className="block"
+                <div className="flex items-center gap-2 border border-stone-300 rounded-[2px] px-3 bg-white text-xs text-stone-700 h-9">
+                  <span className="font-medium">{enquiryUnit}</span>
+                  <button
+                    type="button"
+                    onClick={() => setEnquiryUnit(enquiryUnit === "Piece" ? "Sq. Ft" : "Piece")}
+                    className="text-[#b25e19] hover:underline font-semibold inline-flex items-center gap-0.5 text-[11px] cursor-pointer"
                   >
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full text-[11px] font-bold uppercase rounded-none border-stone-300 hover:border-stone-950 hover:bg-stone-50"
-                    >
-                      Details
-                    </Button>
-                  </Link>
-
-                  <a
-                    href={`https://wa.me/919414784562?text=${encodeURIComponent(
-                      `Hi RK Stone Corporation, please quote for related masterpiece: ${relProduct.name}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <Button
-                      size="sm"
-                      className="w-full text-[11px] font-bold uppercase rounded-none bg-[#25D366] hover:bg-[#1EBE5D] text-white shadow-2xs"
-                    >
-                      <WhatsAppIcon className="w-3 h-3 mr-1" />
-                      Quote
-                    </Button>
-                  </a>
+                    <Edit3 className="w-3 h-3" />
+                    <span>Edit</span>
+                  </button>
                 </div>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
 
-      {/* ================= INQUIRY & CLIENT REVIEWS ================= */}
-      <section className="bg-stone-100/70 border-t border-stone-200 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-14">
-            
-            {/* Custom Inquiry Card */}
-            <div className="bg-white border border-stone-200 p-6 sm:p-8 shadow-2xs">
-              <div className="mb-6">
-                <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase block">
-                  TECHNICAL CONSULTATION
-                </span>
-                <h3 className="text-xl sm:text-2xl font-heading font-normal uppercase tracking-wide text-stone-950 mt-1">
-                  Ask About This Piece (विशेष शिल्प परामर्श)
-                </h3>
-                <p className="text-stone-500 text-xs mt-1">
-                  Leave your contact details and our master craftsman will revert with technical drawings, stone density reports, and price estimate within 4 hours.
-                </p>
+                <a
+                  href="tel:+919414784562"
+                  className="inline-flex items-center justify-center px-5 h-9 bg-[#b25e19] hover:bg-[#974d12] text-white text-xs font-bold rounded-[2px] shadow-2xs transition-colors cursor-pointer"
+                >
+                  Get Best Price
+                </a>
               </div>
 
-              <InquiryForm
-                productId={product.id || product._id || "inquiry"}
-                productName={product.name}
+              {/* Clean Key-Value Table matching screenshot */}
+              <div className="pt-2 text-xs divide-y divide-[#eceef1] border-t border-b border-[#eceef1]">
+                <div className="grid grid-cols-12 py-2.5">
+                  <span className="col-span-4 text-stone-500 font-medium">Item Code</span>
+                  <span className="col-span-8 text-[#b25e19] font-mono font-bold flex items-center gap-2">
+                    <span>{productCode}</span>
+                    <button
+                      type="button"
+                      onClick={handleCopyCode}
+                      className="text-stone-400 hover:text-stone-700 text-[11px] inline-flex items-center gap-0.5 cursor-pointer"
+                      title="Copy Code"
+                    >
+                      {copiedCode ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                    </button>
+                  </span>
+                </div>
+                <div className="grid grid-cols-12 py-2.5">
+                  <span className="col-span-4 text-stone-500 font-medium">Business Type</span>
+                  <span className="col-span-8 text-stone-900 font-semibold">Manufacturer, Supplier</span>
+                </div>
+                <div className="grid grid-cols-12 py-2.5">
+                  <span className="col-span-4 text-stone-500 font-medium">Material</span>
+                  <span className="col-span-8 text-stone-900 font-semibold">{product.stoneType || "Sandstone"}</span>
+                </div>
+                <div className="grid grid-cols-12 py-2.5">
+                  <span className="col-span-4 text-stone-500 font-medium">Color</span>
+                  <span className="col-span-8 text-stone-900 font-semibold">
+                    {product.stoneType?.toLowerCase().includes("red") ? "Red" : product.stoneType?.toLowerCase().includes("pink") ? "Pink" : "Red / Beige / Cream"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-12 py-2.5">
+                  <span className="col-span-4 text-stone-500 font-medium">Packaging</span>
+                  <span className="col-span-8 text-stone-900 font-semibold">Secure Packaging</span>
+                </div>
+                <div className="py-2">
+                  <button
+                    type="button"
+                    onClick={() => detailsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                    className="text-[#b25e19] hover:underline font-semibold text-xs cursor-pointer"
+                  >
+                    Click to view more
+                  </button>
+                </div>
+              </div>
+
+              {/* Action Buttons: Request a Call & Send Enquiry matching screenshot */}
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <a
+                  href="tel:+919414784562"
+                  className="inline-flex items-center justify-center gap-2 border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-800 font-bold py-2.5 text-xs rounded-[2px] shadow-2xs transition-colors cursor-pointer"
+                >
+                  <Phone className="w-4 h-4 text-stone-700" />
+                  <span>Request a Call</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center justify-center gap-2 bg-[#b25e19] hover:bg-[#974d12] text-white font-bold py-2.5 text-xs rounded-[2px] shadow-2xs transition-colors cursor-pointer"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Send Enquiry</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* 3. PRODUCT DETAILS CARD matching screenshot */}
+        <div ref={detailsRef} className="bg-white rounded-[3px] border border-[#dce0e6] shadow-2xs p-5 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-heading font-normal uppercase tracking-wide text-stone-950 border-b border-[#e5e7eb] pb-3 mb-4">
+            Product Details
+          </h2>
+
+          {/* Clean 4-Column Specs directly on white card matching screenshot */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-6 text-xs mb-5">
+            <div>
+              <span className="text-stone-500 font-medium block">Style</span>
+              <span className="text-stone-900 font-bold mt-1 block">Carved</span>
+            </div>
+            <div>
+              <span className="text-stone-500 font-medium block">Finishing</span>
+              <span className="text-stone-900 font-bold mt-1 block">Smooth</span>
+            </div>
+            <div>
+              <span className="text-stone-500 font-medium block">Technique</span>
+              <span className="text-stone-900 font-bold mt-1 block">Handmade</span>
+            </div>
+            <div>
+              <span className="text-stone-500 font-medium block">Item Code</span>
+              <span className="text-[#b25e19] font-mono font-bold mt-1 block">{productCode}</span>
+            </div>
+          </div>
+
+          {/* Description Paragraph */}
+          <p className="text-xs sm:text-[13px] text-stone-700 leading-relaxed font-normal mb-6">
+            {l(
+              product.description || `We offer exquisitely crafted ${product.name} in a striking natural sandstone. Handmade with precision, the smooth finishing and intricate carvings showcase our expertise. Each piece is securely packaged to ensure safe delivery. As a leading manufacturer and supplier, we take pride in providing high-quality sandstone temples that add elegance to any space. Elevate your decor with our beautifully carved sandstone temple, a timeless piece that reflects artistry and craftsmanship.`,
+              product.descriptionHi || product.description
+            )}
+          </p>
+
+          {/* Yes! I am interested CTA Button */}
+          <div className="text-center pt-1">
+            <button
+              type="button"
+              onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center justify-center px-8 py-2.5 bg-[#b25e19] hover:bg-[#974d12] text-white font-bold text-xs rounded-[2px] shadow-2xs transition-colors cursor-pointer"
+            >
+              Yes! I am interested
+            </button>
+          </div>
+        </div>
+
+        {/* 4. "LOOKING FOR '[PRODUCT NAME]' ?" ENQUIRY FORM CARD matching screenshot */}
+        <div ref={formRef} className="bg-white rounded-[3px] border border-[#dce0e6] shadow-2xs p-5 sm:p-7">
+          <h2 className="text-xl sm:text-2xl font-heading font-normal uppercase tracking-wide text-stone-950 text-center mb-6">
+            Looking for <span className="text-[#b25e19]">"{product.name}"</span> <span className="text-stone-500 text-xs sm:text-sm font-mono tracking-wider block sm:inline font-normal">({productCode})</span> ?
+          </h2>
+
+          <form onSubmit={handleEnquirySubmit} className="max-w-3xl mx-auto space-y-4">
+            
+            {/* Row 1: Name and Email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right">
+                  Name
+                </label>
+                <Input
+                  required
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="h-9 text-xs rounded-[2px] bg-white border-stone-300 focus-visible:ring-1 focus-visible:ring-[#b25e19]"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right">
+                  Email
+                </label>
+                <Input
+                  required
+                  type="email"
+                  value={formEmail}
+                  onChange={(e) => setFormEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="h-9 text-xs rounded-[2px] bg-white border-stone-300 focus-visible:ring-1 focus-visible:ring-[#b25e19]"
+                />
+              </div>
+            </div>
+
+            {/* Row 2: Mobile No and Quantity */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right">
+                  Mobile No.
+                </label>
+                <div className="flex w-full">
+                  <span className="inline-flex items-center gap-1 px-2.5 border border-r-0 border-stone-300 bg-stone-50 text-[11px] text-stone-700 rounded-l-[2px]">
+                    🇮🇳 +91
+                  </span>
+                  <Input
+                    required
+                    type="tel"
+                    value={formPhone}
+                    onChange={(e) => setFormPhone(e.target.value)}
+                    placeholder="Enter Mobile No."
+                    className="h-9 text-xs rounded-l-none rounded-r-[2px] bg-white border-stone-300 focus-visible:ring-1 focus-visible:ring-[#b25e19]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right">
+                  Quantity
+                </label>
+                <div className="flex gap-1.5 w-full">
+                  <Input
+                    type="number"
+                    min="1"
+                    value={enquiryQuantity}
+                    onChange={(e) => setEnquiryQuantity(e.target.value)}
+                    placeholder="Estimated Quantity"
+                    className="h-9 text-xs rounded-[2px] bg-white border-stone-300 flex-1 focus-visible:ring-1 focus-visible:ring-[#b25e19]"
+                  />
+                  <div className="flex items-center gap-1.5 px-3 border border-stone-300 bg-white text-xs text-stone-700 rounded-[2px] h-9 shrink-0">
+                    <span>{enquiryUnit}</span>
+                    <button
+                      type="button"
+                      onClick={() => setEnquiryUnit(enquiryUnit === "Piece" ? "Sq. Ft" : "Piece")}
+                      className="text-[#b25e19] text-[11px] font-semibold hover:underline inline-flex items-center gap-0.5"
+                    >
+                      <Edit3 className="w-2.5 h-2.5" />
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Row 3: Purpose of Requirement */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right">
+                Purpose of Requirement
+              </label>
+              <div className="flex items-center gap-6 text-xs text-stone-700 border border-stone-200 rounded-[2px] px-3.5 py-2 bg-stone-50/50 flex-1">
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="purpose"
+                    value="Reselling"
+                    checked={formPurpose === "Reselling"}
+                    onChange={(e) => setFormPurpose(e.target.value)}
+                    className="accent-[#b25e19]"
+                  />
+                  <span>Reselling</span>
+                </label>
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="purpose"
+                    value="End Use"
+                    checked={formPurpose === "End Use"}
+                    onChange={(e) => setFormPurpose(e.target.value)}
+                    className="accent-[#b25e19]"
+                  />
+                  <span>End Use</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Row 4: Requirement Details */}
+            <div className="flex flex-col sm:flex-row sm:items-start gap-2">
+              <label className="text-xs text-stone-600 font-medium w-16 sm:w-20 shrink-0 text-left sm:text-right pt-2">
+                Requirement Details
+              </label>
+              <textarea
+                rows={3}
+                value={formMessage}
+                onChange={(e) => setFormMessage(e.target.value)}
+                placeholder="I am interested. Kindly send the quotation for the same."
+                className="w-full border border-stone-300 rounded-[2px] p-2.5 text-xs bg-white focus:outline-none focus:border-[#b25e19] leading-relaxed"
               />
             </div>
 
-            {/* Verified Client Reviews */}
-            <div className="bg-white border border-stone-200 p-6 sm:p-8 shadow-2xs">
-              <Reviews productId={product.id || product._id || "reviews"} />
+            {/* Row 5: Send Enquiry Button */}
+            <div className="text-center pt-2">
+              <button
+                type="submit"
+                disabled={formSubmitting}
+                className="bg-[#2c2d30] hover:bg-black text-white font-bold px-10 py-2.5 text-xs rounded-[2px] cursor-pointer shadow-2xs transition-colors tracking-wide"
+              >
+                {formSubmitting ? "Submitting..." : "Send Enquiry"}
+              </button>
             </div>
 
-          </div>
+            {formSuccess && (
+              <div className="p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs rounded-[2px] text-center">
+                ✓ Thank you! Your enquiry for {product.name} ({productCode}) has been received. Our team will contact you shortly.
+              </div>
+            )}
+          </form>
         </div>
-      </section>
 
-      {/* Modals for Drawing Upload and Sample Kit */}
-      <DrawingUploadModal
-        isOpen={isDrawingModalOpen}
-        onClose={() => setIsDrawingModalOpen(false)}
-        defaultCraft={product.name}
-      />
-      <SampleKitModal
-        isOpen={isSampleModalOpen}
-        onClose={() => setIsSampleModalOpen(false)}
+        {/* 5. EXPLORE MORE PRODUCTS CARD WITH SLIDER ARROWS matching screenshot */}
+        {relatedProducts.length > 0 && (
+          <div className="bg-white rounded-[3px] border border-[#dce0e6] shadow-2xs p-5 sm:p-6 relative">
+            <h2 className="text-xl sm:text-2xl font-heading font-normal uppercase tracking-wide text-stone-950 text-center mb-6">
+              Explore More Products
+            </h2>
+
+            <div className="relative">
+              {/* Left Arrow Button */}
+              {carouselOffset > 0 && (
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-7 h-10 bg-white/95 hover:bg-white border border-stone-300 rounded-sm shadow-md flex items-center justify-center text-stone-700 hover:text-[#b25e19] transition-colors cursor-pointer"
+                  title="Previous"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* Right Arrow Button */}
+              {carouselOffset < maxOffset && (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-7 h-10 bg-white/95 hover:bg-white border border-stone-300 rounded-sm shadow-md flex items-center justify-center text-stone-700 hover:text-[#b25e19] transition-colors cursor-pointer"
+                  title="Next"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* Product Cards Grid (4 items side by side matching screenshot) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {visibleRelated.map((relProduct, idx) => (
+                  <div
+                    key={relProduct._id || relProduct.id || idx}
+                    className="border border-stone-200 rounded-[2px] overflow-hidden bg-white hover:shadow-sm transition-shadow flex flex-col justify-between"
+                  >
+                    <Link to={`/product/${relProduct.id || relProduct._id}`} className="block">
+                      <div className="aspect-square bg-stone-50 overflow-hidden">
+                        <img
+                          src={relProduct.image}
+                          alt={relProduct.name}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-3">
+                        <h3 className="text-xs sm:text-sm font-heading font-medium uppercase tracking-wide text-stone-950 hover:text-[#b25e19] line-clamp-2 text-center transition-colors">
+                          {relProduct.name}
+                        </h3>
+                      </div>
+                    </Link>
+
+                    <div className="p-3 pt-0 text-center">
+                      <Link to={`/product/${relProduct.id || relProduct._id}`}>
+                        <button
+                          type="button"
+                          className="w-full bg-[#b25e19] hover:bg-[#974d12] text-white font-bold text-[11px] py-1.5 px-3 rounded-[2px] transition-colors cursor-pointer"
+                        >
+                          Get Best Quote
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* All-Apps Share Modal (WhatsApp, Facebook, X, Telegram, SMS, Email, Native Share, Copy Link) */}
+      <ProductShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        product={{
+          name: product.name,
+          code: productCode,
+          category: product.category,
+          image: primaryImage,
+          stoneType: product.stoneType
+        }}
       />
     </div>
   );

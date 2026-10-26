@@ -24,8 +24,8 @@ export default function CustomOrderProcess() {
       icon: Ruler,
       title: l("Stone Selection & Size Approval", "पत्थर व साइज फाइनल करें"),
       description: l(
-        "Choose your preferred stone: Gwalior, Dhaulpur, Bansi Paharpur, or Makrana Marble. We finalize exact dimensions before carving.",
-        "ग्वालियर, धौलपुर, बंसी पहाड़पुर या मकराना मार्बल में से पत्थर चुनें। नक्काशी से पहले नाप फाइनल होगा।"
+        "Choose your preferred stone: Gwalior Mint, Dholpur, Bansi Paharpur, or Red Sandstone. We finalize exact dimensions before carving.",
+        "ग्वालियर मिंट, धौलपुर, बंसी पहाड़पुर या लाल सैंडस्टोन में से पत्थर चुनें। नक्काशी से पहले नाप फाइनल होगा।"
       ),
       badge: l("Step 2 • Material & Drawing", "चरण 2 • पत्थर व ड्राइंग"),
     },

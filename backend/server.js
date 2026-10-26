@@ -181,47 +181,7 @@ const inquirySchema = new mongoose.Schema({
 
 const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
-// Calculator Rates Model
-const DEFAULT_STONE_RATES = [
-  { id: "gwalior-mint", nameEn: "Gwalior White Mint Stone", nameHi: "ग्वालियर व्हाइट मिंट स्टोन", baseSqFtRate: 450, descEn: "Ideal for fine CNC jalis & wall panels", descHi: "सीएनसी जाली व दीवार पैनल के लिए उपयुक्त", isAvailable: true },
-  { id: "dhaulpur-beige", nameEn: "Dholpur Beige / Pink Sandstone", nameHi: "धौलपुर सैंडस्टोन", baseSqFtRate: 480, descEn: "Ideal for haveli facades & carved pillars", descHi: "हवेली अग्रभाग व नक्काशीदार खंभों के लिए", isAvailable: true },
-  { id: "bansi-paharpur", nameEn: "Bansi Paharpur Pink Stone", nameHi: "बंसी पहाड़पुर पिंक स्टोन", baseSqFtRate: 650, descEn: "Temple grade, monumental durability", descHi: "मंदिर निर्माण हेतु सबसे मजबूत पत्थर", isAvailable: true },
-  { id: "jodhpur-red", nameEn: "Jodhpur Imperial Red Stone", nameHi: "जोधपुर रेड स्टोन", baseSqFtRate: 520, descEn: "Heavy load-bearing, gates & pillars", descHi: "मजबूत खंभों, मुख्य द्वारों के लिए", isAvailable: true },
-  { id: "makrana-white", nameEn: "Makrana Pure White Marble", nameHi: "मकराना सफेद संगमरमर", baseSqFtRate: 1250, descEn: "Pure calcite white marble", descHi: "शुद्ध सफेद मकराना मार्बल", isAvailable: true },
-];
 
-const DEFAULT_WORK_TYPES = [
-  { id: "cnc-jali", nameEn: "3D CNC Stone Jali & Screens", nameHi: "3D सीएनसी स्टोन जाली", factor: 1.0, isAvailable: true },
-  { id: "temple-mandir", nameEn: "Handcrafted Stone Temple (Mandir)", nameHi: "हाथ से तराशा पत्थर का मंदिर", factor: 1.8, isAvailable: true },
-  { id: "haveli-facade", nameEn: "Haveli Facade, Pillars & Jharokhas", nameHi: "हवेली एलिवेशन, खंभे व झरोखे", factor: 1.4, isAvailable: true },
-  { id: "stone-chhatri", nameEn: "Stone Chhatri & Garden Pavilion", nameHi: "पत्थर की छतरी व मंडप", factor: 1.6, isAvailable: true },
-  { id: "wall-cladding", nameEn: "Stone Exterior Wall Cladding", nameHi: "बाहरी दीवार स्टोन क्लैडिंग", factor: 0.85, isAvailable: true },
-];
-
-const calculatorConfigSchema = new mongoose.Schema({
-  key: { type: String, default: "global", unique: true },
-  stoneRates: [{
-    id: String,
-    nameEn: String,
-    nameHi: String,
-    baseSqFtRate: Number,
-    descEn: String,
-    descHi: String,
-    isAvailable: { type: Boolean, default: true }
-  }],
-  workTypes: [{
-    id: String,
-    nameEn: String,
-    nameHi: String,
-    factor: Number,
-    isAvailable: { type: Boolean, default: true }
-  }],
-  wastagePercent: { type: Number, default: 8 },
-  installationSurcharge: { type: Number, default: 15 },
-  lastUpdatedBy: { type: String, default: "admin" }
-}, { timestamps: true });
-
-const CalculatorConfig = mongoose.model('CalculatorConfig', calculatorConfigSchema);
 
 // Site Settings Model & Defaults
 const DEFAULT_SITE_SETTINGS = {
@@ -233,11 +193,11 @@ const DEFAULT_SITE_SETTINGS = {
   workshopAddress: "Front of Surya City, Paldi Meena, Agra Road, Jaipur 302031, Rajasthan, India",
   workshopCity: "Jaipur, Rajasthan",
   workingHours: "Mon - Sun: 8:00 AM - 7:00 PM",
-  gstNumber: "08AAAAA0000A1Z5",
+  gstNumber: "08CUUPS3588K1ZE",
   announcementActive: true,
   announcementText: "✨ DIRECT JAIPUR WORKSHOP & MANUFACTURER: Handcrafted Temples, 3D CNC Stone Jalis & Chhatris",
   heroBadge: "DIRECT JAIPUR WORKSHOP & MANUFACTURER",
-  heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Makrana Marble",
+  heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Red Sandstone",
   googleReviewsUrl: "https://www.google.com/maps/place/R+K+Stone+Carporation/",
   mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201.27391904159717!2d75.90287731088574!3d26.88321687556189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db974c9f18089%3A0xc82bf12c6b0f9fa9!2sR%20K%20Stone%20Carporation!5e1!3m2!1sen!2sin!4v1761640201109!5m2!1sen!2sin",
   socialInstagram: "https://instagram.com/rkstonecorporation",
@@ -1003,72 +963,7 @@ app.get('/api/admin/stats', async (req, res) => {
   }
 });
 
-// Calculator Rates APIs (Public GET, Admin PUT & Reset)
-app.get('/api/calculator-rates', async (req, res) => {
-  try {
-    let config = await CalculatorConfig.findOne({ key: "global" });
-    if (!config) {
-      config = new CalculatorConfig({
-        key: "global",
-        stoneRates: DEFAULT_STONE_RATES,
-        workTypes: DEFAULT_WORK_TYPES,
-        wastagePercent: 8,
-        installationSurcharge: 15
-      });
-      await config.save();
-    }
-    res.json(config);
-  } catch (err) {
-    console.warn("Calculator rates fallback:", err.message);
-    res.json({
-      key: "global",
-      stoneRates: DEFAULT_STONE_RATES,
-      workTypes: DEFAULT_WORK_TYPES,
-      wastagePercent: 8,
-      installationSurcharge: 15,
-      fallback: true
-    });
-  }
-});
 
-app.put('/api/admin/calculator-rates', async (req, res) => {
-  try {
-    const { stoneRates, workTypes, wastagePercent, installationSurcharge, updatedBy } = req.body;
-    let config = await CalculatorConfig.findOne({ key: "global" });
-    if (!config) {
-      config = new CalculatorConfig({ key: "global" });
-    }
-    if (Array.isArray(stoneRates)) config.stoneRates = stoneRates;
-    if (Array.isArray(workTypes)) config.workTypes = workTypes;
-    if (typeof wastagePercent === 'number') config.wastagePercent = wastagePercent;
-    if (typeof installationSurcharge === 'number') config.installationSurcharge = installationSurcharge;
-    config.lastUpdatedBy = updatedBy || "admin";
-
-    await config.save();
-    res.json({ success: true, message: "Calculator rates updated successfully.", config });
-  } catch (err) {
-    console.error("Error updating calculator rates:", err);
-    res.status(500).json({ error: "Failed to update calculator rates." });
-  }
-});
-
-app.post('/api/admin/calculator-rates/reset', async (req, res) => {
-  try {
-    let config = await CalculatorConfig.findOne({ key: "global" });
-    if (!config) {
-      config = new CalculatorConfig({ key: "global" });
-    }
-    config.stoneRates = DEFAULT_STONE_RATES;
-    config.workTypes = DEFAULT_WORK_TYPES;
-    config.wastagePercent = 8;
-    config.installationSurcharge = 15;
-    config.lastUpdatedBy = "factory-reset";
-    await config.save();
-    res.json({ success: true, message: "Calculator rates reset to factory defaults.", config });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to reset calculator rates." });
-  }
-});
 
 // Site Settings APIs (Public GET, Admin PUT & Reset)
 app.get('/api/site-settings', async (req, res) => {
@@ -1076,6 +971,9 @@ app.get('/api/site-settings', async (req, res) => {
     let settings = await SiteSettings.findOne({ key: "global" });
     if (!settings) {
       settings = new SiteSettings({ key: "global", ...DEFAULT_SITE_SETTINGS });
+      await settings.save();
+    } else if (settings.gstNumber === "08AAAAA0000A1Z5" || !settings.gstNumber) {
+      settings.gstNumber = "08CUUPS3588K1ZE";
       await settings.save();
     }
     res.json(settings);

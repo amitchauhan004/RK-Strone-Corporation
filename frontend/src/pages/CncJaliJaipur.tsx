@@ -43,7 +43,7 @@ export default function CncJaliJaipur() {
       title: l("Heritage Mughal & Rajasthani Lattice Jalis", "पारंपरिक राजस्थानी व मुगल जाली"),
       subtitle: l("Authentic Geometries & Floral Filigree", "पारंपरिक ज्यामितीय व फूल-पत्ती पैटर्न"),
       thickness: l("25mm to 50mm Precision Slabs", "25mm से 50mm स्लैब"),
-      bestStones: l("Makrana White Marble & Bansi Paharpur Pink", "मकराना सफेद मार्बल व गुलाबी सैंडस्टोन"),
+      bestStones: l("Gwalior Mint Stone & Bansi Paharpur Pink", "ग्वालियर मिंट स्टोन व गुलाबी सैंडस्टोन"),
       description: l(
         "Inspired by the fretwork of Jaipur's Amber Fort. Precision 5-axis waterjet and diamond blade profiling, hand-finished to reflect natural daylight with regal softness.",
         "आमेर किले और राजस्थानी महलों से प्रेरित पारंपरिक जालियां। बारीक कटिंग और हाथ की फिनिशिंग के साथ, जो धूप को छानकर कमरे को ठंडा और शांत रखती हैं।"
@@ -59,7 +59,7 @@ export default function CncJaliJaipur() {
       title: l("3D Textured & Fluted Wall Panels", "3D नक्काशीदार वॉल पैनल"),
       subtitle: l("Deep Sculptural Wave & Bas-Relief Stone Slabs", "गहरी 3D नक्काशी व वेव्स पैनल"),
       thickness: l("40mm to 100mm Monolithic Panels", "40mm से 100mm ठोस पैनल"),
-      bestStones: l("Jodhpur Sandstone, Red Stone & Makrana Marble", "जोधपुर सैंडस्टोन, लाल पत्थर व मार्बल"),
+      bestStones: l("Jodhpur Sandstone, Red Stone & Dholpur Beige", "जोधपुर सैंडस्टोन, लाल पत्थर व धौलपुर बेज"),
       description: l(
         "Monolithic accent slabs with deep multi-dimensional carving. Creates tactile luxury in entrance foyers, master bedrooms, and water feature backdrops with integrated backlighting.",
         "गहरी 3D नक्काशी वाले पत्थर के पैनल। घर के मुख्य प्रवेश द्वार, लिविंग रूम की दीवार या फव्वारे के पीछे लगाने पर यह घर को लक्जरी लुक देते हैं।"
@@ -83,7 +83,7 @@ export default function CncJaliJaipur() {
           "Custom 5-axis CNC-cut marble and sandstone jalis in Jaipur. Parametric facade screens, traditional Rajasthani lattice, and 3D fluted panels. Direct manufacturer.",
           "जयपुर में निर्मित सीएनसी स्टोन जालियां, मार्बल जाली, सैंडस्टोन वॉल पैनल और एलिवेशन स्क्रीन्स। सीधे कारखाने से आपूर्ति।"
         )}
-        keywords="cnc jali jaipur, stone facade screen jaipur, sandstone jali manufacturer, 3d stone wall panel jaipur, exterior architectural screen, makrana marble jali"
+        keywords="cnc jali jaipur, stone facade screen jaipur, sandstone jali manufacturer, 3d stone wall panel jaipur, exterior architectural screen, gwalior mint jali"
       />
 
       {/* Editorial Hero Header */}
@@ -231,8 +231,8 @@ export default function CncJaliJaipur() {
             <Reveal direction="up" delay={0.15}>
               <p className="text-stone-600 text-base font-light mt-4 leading-relaxed">
                 {l(
-                  "Explore our fabrication series crafted in natural Rajasthan sandstones and Makrana marbles for facades, interior dividers, and exterior walls.",
-                  "सैंडस्टोन और संगमरमर में बनी हमारी प्रमुख सीएनसी जाली श्रेणियां, जो घर के एलिवेशन और इनडोर डेकोरेशन दोनों के लिए श्रेष्ठ हैं।"
+                  "Explore our fabrication series crafted in natural Rajasthan sandstones and Gwalior mint stones for facades, interior dividers, and exterior walls.",
+                  "सैंडस्टोन और ग्वालियर मिंट स्टोन में बनी हमारी प्रमुख सीएनसी जाली श्रेणियां, जो घर के एलिवेशन और इनडोर डेकोरेशन दोनों के लिए श्रेष्ठ हैं।"
                 )}
               </p>
             </Reveal>

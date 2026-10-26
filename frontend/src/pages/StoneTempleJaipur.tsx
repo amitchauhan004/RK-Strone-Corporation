@@ -30,7 +30,7 @@ export default function StoneTempleJaipur() {
       title: l("Home & Penthouse Stone Mandirs", "घर व विला के लिए नक्काशीदार मंदिर"),
       subtitle: l("Indoor & Home Stone Mandirs", "मनचाहे साइज़ में इनडोर व होम मंदिर"),
       scale: l("Heights: 4 Feet to 10 Feet | Widths: 3 Feet to 12 Feet", "ऊंचाई: 4 से 10 फीट | चौड़ाई: 3 से 12 फीट"),
-      stoneUsed: l("Pristine Makrana White Marble (Pure Calcite)", "शुद्ध मकराना सफेद संगमरमर (प्योर मार्बल)"),
+      stoneUsed: l("Natural Dholpur Beige & Bansi Paharpur Pink Sandstone", "धौलपुर बेज व बंसी पहाड़पुर गुलाबी सैंडस्टोन"),
       description: l(
         "Beautiful stone temples handcrafted for homes and villas. Features hand-carved pillars, LED lighting channels, and smooth drawers for pooja samagri.",
         "घरों और विला के लिए विशेष रूप से तैयार मंदिर। नक्काशीदार खंभे, पूजा सामग्री के लिए गुप्त ड्रॉअर और एलईडी लाइटिंग की सुंदर व्यवस्था।"
@@ -62,7 +62,7 @@ export default function StoneTempleJaipur() {
       title: l("Community & Trust Temples", "सार्वजनिक व ट्रस्ट के भव्य मंदिर"),
       subtitle: l("Large-Scale Temple Projects", "विशाल धार्मिक परिसर व नागर शैली मंदिर"),
       scale: l("Complexes from 1,000 to 15,000+ Square Feet", "1,000 से 15,000+ वर्ग फीट का परिसर"),
-      stoneUsed: l("Selected Quarry Sandstone & Makrana Marble", "सैंडस्टोन व मकराना मार्बल"),
+      stoneUsed: l("Selected Quarry Bansi Paharpur & Dholpur Sandstone", "बंसी पहाड़पुर व धौलपुर सैंडस्टोन"),
       description: l(
         "Built strictly according to traditional temple architecture treatises. Complete turnkey fabrication from foundation stones to garbhagriha, sabhamandap, and tall shikhars.",
         "प्राचीन नागर व द्रविड़ शैलियों के अनुसार निर्मित। गर्भगृह, सभामंडप और भव्य शिखरों के साथ संपूर्ण प्रोजेक्ट का निर्माण व ऑन-साइट स्थापना।"
@@ -90,8 +90,8 @@ export default function StoneTempleJaipur() {
       name: l("The Garbhagriha & Singhasan", "गर्भगृह व सिंहासन"),
       meaning: l("The Divine Sanctum", "ईश्वरीय आसन"),
       description: l(
-        "Pure monolithic Makrana marble pedestal with integrated abhishek water drainage grooves and mirror-polished backdrop.",
-        "मकराना मार्बल से बना ठोस सिंहासन, अभिषेक जल निकासी का उचित मार्ग और सुंदर पॉलिश बैकड्रॉप।"
+        "Solid natural sandstone pedestal with integrated abhishek water drainage grooves and hand-carved backdrop.",
+        "ठोस प्राकृतिक सैंडस्टोन से बना सिंहासन, अभिषेक जल निकासी का उचित मार्ग और सुंदर नक्काशीदार बैकड्रॉप।"
       )
     },
     {
@@ -118,14 +118,14 @@ export default function StoneTempleJaipur() {
     <div className="bg-[#FAF8F5] text-stone-900 min-h-screen">
       <Seo
         title={l(
-          "Custom Stone Temples & Mandirs in Jaipur | Makrana Marble & Sandstone",
-          "हाथ से बने पत्थर के मंदिर व होम मंदिर जयपुर | मकराना मार्बल व सैंडस्टोन"
+          "Custom Stone Temples & Mandirs in Jaipur | Sandstone & Mandir Stone",
+          "हाथ से बने पत्थर के मंदिर व होम मंदिर जयपुर | सैंडस्टोन व मंदिर शिल्प"
         )}
         description={l(
-          "Commission bespoke sacred stone temples and mandirs handcrafted in Jaipur. Pure Makrana white marble, Bansi Paharpur sandstone, and pan-India installation.",
-          "जयपुर में बने संगमरमर और सैंडस्टोन के भव्य मंदिर। मकराना सफेद मार्बल, गुलाबी सैंडस्टोन, सुंदर नक्काशी और पूरे भारत में सुरक्षित फिटिंग।"
+          "Commission bespoke sacred stone temples and mandirs handcrafted in Jaipur. Pure Dholpur sandstone, Bansi Paharpur pink stone, and pan-India installation.",
+          "जयपुर में बने सैंडस्टोन के भव्य मंदिर। धौलपुर व बंसी पहाड़पुर गुलाबी सैंडस्टोन, सुंदर नक्काशी और पूरे भारत में सुरक्षित फिटिंग।"
         )}
-        keywords="stone temple jaipur, custom mandir jaipur, makrana marble temple, sandstone temple manufacturer, ghar mandir jaipur, shikhara temple craft"
+        keywords="stone temple jaipur, custom mandir jaipur, sandstone temple manufacturer, bansi paharpur temple, dholpur mandir jaipur, ghar mandir jaipur, shikhara temple craft"
       />
 
       {/* Editorial Hero Header */}
@@ -153,8 +153,8 @@ export default function StoneTempleJaipur() {
           <Reveal direction="up" delay={0.15} duration={0.9}>
             <p className="text-sm sm:text-lg lg:text-xl text-white/80 font-light leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-10">
               {l(
-                "Handcrafted in Jaipur from pristine Makrana white marble and holy Bansi Paharpur pink sandstone. Built with strict adherence to traditional proportions, long-lasting durability, and divine aesthetics.",
-                "शुद्ध मकराना सफेद संगमरमर और बंसी पहाड़पुर गुलाबी पत्थर से निर्मित। पारंपरिक अनुपातों, बारीक कारीगरी और सदियों तक टिकने वाली मजबूती के साथ।"
+                "Handcrafted in Jaipur from authentic Dholpur sandstone and holy Bansi Paharpur pink sandstone. Built with strict adherence to traditional proportions, long-lasting durability, and divine aesthetics.",
+                "धौलपुर सैंडस्टोन और बंसी पहाड़पुर गुलाबी पत्थर से निर्मित। पारंपरिक अनुपातों, बारीक कारीगरी और सदियों तक टिकने वाली मजबूती के साथ।"
               )}
             </p>
           </Reveal>
@@ -196,12 +196,12 @@ export default function StoneTempleJaipur() {
                   {l("PURITY ASSURED", "शुद्धता की गारंटी")}
                 </div>
                 <div className="text-lg font-heading font-medium uppercase">
-                  {l("100% MAKRANA CALCITE", "100% मकराना मार्बल")}
+                  {l("100% NATURAL SANDSTONE", "100% शुद्ध सैंडस्टोन")}
                 </div>
                 <p className="text-xs text-white/60 mt-1 max-w-xs mx-auto">
                   {l(
-                    "Pure metamorphic stone that never yellows or absorbs moisture over decades.",
-                    "शुद्ध प्राकृतिक संगमरमर जो कभी पीला नहीं पड़ता और पानी नहीं सोखता।"
+                    "Dense, pure quarry-cut stone that never deteriorates or cracks under extreme weather.",
+                    "ठोस प्राकृतिक सैंडस्टोन जो कभी खराब नहीं होता और हर मौसम में सुरक्षित रहता है।"
                   )}
                 </p>
               </div>
@@ -428,14 +428,14 @@ export default function StoneTempleJaipur() {
               <div className="p-6 sm:p-8 bg-white border border-stone-200">
                 <h3 className="font-heading font-medium text-base sm:text-lg uppercase text-stone-950 mb-2">
                   {l(
-                    "How is Makrana White marble verified for sacred mandirs?",
-                    "मकराना सफेद मार्बल पूजा के लिए सबसे शुद्ध क्यों माना जाता है?"
+                    "Why is Bansi Paharpur & Dholpur Sandstone ideal for temples?",
+                    "मंदिर निर्माण के लिए बंसी पहाड़पुर व धौलपुर सैंडस्टोन क्यों सबसे उत्तम माना जाता है?"
                   )}
                 </h3>
                 <p className="text-stone-700 text-sm font-light leading-relaxed">
                   {l(
-                    "Makrana marble has 98%+ pure calcium carbonate and a dense crystalline structure. Unlike composite or artificial marbles, Makrana does not turn yellow, does not absorb pooja oil or kumkum, and remains pure for centuries.",
-                    "मकराना मार्बल 98%+ शुद्ध कैल्साइट होता है। यह धूप या तेल सोखने से कभी पीला नहीं पड़ता और सदियों तक इसकी पवित्रता और सफेदी बनी रहती है।"
+                    "Bansi Paharpur pink stone and Dholpur sandstone are the sacred time-tested stones chosen for India's grandest temples, including the Ayodhya Ram Mandir and Akshardham. Highly weather-resistant, structurally dense, and developing a richer antique patina over centuries.",
+                    "अयोध्या राम मंदिर और अक्षरधाम जैसे पवित्र धामों में इस्तेमाल होने वाला प्रसिद्ध बंसी पहाड़पुर गुलाबी पत्थर और धौलपुर सैंडस्टोन सदियों तक मौसम की मार को आसानी से सहता है और समय के साथ इसकी सुंदरता और निखरती है।"
                   )}
                 </p>
               </div>

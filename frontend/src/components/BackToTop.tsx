@@ -28,14 +28,15 @@ const BackToTop = () => {
   return (
     <>
       {isVisible && (
-        <Button
+        <button
           onClick={scrollToTop}
-          size="icon"
-          className="hidden md:flex fixed bottom-8 right-8 z-40 shadow-gold bg-accent hover:bg-accent/90 text-accent-foreground rounded-full w-11 h-11 cursor-pointer animate-fade-in"
+          type="button"
+          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-[#9A6735] hover:bg-[#855527] text-white rounded-[4px] w-10 h-10 items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer animate-fade-in"
           aria-label="Back to top"
+          title="Back to top"
         >
-          <ArrowUp className="w-5 h-5" />
-        </Button>
+          <ArrowUp className="w-5 h-5 text-white stroke-[2.5]" />
+        </button>
       )}
     </>
   );

@@ -4,18 +4,12 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  ChevronRight,
-  Crown, 
-  Building2, 
-  Grid3X3, 
-  Droplets, 
-  Briefcase,
-  Globe
+  ChevronRight
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
-import { categories } from "@/data/products";
+import { categories, products } from "@/data/products";
 
 const Navigation = () => {
   const { language, setLanguage, l } = useLanguage();
@@ -24,15 +18,11 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
   const [isMobileArchOpen, setIsMobileArchOpen] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState<string>("sandstone-temple");
   const location = useLocation();
 
-  const isArchitectureRoute = [
-    "/stone-temple-jaipur",
-    "/heritage-havelis",
-    "/cnc-jali-jaipur",
-    "/courtyard-artifacts",
-    "/architects"
-  ].includes(location.pathname);
+  const activeCategory = categories.find((c) => c.id === hoveredCategory) || categories[0];
+  const activeCategoryProducts = products.filter((p) => p.category === activeCategory.id);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,43 +37,8 @@ const Navigation = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsCollectionsOpen(false);
-    if (!isArchitectureRoute) {
-      setIsMobileArchOpen(false);
-    }
-  }, [location.pathname, isArchitectureRoute]);
-
-  const disciplines = [
-    {
-      name: l("Temples & Mandirs", "नक्काशीदार मंदिर"),
-      desc: l("Makrana White Marble & Sandstone", "मकराना सफेद मार्बल व सैंडस्टोन"),
-      path: "/stone-temple-jaipur",
-      icon: Crown
-    },
-    {
-      name: l("Haveli Facades & Columns", "हवेली व नक्काशीदार पिलर्स"),
-      desc: l("Rajasthani Pillars & Jharokhas", "राजस्थानी खंभे व नक्काशीदार झरोखे"),
-      path: "/heritage-havelis",
-      icon: Building2
-    },
-    {
-      name: l("CNC Stone Jalis", "3D सीएनसी पत्थर जाली"),
-      desc: l("Ventilation Lattices & Screens", "दीवार व वेंटिलेशन जाली स्क्रीन्स"),
-      path: "/cnc-jali-jaipur",
-      icon: Grid3X3
-    },
-    {
-      name: l("Courtyard & Fountains", "वाटर फाउंटेन व छतरियां"),
-      desc: l("Fountains, Chhatris & Sculptures", "शाही फव्वारे, छतरियां व मूर्तियां"),
-      path: "/courtyard-artifacts",
-      icon: Droplets
-    },
-    {
-      name: l("For Architects & Designers", "आर्किटेक्ट्स व डिजाइनर्स"),
-      desc: l("CAD Support & 3D Fabrication", "CAD सहायता व 3D पत्थर फैब्रिकेशन"),
-      path: "/architects",
-      icon: Briefcase
-    }
-  ];
+    setIsMobileArchOpen(false);
+  }, [location.pathname]);
 
   return (
     <nav
@@ -123,10 +78,18 @@ const Navigation = () => {
             </div>
           </Link>
 
-          {/* Clean Desktop Navigation (Only 5 Spaced Items) */}
+          {/* Clean Desktop Navigation (Focused & Clutter-Free) */}
           <div className="hidden lg:flex items-center gap-8">
-            
-            {/* Products / Architecture Dropdown matching official catalog */}
+            <Link
+              to="/"
+              className={`font-body text-sm font-medium tracking-wide transition-colors ${
+                location.pathname === "/" ? "text-accent font-semibold" : "text-stone-300 hover:text-white"
+              }`}
+            >
+              {l("Home", "होम")}
+            </Link>
+
+            {/* Products Mega Dropdown with Hover Flyout matching Photo 2 */}
             <div 
               className="relative"
               onMouseEnter={() => setIsCollectionsOpen(true)}
@@ -135,53 +98,105 @@ const Navigation = () => {
               <button
                 type="button"
                 className={`font-body text-sm font-medium tracking-wide flex items-center gap-1.5 transition-colors cursor-pointer py-2 ${
-                  isCollectionsOpen || ["/stone-temple-jaipur", "/heritage-havelis", "/cnc-jali-jaipur", "/courtyard-artifacts", "/architects"].includes(location.pathname)
+                  isCollectionsOpen || location.pathname === "/shop"
                     ? "text-accent"
                     : "text-stone-300 hover:text-white"
                 }`}
               >
-                <span>{l("Products (Architecture)", "उत्पाद व शिल्पकला")}</span>
+                <span>{l("Products", "उत्पाद")}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isCollectionsOpen ? "rotate-180 text-accent" : "text-stone-400"}`} />
               </button>
 
-              {/* Exact 16-Category Dropdown matching user screenshot Image 2 */}
+              {/* 2-Column Luxury Dropdown matching user screenshot Image 2 */}
               {isCollectionsOpen && (
                 <div 
-                  style={{ backgroundColor: "#141414" }}
-                  className="absolute top-full -left-4 w-84 max-h-[80vh] overflow-y-auto border border-stone-800 shadow-[0_25px_60px_rgba(0,0,0,0.95)] rounded-none z-[100] animate-in fade-in slide-in-from-top-1 duration-150"
+                  className="absolute top-full -left-6 flex border border-stone-200 bg-white shadow-[0_25px_60px_rgba(0,0,0,0.55)] rounded-none z-[100] animate-in fade-in slide-in-from-top-1 duration-150"
                 >
-                  {/* Gold accent top indicator */}
-                  <div className="sticky top-0 left-0 right-0 h-[2px] bg-accent shadow-[0_0_8px_#d4af37] z-10" />
+                  {/* Column 1: 16 Official Categories (width 320px, full names, NO truncation) */}
+                  <div className="w-[320px] bg-white border-r border-stone-200 max-h-[82vh] overflow-y-auto select-none">
+                    {/* Gold accent top indicator */}
+                    <div className="sticky top-0 left-0 right-0 h-[2.5px] bg-[#ad6b10] z-20" />
 
-                  {/* Header Title */}
-                  <div className="sticky top-0.5 bg-[#141414]/95 backdrop-blur-sm px-4 py-2 border-b border-white/10 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-accent z-10">
-                    <span>{l("16 Product Categories", "16 प्रमुख उत्पाद श्रेणियां")}</span>
-                    <Link to="/shop" className="text-white/60 hover:text-white underline text-[10px]">
-                      {l("View All", "सभी देखें")}
-                    </Link>
+                    <div className="divide-y divide-stone-100">
+                      {categories.map((cat) => {
+                        const isHovered = cat.id === activeCategory.id;
+                        return (
+                          <Link
+                            key={cat.id}
+                            to={`/shop?category=${cat.id}`}
+                            onMouseEnter={() => setHoveredCategory(cat.id)}
+                            onClick={() => setIsCollectionsOpen(false)}
+                            className={`flex items-center justify-between px-5 py-3 text-xs font-body transition-colors cursor-pointer group ${
+                              isHovered
+                                ? "bg-[#ad6b10] text-white font-semibold"
+                                : "text-stone-800 hover:bg-[#ad6b10]/10 hover:text-[#ad6b10]"
+                            }`}
+                          >
+                            <span className="leading-snug tracking-wide">{l(cat.name, cat.hindi)}</span>
+                            <ChevronRight
+                              className={`w-3.5 h-3.5 shrink-0 ml-3 transition-transform ${
+                                isHovered
+                                  ? "text-white translate-x-1"
+                                  : "text-stone-400 group-hover:text-[#ad6b10]"
+                              }`}
+                            />
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* 16 Category Items matching Image 2 */}
-                  <div className="divide-y divide-white/5">
-                    {categories.map((cat) => (
+                  {/* Column 2: Products Flyout for Hovered Category matching Photo 2 */}
+                  <div className="w-[350px] bg-white flex flex-col justify-between max-h-[82vh] overflow-y-auto">
+                    <div>
+                      {/* Active Category Header */}
+                      <div className="sticky top-0 bg-[#faf8f5] px-5 py-3 border-b border-stone-200 flex items-center justify-between text-xs font-semibold text-stone-900 z-10">
+                        <span className="uppercase tracking-wider text-[11px] font-mono text-[#ad6b10]">
+                          {activeCategory.name}
+                        </span>
+                        <span className="text-[10px] font-mono text-stone-500">
+                          {activeCategoryProducts.length} {l("Products", "उत्पाद")}
+                        </span>
+                      </div>
+
+                      {/* Product Items matching Photo 2 */}
+                      <div className="divide-y divide-stone-100">
+                        {activeCategoryProducts.length > 0 ? (
+                          activeCategoryProducts.map((p) => (
+                            <Link
+                              key={p.id}
+                              to={`/shop?category=${activeCategory.id}&product=${p.id}`}
+                              onClick={() => setIsCollectionsOpen(false)}
+                              className="block px-5 py-3 text-xs text-stone-700 hover:text-[#ad6b10] hover:bg-[#faf8f5] transition-colors leading-relaxed group"
+                            >
+                              <div className="font-medium text-stone-900 group-hover:text-[#ad6b10] transition-colors">
+                                {l(p.name, p.nameHi || p.name)}
+                              </div>
+                              {p.dimensions && (
+                                <div className="text-[10px] text-stone-400 font-light mt-0.5">
+                                  {p.dimensions}
+                                </div>
+                              )}
+                            </Link>
+                          ))
+                        ) : (
+                          <div className="p-5 text-xs text-stone-500 italic">
+                            {l("Explore collection in catalog", "कैटलॉग में संपूर्ण संग्रह देखें")}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Prominent Gold "View All" Button at bottom (matching Photo 2) */}
+                    <div className="sticky bottom-0 bg-white p-3 border-t border-stone-200 shadow-md">
                       <Link
-                        key={cat.id}
-                        to={`/shop?category=${cat.id}`}
+                        to={`/shop?category=${activeCategory.id}`}
                         onClick={() => setIsCollectionsOpen(false)}
-                        className="flex items-center justify-between px-4 py-2.5 text-xs font-body text-stone-200 hover:text-stone-950 hover:bg-accent transition-all duration-150 group"
+                        className="block w-full py-3 bg-[#ad6b10] hover:bg-[#92590a] text-white text-center text-xs uppercase font-bold tracking-wider rounded-none shadow-sm transition-all"
                       >
-                        <span className="font-medium tracking-wide line-clamp-1">{cat.name}</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-stone-500 group-hover:text-stone-950 group-hover:translate-x-1 transition-transform shrink-0 ml-2" />
+                        {l("View All", "सभी उत्पाद देखें")}
                       </Link>
-                    ))}
-                  </div>
-
-                  {/* Footer Bar */}
-                  <div className="sticky bottom-0 bg-[#0d0d0d] p-3 border-t border-stone-800 flex items-center justify-between text-[11px] font-body text-white/70">
-                    <Link to="/architects" className="text-accent hover:underline flex items-center gap-1">
-                      <span>{l("Custom Bespoke Projects", "कस्टम प्रोजेक्ट्स")}</span>
-                    </Link>
-                    <span className="text-[10px] text-accent/80 font-mono">EST. 2009</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -194,24 +209,6 @@ const Navigation = () => {
               }`}
             >
               {l("Catalog & Shop", "कैटलॉग और शॉप")}
-            </Link>
-
-            <Link
-              to="/materials"
-              className={`font-body text-sm font-medium tracking-wide transition-colors ${
-                location.pathname === "/materials" ? "text-accent" : "text-stone-300 hover:text-white"
-              }`}
-            >
-              {l("Materials", "पत्थर प्रकार")}
-            </Link>
-
-            <Link
-              to="/portfolio"
-              className={`font-body text-sm font-medium tracking-wide transition-colors ${
-                location.pathname === "/portfolio" ? "text-accent" : "text-stone-300 hover:text-white"
-              }`}
-            >
-              {l("Portfolio", "हमारे काम")}
             </Link>
 
             <Link
@@ -327,7 +324,7 @@ const Navigation = () => {
                   }`}
                 >
                   <span className="flex items-center gap-2">
-                    <span>{l("Products & Architecture", "उत्पाद व शिल्पकला")}</span>
+                    <span>{l("Products", "उत्पाद")}</span>
                     <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-accent/20 text-accent font-bold">16</span>
                   </span>
                   <ChevronDown
@@ -349,7 +346,7 @@ const Navigation = () => {
                         }}
                         className="flex items-center justify-between p-2 text-xs text-stone-300 hover:text-accent hover:bg-white/5 transition-colors"
                       >
-                        <span className="line-clamp-1">{cat.name}</span>
+                        <span className="line-clamp-1">{l(cat.name, cat.hindi)}</span>
                         <ChevronRight className="w-3.5 h-3.5 text-stone-500 shrink-0 ml-2" />
                       </Link>
                     ))}
@@ -357,27 +354,7 @@ const Navigation = () => {
                 )}
               </div>
 
-              {/* Materials */}
-              <Link
-                to="/materials"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`block font-body text-sm font-medium py-2.5 transition-colors ${
-                  location.pathname === "/materials" ? "text-accent font-semibold" : "text-stone-300 hover:text-white"
-                }`}
-              >
-                {l("Materials", "पत्थर प्रकार")}
-              </Link>
 
-              {/* Portfolio */}
-              <Link
-                to="/portfolio"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`block font-body text-sm font-medium py-2.5 transition-colors ${
-                  location.pathname === "/portfolio" ? "text-accent font-semibold" : "text-stone-300 hover:text-white"
-                }`}
-              >
-                {l("Portfolio", "हमारे काम")}
-              </Link>
 
               {/* About Us */}
               <Link
