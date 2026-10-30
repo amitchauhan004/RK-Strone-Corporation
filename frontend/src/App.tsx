@@ -25,6 +25,7 @@ import Architects from './pages/Architects';
 import Portfolio from './pages/Portfolio';
 import HeritageHavelis from './pages/HeritageHavelis';
 import CourtyardArtifacts from './pages/CourtyardArtifacts';
+import Flipbook from './pages/Flipbook';
 
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { SiteSettingsProvider } from "@/contexts/SiteSettingsContext";
@@ -71,6 +72,10 @@ function RouterContent() {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/heritage-havelis" element={<HeritageHavelis />} />
           <Route path="/courtyard-artifacts" element={<CourtyardArtifacts />} />
+          <Route path="/flipbook" element={<Flipbook />} />
+          <Route path="/catalog-flipbook" element={<Flipbook />} />
+          <Route path="/brochure" element={<Flipbook />} />
+          <Route path="/Flipbook.htm" element={<Navigate to="/flipbook" replace />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/cart" element={<Navigate to="/contact" replace />} />

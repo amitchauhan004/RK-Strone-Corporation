@@ -3,11 +3,12 @@ import { User, Calendar, Users, Briefcase, ArrowRight, MapPin, Building, ShieldC
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import logo from "@/assets/logo.png";
-import aboutWorkshop from "@/assets/about-workshop.jpg";
 
 export function AboutSection() {
   const { l } = useLanguage();
+  const { siteSettings } = useSiteSettings();
 
   return (
     <section className="py-20 md:py-28 bg-[#FAF8F5] text-stone-900 relative overflow-hidden border-t border-stone-200">
@@ -37,7 +38,7 @@ export function AboutSection() {
                       {l("JAIPUR WORKSHOP & HEADQUARTERS", "जयपुर वर्कशॉप व मुख्यालय")}
                     </div>
                     <div className="text-xs sm:text-sm font-semibold text-stone-900">
-                      {l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
+                      {siteSettings.workshopAddress || l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
                     </div>
                   </div>
                 </div>
@@ -52,7 +53,7 @@ export function AboutSection() {
               <div className="flex items-center gap-3">
                 <span className="w-1.5 h-8 bg-accent rounded-full shrink-0" />
                 <h2 className="text-2xl sm:text-4xl font-heading font-normal uppercase tracking-wide text-stone-950">
-                  {l("About RK Stone Corporation", "आरके स्टोन कॉर्पोरेशन के बारे में")}
+                  {siteSettings.aboutHeading || l("About RK Stone Corporation", "आरके स्टोन कॉर्पोरेशन के बारे में")}
                 </h2>
               </div>
             </Reveal>
@@ -60,7 +61,7 @@ export function AboutSection() {
             {/* Main Narrative Text */}
             <Reveal direction="up" delay={0.15}>
               <p className="text-stone-700 font-light text-sm sm:text-base leading-relaxed">
-                {l(
+                {siteSettings.aboutStory || l(
                   "RK Stone Corporation, established in 2009, is a renowned Manufacturer and Supplier of premium sandstone products based in Rajasthan, India. The company specializes in crafting exquisite Sandstone Temples, Temple Entry Gates, and Dholpur Sandstone Temples that reflect timeless Indian architecture. Its diverse product range includes Sandstone Grills, Lamps, Gazebos, Fountains, Garden Benches, Planters, and Decorative Sandstone Spheres.",
                   "आरके स्टोन कॉर्पोरेशन, 2009 में स्थापित, राजस्थान में प्रीमियम सैंडस्टोन उत्पादों का एक प्रतिष्ठित निर्माता और आपूर्तिकर्ता है। कंपनी उत्कृष्ट सैंडस्टोन मंदिर, मंदिर प्रवेश द्वार और धौलपुर सैंडस्टोन मंदिर तराशने में माहिर है जो कालातीत भारतीय वास्तुकला को दर्शाते हैं। हमारी विविध उत्पाद श्रृंखला में सैंडस्टोन जाली/ग्रिल, लैंप, गज़ेबो/छतरियां, वाटर फाउंटेन, गार्डन बेंच, प्लांटर्स और नक्काशीदार स्टोन बॉल्स शामिल हैं।"
                 )}
@@ -91,7 +92,7 @@ export function AboutSection() {
                       {l("Name of Founder", "संस्थापक का नाम")}
                     </div>
                     <div className="text-sm font-heading font-medium text-stone-950 mt-0.5">
-                      {l("Mr. Rajendra Saini", "श्री राजेंद्र सैनी")}
+                      {siteSettings.founderName || l("Mr. Rajendra Saini", "श्री राजेंद्र सैनी")}
                     </div>
                   </div>
                 </div>
@@ -106,7 +107,7 @@ export function AboutSection() {
                       {l("Year of Establishment", "स्थापना वर्ष")}
                     </div>
                     <div className="text-sm font-heading font-medium text-stone-950 mt-0.5">
-                      2009
+                      {siteSettings.estYear || "2009"}
                     </div>
                   </div>
                 </div>
@@ -121,7 +122,7 @@ export function AboutSection() {
                       {l("Number of Employees", "कारीगर व कर्मचारी")}
                     </div>
                     <div className="text-sm font-heading font-medium text-stone-950 mt-0.5">
-                      {l("20 Employees", "20 कुशल कारीगर व स्टाफ")}
+                      {siteSettings.employeesCount || l("20 Employees", "20 कुशल कारीगर व स्टाफ")}
                     </div>
                   </div>
                 </div>
@@ -136,7 +137,7 @@ export function AboutSection() {
                       {l("Nature of Business", "व्यवसाय का प्रकार")}
                     </div>
                     <div className="text-sm font-heading font-medium text-stone-950 mt-0.5">
-                      {l("Manufacturer, Supplier", "निर्माता व आपूर्तिकर्ता")}
+                      {siteSettings.businessNature || l("Manufacturer, Supplier", "निर्माता व आपूर्तिकर्ता")}
                     </div>
                   </div>
                 </div>
@@ -147,15 +148,15 @@ export function AboutSection() {
               <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-stone-600 font-light">
                 <span className="inline-flex items-center gap-1.5 bg-stone-200/70 px-3 py-1 rounded-full text-[11px]">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent" />
-                  {l("Legal Status: Individual - Proprietor", "कानूनी स्थिति: प्रोपराइटरशिप")}
+                  {siteSettings.businessStatus ? `Legal Status: ${siteSettings.businessStatus}` : l("Legal Status: Individual - Proprietor", "कानूनी स्थिति: प्रोपराइटरशिप")}
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-stone-200/70 px-3 py-1 rounded-full text-[11px]">
                   <Building className="w-3.5 h-3.5 text-accent" />
-                  {l("Annual Turnover: ₹1 - 2 Crore", "वार्षिक टर्नओवर: ₹1 - 2 करोड़")}
+                  {siteSettings.annualTurnover ? `Annual Turnover: ${siteSettings.annualTurnover}` : l("Annual Turnover: ₹1 - 2 Crore", "वार्षिक टर्नओवर: ₹1 - 2 करोड़")}
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-stone-200/70 px-3 py-1 rounded-full text-[11px]">
                   <MapPin className="w-3.5 h-3.5 text-accent" />
-                  {l("Jaipur, Rajasthan, India", "जयपुर, राजस्थान, भारत")}
+                  {siteSettings.workshopCity || l("Jaipur, Rajasthan, India", "जयपुर, राजस्थान, भारत")}
                 </span>
               </div>
             </Reveal>

@@ -23,10 +23,12 @@ import { Reveal } from "@/components/ui/Reveal";
 import workshopImg from "@/assets/about-workshop.jpg";
 import logo from "@/assets/logo.png";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { categories } from "@/data/products";
 
 export default function About() {
   const { l } = useLanguage();
+  const { siteSettings } = useSiteSettings();
 
   return (
     <div className="bg-[#FAF8F5] text-stone-900 min-h-screen">
@@ -135,19 +137,25 @@ export default function About() {
               <Reveal direction="up" delay={0.35}>
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-stone-200">
                   <div>
-                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">2009</div>
+                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">
+                      {siteSettings.estYear || "2009"}
+                    </div>
                     <div className="text-[11px] font-mono uppercase tracking-wider text-accent mt-0.5 font-semibold">
                       {l("Est. Year", "स्थापना वर्ष")}
                     </div>
                   </div>
                   <div>
-                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">20+</div>
+                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">
+                      {siteSettings.employeesCount || "20+"}
+                    </div>
                     <div className="text-[11px] font-mono uppercase tracking-wider text-accent mt-0.5 font-semibold">
                       {l("Artisans & Staff", "कारीगर व स्टाफ")}
                     </div>
                   </div>
                   <div>
-                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">₹1-2 Cr</div>
+                    <div className="text-2xl sm:text-3xl font-heading font-medium text-stone-950">
+                      {siteSettings.annualTurnover || "₹1-2 Cr"}
+                    </div>
                     <div className="text-[11px] font-mono uppercase tracking-wider text-accent mt-0.5 font-semibold">
                       {l("Turnover", "वार्षिक टर्नओवर")}
                     </div>
@@ -174,7 +182,7 @@ export default function About() {
                       {l("WORKSHOP & MANUFACTURING YARD", "वर्कशॉप व निर्माण केंद्र")}
                     </div>
                     <div className="text-xs sm:text-sm font-semibold text-stone-900">
-                      {l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
+                      {siteSettings.workshopAddress || l("Front of Surya City, Paldi Meena, Agra Road, Jaipur, Rajasthan", "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर, राजस्थान")}
                     </div>
                   </div>
                 </div>
@@ -207,7 +215,7 @@ export default function About() {
                     <span>{l("Nature of Business", "व्यवसाय का प्रकार")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0 font-medium">
-                    {l("Manufacturer, Supplier", "निर्माता व आपूर्तिकर्ता (Manufacturer & Supplier)")}
+                    {siteSettings.businessNature || l("Manufacturer, Supplier", "निर्माता व आपूर्तिकर्ता (Manufacturer & Supplier)")}
                   </div>
                 </div>
 
@@ -217,7 +225,7 @@ export default function About() {
                     <span>{l("Name of Founder", "संस्थापक का नाम")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-900 font-semibold mt-1 sm:mt-0">
-                    {l("Mr. Rajendra Saini", "श्री राजेंद्र सैनी")}
+                    {siteSettings.founderName || l("Mr. Rajendra Saini", "श्री राजेंद्र सैनी")}
                   </div>
                 </div>
 
@@ -227,7 +235,7 @@ export default function About() {
                     <span>{l("Year of Establishment", "स्थापना वर्ष")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0">
-                    2009
+                    {siteSettings.estYear || "2009"}
                   </div>
                 </div>
 
@@ -237,7 +245,7 @@ export default function About() {
                     <span>{l("Total Number of Employees", "कर्मचारियों की कुल संख्या")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0">
-                    {l("20 Employees (Master Artisans & Staff)", "20 कर्मचारी (कुशल शिल्पकार व स्टाफ)")}
+                    {siteSettings.employeesCount || l("20 Employees (Master Artisans & Staff)", "20 कर्मचारी (कुशल शिल्पकार व स्टाफ)")}
                   </div>
                 </div>
 
@@ -247,7 +255,7 @@ export default function About() {
                     <span>{l("Legal Status of Firm", "फर्म की कानूनी स्थिति")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0">
-                    {l("Individual - Proprietor", "एकल स्वामित्व - प्रोपराइटरशिप (Individual - Proprietor)")}
+                    {siteSettings.businessStatus || l("Individual - Proprietor", "एकल स्वामित्व - प्रोपराइटरशिप (Individual - Proprietor)")}
                   </div>
                 </div>
 
@@ -257,7 +265,7 @@ export default function About() {
                     <span>{l("Annual Turnover", "वार्षिक टर्नओवर")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0">
-                    {l("Rs. 1 - 2 Crore", "1 से 2 करोड़ रुपये")}
+                    {siteSettings.annualTurnover || l("Rs. 1 - 2 Crore", "1 से 2 करोड़ रुपये")}
                   </div>
                 </div>
 
@@ -267,7 +275,7 @@ export default function About() {
                     <span>{l("Registered Location & Workshop", "वर्कशॉप व कार्यस्थल")}</span>
                   </div>
                   <div className="sm:col-span-2 text-stone-700 mt-1 sm:mt-0 leading-relaxed">
-                    {l(
+                    {siteSettings.workshopAddress || l(
                       "Front of Surya City, Paldi Meena, Agra Road, Jaipur - 302031, Rajasthan, India",
                       "सूर्य सिटी के सामने, पालड़ी मीणा, आगरा रोड, जयपुर - 302031, राजस्थान, भारत"
                     )}
@@ -280,7 +288,7 @@ export default function About() {
                     <span>{l("GSTIN Registration", "जीएसटी नंबर")}</span>
                   </div>
                   <div className="sm:col-span-2 font-mono text-stone-800 mt-1 sm:mt-0">
-                    08CUUPS3588K1ZE
+                    {siteSettings.gstNumber || "08CUUPS3588K1ZE"}
                   </div>
                 </div>
 

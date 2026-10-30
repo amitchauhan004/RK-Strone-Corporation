@@ -19,8 +19,10 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/logo.png";
 import { API_URL } from "@/config/api";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AdminLogin = () => {
+  const { language, setLanguage, l } = useLanguage();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,14 +44,14 @@ const AdminLogin = () => {
         sessionStorage.setItem("adminUsername", res.data.username);
       }
       toast({ 
-        title: "Access Granted", 
-        description: `Welcome back, ${res.data.username || "Admin Master"}. Initializing console...` 
+        title: l("Access Granted", "सत्यापन सफल"), 
+        description: l(`Welcome back, ${res.data.username || "Admin Master"}. Initializing console...`, `स्वागत है, ${res.data.username || "एडमिन"}. कंसोल शुरू हो रहा है...`) 
       });
       // Redirect to Admin Products Dashboard
       window.location.replace("/admin/products");
     } catch (err: any) {
-      const message = err?.response?.data?.error || "Invalid username or password. Please try again.";
-      toast({ title: "Authentication Failed", description: message, variant: "destructive" });
+      const message = err?.response?.data?.error || l("Invalid username or password. Please try again.", "अमान्य यूज़रनेम या पासवर्ड। कृपया पुनः प्रयास करें।");
+      toast({ title: l("Authentication Failed", "प्रमाणीकरण विफल"), description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -77,8 +79,32 @@ const AdminLogin = () => {
           className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono uppercase tracking-wider text-stone-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all group"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
-          <span>Return to Public Website</span>
+          <span>{l("Return to Public Website", "मुख्य वेबसाइट पर वापस जाएं")}</span>
         </Link>
+      </div>
+
+      {/* Floating Top Right Language Switcher Option */}
+      <div className="absolute top-6 right-6 z-20">
+        <div className="inline-flex items-center bg-white/10 border border-white/20 p-0.5 rounded-full backdrop-blur-md">
+          <button
+            type="button"
+            onClick={() => setLanguage("en")}
+            className={`px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
+              language === "en" ? "bg-accent text-stone-950 shadow-xs" : "text-stone-300 hover:text-white"
+            }`}
+          >
+            English
+          </button>
+          <button
+            type="button"
+            onClick={() => setLanguage("hi")}
+            className={`px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
+              language === "hi" ? "bg-accent text-stone-950 shadow-xs" : "text-stone-300 hover:text-white"
+            }`}
+          >
+            हिंदी
+          </button>
+        </div>
       </div>
 
       {/* Main Login Container */}
@@ -101,13 +127,13 @@ const AdminLogin = () => {
 
           <div>
             <div className="text-[10px] font-mono tracking-[0.28em] uppercase text-accent font-semibold">
-              JAIPUR • HERITAGE ARCHITECTURAL CRAFT
+              {l("JAIPUR • HERITAGE ARCHITECTURAL CRAFT", "जयपुर • हेरिटेज वास्तुशिल्प कला")}
             </div>
             <h1 className="text-2xl sm:text-3xl font-heading font-normal uppercase text-white tracking-wider mt-1">
               RK STONE CORPORATION
             </h1>
             <p className="text-xs text-stone-400 font-light mt-1">
-              Executive Management &amp; Content Control Studio
+              {l("Executive Management & Content Control Studio", "प्रबंधन एवं वेबसाइट नियंत्रण स्टूडियो")}
             </p>
           </div>
         </div>
@@ -123,7 +149,7 @@ const AdminLogin = () => {
             {/* Username Input */}
             <div className="space-y-1.5">
               <label className="text-xs font-mono uppercase tracking-wider text-stone-300 block">
-                Administrator Username
+                {l("Administrator Username", "व्यवस्थापक यूज़रनेम")}
               </label>
               <div className="relative">
                 <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-500">
@@ -134,7 +160,7 @@ const AdminLogin = () => {
                   autoFocus
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter admin username"
+                  placeholder={l("Enter admin username", "एडमिन यूज़रनेम दर्ज करें")}
                   className="pl-10 h-11 bg-black/60 border-white/15 text-white text-xs font-mono rounded-none focus:border-accent focus:ring-0 tracking-wide placeholder:text-stone-600 transition-colors"
                 />
               </div>
@@ -144,10 +170,10 @@ const AdminLogin = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-mono uppercase tracking-wider text-stone-300 block">
-                  Secure Password
+                  {l("Secure Password", "सुरक्षित पासवर्ड")}
                 </label>
                 <span className="text-[10px] font-mono text-stone-500">
-                  Case-Sensitive
+                  {l("Case-Sensitive", "केस-संवेदी")}
                 </span>
               </div>
               <div className="relative">
@@ -159,14 +185,14 @@ const AdminLogin = () => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter administrator password"
+                  placeholder={l("Enter administrator password", "पासवर्ड दर्ज करें")}
                   className="pl-10 pr-10 h-11 bg-black/60 border-white/15 text-white text-xs font-mono rounded-none focus:border-accent focus:ring-0 tracking-wide placeholder:text-stone-600 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-accent transition-colors p-1"
-                  title={showPassword ? "Hide password" : "Show password"}
+                  title={showPassword ? l("Hide password", "पासवर्ड छिपाएं") : l("Show password", "पासवर्ड दिखाएं")}
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -187,12 +213,12 @@ const AdminLogin = () => {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    VERIFYING CREDENTIALS...
+                    {l("VERIFYING CREDENTIALS...", "सत्यापित किया जा रहा है...")}
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <ShieldCheck className="w-4 h-4" />
-                    AUTHENTICATE &amp; ENTER
+                    {l("AUTHENTICATE & ENTER", "प्रमाणित करें व प्रवेश करें")}
                   </span>
                 )}
               </Button>
@@ -208,14 +234,14 @@ const AdminLogin = () => {
             className="text-xs font-mono text-stone-400 hover:text-accent transition-colors inline-flex items-center gap-1.5 cursor-pointer"
           >
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Need Help or Forgot Credentials?</span>
+            <span>{l("Need Help or Forgot Credentials?", "मदद चाहिए या पासवर्ड भूल गए?")}</span>
           </button>
 
           {showHelp && (
             <div className="p-4 bg-[#141414] border border-white/10 text-left text-xs font-mono space-y-2 animate-in fade-in duration-200">
               <div className="text-accent font-semibold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                 <Sparkles className="w-3 h-3 text-accent" />
-                <span>Technical Architecture &amp; System Administration</span>
+                <span>{l("Technical Architecture & System Administration", "तकनीकी आर्किटेक्चर एवं सिस्टम एडमिनिस्ट्रेशन")}</span>
               </div>
               <div className="space-y-0.5">
                 <p className="text-white font-semibold text-xs font-sans">

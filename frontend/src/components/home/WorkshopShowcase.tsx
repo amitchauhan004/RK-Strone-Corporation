@@ -4,9 +4,11 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 
 export default function WorkshopShowcase() {
   const { l } = useLanguage();
+  const { siteSettings } = useSiteSettings();
 
   const workshopHighlights = [
     {
@@ -56,13 +58,13 @@ export default function WorkshopShowcase() {
           <div className="lg:col-span-6 space-y-6">
             <Reveal direction="down">
               <h2 className="text-3xl sm:text-5xl font-heading font-normal uppercase text-stone-950 tracking-wide leading-tight">
-                {l("EXPERIENCED CARVERS & MODERN MACHINERY", "पारंपरिक कारीगरी और आधुनिक तकनीक")}
+                {siteSettings.workshopHeading || l("EXPERIENCED CARVERS & MODERN MACHINERY", "पारंपरिक कारीगरी और आधुनिक तकनीक")}
               </h2>
             </Reveal>
 
             <Reveal direction="left" delay={0.15}>
               <p className="text-stone-700 text-base sm:text-lg font-light leading-relaxed">
-                {l(
+                {siteSettings.workshopStory || l(
                   "RK Stone Corporation is not a middleman or retail shop. We are a direct stone carving workshop based in Jaipur, Rajasthan. For over 40 years, our team of master craftsmen has hand-carved temples, royal chhatris, stone jalis, and haveli facades for homes and projects across India.",
                   "आर.के. स्टोन कॉर्पोरेशन कोई बिचौलिया या ट्रेडिंग दुकान नहीं है। हम जयपुर, राजस्थान में सीधे पत्थर के निर्माता और वर्कशॉप हैं। पिछले 4 दशकों से हमारे कारीगर पूरे भारत में मंदिरों, छतरियों, जालियों और हवेलियों के लिए पत्थर तराशने का काम कर रहे हैं।"
                 )}
@@ -91,7 +93,7 @@ export default function WorkshopShowcase() {
             <Reveal direction="up" delay={0.35}>
               <div className="pt-4 flex flex-wrap items-center gap-4">
                 <a
-                  href="https://maps.google.com/?q=RK+Stone+Corporation+Jaipur"
+                  href={siteSettings.workshopMapLink || "https://maps.google.com/?q=RK+Stone+Corporation+Jaipur"}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -102,7 +104,7 @@ export default function WorkshopShowcase() {
                 </a>
 
                 <a
-                  href={`https://wa.me/919414784562?text=${encodeURIComponent(
+                  href={`https://wa.me/${siteSettings.whatsappNumber?.replace(/[^0-9]/g, '') || '919414784562'}?text=${encodeURIComponent(
                     "Hello RK Stone Corporation, I would like to schedule a 15-minute live WhatsApp video tour of your Jaipur workshop and raw stone blocks."
                   )}`}
                   target="_blank"

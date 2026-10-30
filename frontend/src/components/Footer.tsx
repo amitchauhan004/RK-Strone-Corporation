@@ -19,7 +19,8 @@ import {
   Instagram,
   Facebook,
   Youtube,
-  ExternalLink
+  ExternalLink,
+  BookOpen
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import logo from "@/assets/logo.png";
@@ -268,6 +269,13 @@ const Footer = () => {
                 {l("EXPLORE & CONNECT", "अन्य लिंक")}
               </h4>
               <nav className="flex flex-col space-y-2.5 text-sm">
+                <Link
+                  to="/flipbook"
+                  className="group text-accent hover:text-white transition-colors flex items-center gap-2 font-medium"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+                  <span className="group-hover:translate-x-1.5 transition-transform duration-300 font-bold">{l("Digital Flipbook Catalog (8 Pages)", "डिजिटल फ्लिपबुक कैटलॉग (8 पृष्ठ)")}</span>
+                </Link>
                 <Link
                   to="/stone-temple-jaipur"
                   className="group text-white/70 hover:text-accent transition-colors flex items-center gap-2 font-medium"

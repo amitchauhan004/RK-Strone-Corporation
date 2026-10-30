@@ -7,9 +7,13 @@ import {
   Sparkles,
   Phone,
   Star,
+  BookOpen,
+  Download,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import heroImage from "@/assets/hero-bg.jpg";
+import logoImg from "@/assets/logo.png";
+import stoneTempleImg from "@/assets/Stone-Temple.jpg";
 import Seo from "@/components/Seo";
 import Reveal from "@/components/ui/Reveal";
 import CraftExplorerGrid from "@/components/home/CraftExplorerGrid";
@@ -31,10 +35,10 @@ const Index = () => {
     {
       id: "mandir",
       num: "01",
-      tag: l("HANDCRAFTED IN RAJASTHAN", "राजस्थान की पारंपरिक शिल्पकला"),
-      title: l("CUSTOM STONE TEMPLES & HOME MANDIRS", "सुंदर नक्काशीदार पत्थर के मंदिर"),
-      description: l(
-        "Handcrafted stone temples carved in authentic Bansi Paharpur pink stone and Dholpur sandstone. Custom built to any size for residences and trusts.",
+      tag: siteSettings.heroSlide1Tag || l("HANDCRAFTED IN RAJASTHAN", "राजस्थान की पारंपरिक शिल्पकला"),
+      title: siteSettings.heroSlide1Title || siteSettings.heroTitle || l("CUSTOM STONE TEMPLES & HOME MANDIRS", "सुंदर नक्काशीदार पत्थर के मंदिर"),
+      description: siteSettings.heroSlide1Desc || siteSettings.heroDescription || l(
+        "Handcrafted stone temples carved in authentic Bansi Paharpur pink stone and Dholpur sandstone. Custom built to any size for residences and trusts with pan-India delivery.",
         "बंसी पहाड़पुर और धौलपुर सैंडस्टोन में हाथ से तराशे सुंदर मंदिर। घरों और संस्थाओं के लिए मनचाहे साइज़ में उपलब्ध।"
       ),
       image: "/products/Stone%20Temple/3.jpg",
@@ -44,9 +48,9 @@ const Index = () => {
     {
       id: "chhatri-haveli",
       num: "02",
-      tag: l("HERITAGE STONE ARCHITECTURE", "हवेली व छतरी निर्माण"),
-      title: l("STONE CHHATRIS, JHAROKHAS & PILLARS", "शाही छतरियां, झरोखे व नक्काशीदार खंभे"),
-      description: l(
+      tag: siteSettings.heroSlide2Tag || l("HERITAGE STONE ARCHITECTURE", "हवेली व छतरी निर्माण"),
+      title: siteSettings.heroSlide2Title || l("STONE CHHATRIS, JHAROKHAS & PILLARS", "शाही छतरियां, झरोखे व नक्काशीदार खंभे"),
+      description: siteSettings.heroSlide2Desc || l(
         "Traditional garden chhatris, palace-style jharokhas, carved entrance gates, and round fluted pillars chiseled in authentic Dholpur and Jodhpur red sandstone.",
         "प्राकृतिक धौलपुर और जोधपुर लाल पत्थर से बनी शाही छतरियां, झरोखे और सुंदर नक्काशीदार खंभे। आपके घर और बगीचे को दें शाही लुक।"
       ),
@@ -57,9 +61,9 @@ const Index = () => {
     {
       id: "gwalior-jali",
       num: "03",
-      tag: l("PRECISION STONE SCREENS", "बारीक सीएनसी स्टोन जाली"),
-      title: l("3D CNC STONE JALIS & WALL PANELS", "3D सीएनसी स्टोन जाली व एलिवेशन पैनल"),
-      description: l(
+      tag: siteSettings.heroSlide3Tag || l("PRECISION STONE SCREENS", "बारीक सीएनसी स्टोन जाली"),
+      title: siteSettings.heroSlide3Title || l("3D CNC STONE JALIS & WALL PANELS", "3D सीएनसी स्टोन जाली व एलिवेशन पैनल"),
+      description: siteSettings.heroSlide3Desc || l(
         "Custom cut 3D stone jalis and elevation screens in Gwalior mint stone and Dholpur sandstone for front elevations, boundary walls, and balconies.",
         "ग्वालियर मिंट स्टोन और धौलपुर सैंडस्टोन में सीएनसी से तराशी गई मजबूत व सुंदर जालियां। घर के फ्रंट एलिवेशन और बालकनी के लिए बेहतरीन।"
       ),
@@ -273,6 +277,16 @@ const Index = () => {
           <div className="max-w-4xl">
             
 
+            {/* Direct Workshop Tagline Badge from Admin */}
+            {siteSettings.heroBadge && (
+              <Reveal direction="down" duration={0.6}>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/15 border border-accent/40 text-accent text-[11px] font-mono tracking-[0.2em] uppercase mb-4 font-semibold backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                  {siteSettings.heroBadge}
+                </div>
+              </Reveal>
+            )}
+
             {/* Impressive Architectural Headline */}
             <Reveal direction="down" duration={0.9}>
               <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-normal uppercase text-white tracking-wide leading-[1.12] mb-4 sm:mb-5 drop-shadow-md">
@@ -282,10 +296,20 @@ const Index = () => {
 
             {/* Editorial Description */}
             <Reveal direction="up" delay={0.15} duration={0.9}>
-              <p className="text-sm sm:text-base lg:text-lg text-white/85 max-w-2xl font-light leading-relaxed mb-6 sm:mb-8">
+              <p className="text-sm sm:text-base lg:text-lg text-white/85 max-w-2xl font-light leading-relaxed mb-4 sm:mb-6">
                 {heroSlides[activeHeroSlide].description}
               </p>
             </Reveal>
+
+            {/* Stone Varieties Highlights Strip from Admin */}
+            {siteSettings.heroStonesStrip && (
+              <Reveal direction="up" delay={0.2} duration={0.7}>
+                <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-300 mb-6 sm:mb-8 bg-white/5 border border-white/10 px-3.5 py-1.5 w-fit backdrop-blur-sm">
+                  <span className="text-accent uppercase text-[10px] tracking-widest font-semibold">{l("NATURAL STONES:", "पत्थर:")}</span>
+                  <span className="text-white/90">{siteSettings.heroStonesStrip}</span>
+                </div>
+              </Reveal>
+            )}
 
             {/* Action Buttons */}
             <Reveal direction="up" delay={0.3} duration={0.9}>
@@ -295,7 +319,7 @@ const Index = () => {
                     size="lg"
                     className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold tracking-wider uppercase text-xs sm:text-sm px-6 sm:px-8 py-5 sm:py-6 rounded-none shadow-gold transition-all duration-300 group cursor-pointer"
                   >
-                    {l("EXPLORE WHAT WE MAKE", "हमारे उत्पाद देखें")}
+                    {siteSettings.heroPrimaryBtnText || l("EXPLORE WHAT WE MAKE", "हमारे उत्पाद देखें")}
                     <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1.5" />
                   </Button>
                 </a>
@@ -306,7 +330,7 @@ const Index = () => {
                   className="w-full sm:w-auto bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold tracking-wider uppercase text-xs sm:text-sm px-5 sm:px-7 py-5 sm:py-6 rounded-none transition-smooth cursor-pointer shadow-md"
                 >
                   <WhatsAppIcon className="mr-2 w-4 h-4" />
-                  {l("SHARE DRAWING / PHOTO", "ड्राइंग / फोटो भेजें")}
+                  {siteSettings.heroSecondaryBtnText || l("SHARE DRAWING / PHOTO", "ड्राइंग / फोटो भेजें")}
                 </Button>
               </div>
             </Reveal>
@@ -416,6 +440,174 @@ const Index = () => {
                 </div>
               </div>
             </Reveal>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 05.5: Interactive Flipbook Catalog Showcase Section */}
+      <section className="py-20 md:py-28 bg-[#131313] text-white border-y border-white/10 relative overflow-hidden">
+        {/* Background ambient gold aura */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
+            
+            {/* Left: Book 3D Preview Stack */}
+            <div className="lg:col-span-6 flex justify-center">
+              <Reveal direction="left" duration={0.8}>
+                <Link to="/flipbook" className="group relative block cursor-pointer">
+                  {/* Decorative background shadow cards */}
+                  <div className="absolute -inset-3 bg-gradient-to-r from-accent/25 via-amber-600/20 to-accent/10 rounded-none blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                  
+                  {/* Layered book effect */}
+                  <div className="relative flex items-center justify-center">
+                    {/* Back page offset */}
+                    <div className="absolute -right-3 -bottom-3 w-[280px] sm:w-[340px] aspect-[0.71/1] bg-stone-900 border border-white/20 shadow-2xl rotate-3" />
+                    
+                    {/* Main Cover Card - Modern Official Book Design */}
+                    <div className="relative w-[280px] sm:w-[340px] aspect-[0.71/1] bg-stone-950 border-2 border-accent shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.02] flex flex-col justify-between p-5 sm:p-6 text-stone-100 select-none">
+                      {/* Background image & luxury overlay */}
+                      <div 
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                        style={{
+                          backgroundImage: `linear-gradient(to bottom, rgba(15,10,5,0.80), rgba(20,12,6,0.90)), url('${stoneTempleImg}')`
+                        }}
+                      />
+                      
+                      {/* Inner gold frame border */}
+                      <div className="absolute inset-2 sm:inset-2.5 border border-amber-500/40 pointer-events-none" />
+                      
+                      {/* Book spine highlight on left edge */}
+                      <div className="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-white/20 via-white/5 to-transparent pointer-events-none" />
+                      <div className="absolute top-0 left-3 bottom-0 w-0.5 bg-black/40 pointer-events-none" />
+
+                      {/* Top Bar */}
+                      <div className="relative z-10 flex items-center justify-between border-b border-amber-500/40 pb-2.5">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                          <span className="font-mono text-[9px] sm:text-[10px] tracking-widest uppercase text-accent font-bold">
+                            JAIPUR • RAJASTHAN
+                          </span>
+                        </div>
+                        <span className="text-[9px] sm:text-[10px] font-mono text-stone-300 uppercase tracking-wider">
+                          ESTD. 2009
+                        </span>
+                      </div>
+
+                      {/* Center Brand & Title */}
+                      <div className="relative z-10 text-center my-auto py-3 space-y-2">
+                        <div className="inline-block p-1 bg-black/50 border border-amber-500/30 backdrop-blur-xs shadow-md">
+                          <img src={logoImg} alt="RK Stone Logo" className="w-12 h-12 sm:w-14 sm:h-14 mx-auto object-contain" />
+                        </div>
+
+                        <h3 className="font-heading font-extrabold text-xl sm:text-2xl tracking-wider uppercase text-white drop-shadow-md">
+                          RK STONE
+                          <span className="block text-accent">CORPORATION</span>
+                        </h3>
+
+                        <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto" />
+
+                        <p className="font-serif text-[11px] sm:text-xs tracking-widest uppercase text-amber-200/90 font-medium">
+                          {l("NATURAL SANDSTONE PRODUCTS", "प्राकृतिक सैंडस्टोन उत्पाद")}
+                        </p>
+
+                        <div className="pt-1">
+                          <span className="inline-block bg-accent/20 text-accent border border-accent/40 px-2.5 py-0.5 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider">
+                            {l("59 Key Works • 8 Pages", "59 प्रमुख उत्पाद • 8 पृष्ठ")}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Floating Interactive Bottom Bar */}
+                      <div className="relative z-10 bg-stone-950/90 backdrop-blur-md p-2.5 sm:p-3 border border-accent/50 flex items-center justify-between shadow-lg">
+                        <div>
+                          <span className="text-[9px] sm:text-[10px] font-mono uppercase text-accent font-bold block">
+                            {l("Click to Flip & Open", "फ्लिप करने हेतु क्लिक करें")}
+                          </span>
+                          <span className="text-[11px] sm:text-xs text-white font-heading uppercase font-semibold">
+                            {l("Interactive Catalog", "इंटरैक्टिव कैटलॉग")}
+                          </span>
+                        </div>
+                        <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent text-stone-950 flex items-center justify-center font-bold text-sm shadow-gold group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            </div>
+
+            {/* Right: Description & Actions */}
+            <div className="lg:col-span-6 space-y-6 text-left">
+              <Reveal direction="right" delay={0.15}>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/15 border border-accent/40 text-accent font-mono text-[11px] uppercase tracking-widest font-bold">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>{l("OFFICIAL DIGITAL FLIPBOOK CATALOG", "आधिकारिक डिजिटल फ्लिपबुक कैटलॉग")}</span>
+                </div>
+              </Reveal>
+
+              <Reveal direction="right" delay={0.25}>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-normal uppercase text-white tracking-wide leading-[1.15]">
+                  {l("BROWSE OUR COMPLETE STONE CRAFT COLLECTION", "फ्लिपबुक में देखें हमारा संपूर्ण पाषाण संग्रह")}
+                </h2>
+              </Reveal>
+
+              <Reveal direction="right" delay={0.35}>
+                <p className="text-sm sm:text-base text-stone-300 font-light leading-relaxed">
+                  {l(
+                    "Experience our official corporate catalogue as an interactive 3D digital flipbook. Featuring high-resolution photographs, architectural dimensions, and specifications of Dholpur sandstone temples, 3D CNC jalis, haveli facades, and royal chhatris.",
+                    "हमारी आधिकारिक विवरणिका को इंटरैक्टिव 3D डिजिटल फ्लिपबुक के रूप में अनुभव करें। इसमें धौलपुर सैंडस्टोन मंदिर, 3D सीएनसी जाली, हवेली तोरण और शाही छतरियों के उच्च-रिज़ॉल्यूशन फ़ोटो एवं माप दिए गए हैं।"
+                  )}
+                </p>
+              </Reveal>
+
+              <Reveal direction="right" delay={0.45}>
+                <ul className="space-y-2.5 text-xs sm:text-sm font-light text-stone-300">
+                  <li className="flex items-center gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <span>{l("Vedic stone temples & handcrafted monolithic shikharas", "वैदिक पाषाण मंदिर एवं हाथ से तराशे गए शिखर")}</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <span>{l("Precision 3D CNC jali screens & exterior boundary walls", "सटीक 3D सीएनसी जाली एवं बाहरी चारदीवारी ग्रिल")}</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <span>{l("Royal Rajasthani chhatris, garden gazebos & fountains", "शाही राजस्थानी छतरी, गार्डन गज़ेबो एवं वाटर फाउंटेन")}</span>
+                  </li>
+                </ul>
+              </Reveal>
+
+              <Reveal direction="right" delay={0.55}>
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <Link to="/flipbook">
+                    <Button
+                      size="lg"
+                      className="bg-accent hover:bg-accent/90 text-stone-950 font-bold tracking-wider uppercase text-xs sm:text-sm px-6 py-5 rounded-none shadow-gold transition-all duration-300 cursor-pointer"
+                    >
+                      <BookOpen className="mr-2 w-4 h-4" />
+                      {l("OPEN INTERACTIVE FLIPBOOK", "इंटरैक्टिव फ्लिपबुक खोलें")}
+                    </Button>
+                  </Link>
+
+                  <a 
+                    href="/flipbook/rk_stone_corporation_catalog.pdf" 
+                    download="RK_Stone_Corporation_Jaipur_Brochure.pdf"
+                  >
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:text-white font-semibold text-xs sm:text-sm uppercase tracking-wider px-6 py-5 rounded-none cursor-pointer"
+                    >
+                      <Download className="mr-2 w-4 h-4 text-accent" />
+                      {l("DOWNLOAD PDF (3.8 MB)", "पीडीएफ डाउनलोड (3.8 MB)")}
+                    </Button>
+                  </a>
+                </div>
+              </Reveal>
+            </div>
 
           </div>
         </div>

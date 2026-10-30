@@ -58,17 +58,20 @@ export default function CraftExplorerGrid({ onOpenQuickQuote }: CraftExplorerGri
                       alt={craft.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = craft.image;
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-black/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-black/20 pointer-events-none" />
 
-                    {/* Tag Top Badge */}
-                    <div className="absolute top-3 left-3 bg-stone-950/90 text-accent text-[10px] sm:text-xs font-bold tracking-wider px-3 py-1 uppercase backdrop-blur-md border border-accent/30">
-                      {craft.tag}
-                    </div>
-
-                    {/* Custom Made Badge */}
-                    <div className="absolute top-3 right-3 bg-accent text-stone-950 text-[10px] font-bold tracking-wider px-2.5 py-1 uppercase shadow-sm">
-                      CUSTOM SIZE
+                    {/* Top Badges Row */}
+                    <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2 z-10 pointer-events-none">
+                      <div className="bg-stone-950/90 text-accent text-[10px] sm:text-xs font-bold tracking-wider px-2.5 py-1 uppercase backdrop-blur-md border border-accent/30 truncate max-w-[70%]">
+                        {craft.tag}
+                      </div>
+                      <div className="bg-accent text-stone-950 text-[10px] font-bold tracking-wider px-2.5 py-1 uppercase shadow-sm shrink-0">
+                        CUSTOM SIZE
+                      </div>
                     </div>
 
                     {/* Bottom Title on Image */}
@@ -80,24 +83,39 @@ export default function CraftExplorerGrid({ onOpenQuickQuote }: CraftExplorerGri
                   </div>
 
                   {/* Thumbnail Switcher for Authentic Photos */}
-                  <div className="flex items-center gap-2 p-3 bg-stone-100/80 border-b border-stone-200 overflow-x-auto">
-                    <span className="text-[10px] text-stone-500 font-medium uppercase shrink-0 mr-1">
-                      {l("PHOTOS:", "तस्वीरें:")}
-                    </span>
-                    {craft.galleryImages.map((thumb, tIdx) => (
-                      <button
-                        key={tIdx}
-                        onClick={(e) => handleThumbnailClick(craft.id, tIdx, e)}
-                        className={`relative w-9 h-9 shrink-0 overflow-hidden border transition-all cursor-pointer ${
-                          currentImgIdx === tIdx
-                            ? "border-accent ring-2 ring-accent/40 scale-105"
-                            : "border-stone-300 opacity-60 hover:opacity-100"
-                        }`}
-                        title={`View Photo ${tIdx + 1}`}
-                      >
-                        <img src={thumb} alt="" className="w-full h-full object-cover" />
-                      </button>
-                    ))}
+                  <div className="flex items-center justify-between gap-2 p-2.5 bg-stone-100/90 border-b border-stone-200">
+                    <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
+                      <span className="text-[10px] text-stone-500 font-semibold uppercase shrink-0 mr-1">
+                        {l("PHOTOS:", "तस्वीरें:")}
+                      </span>
+                      {craft.galleryImages.map((thumb, tIdx) => (
+                        <button
+                          key={tIdx}
+                          onClick={(e) => handleThumbnailClick(craft.id, tIdx, e)}
+                          className={`relative w-9 h-9 shrink-0 overflow-hidden border transition-all cursor-pointer ${
+                            currentImgIdx === tIdx
+                              ? "border-accent ring-2 ring-accent/40 scale-105"
+                              : "border-stone-300 opacity-60 hover:opacity-100"
+                          }`}
+                          title={`View Photo ${tIdx + 1}`}
+                        >
+                          <img
+                            src={thumb}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = craft.image;
+                            }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+
+                    {craft.modelCount && (
+                      <span className="shrink-0 px-2 py-0.5 bg-stone-900 text-accent text-[10px] font-bold uppercase tracking-wide border border-accent/20">
+                        {craft.modelCount}
+                      </span>
+                    )}
                   </div>
 
                   {/* Body Content */}

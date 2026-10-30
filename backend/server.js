@@ -185,23 +185,68 @@ const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
 // Site Settings Model & Defaults
 const DEFAULT_SITE_SETTINGS = {
+  // 1. Company Identity & Credentials
   companyName: "RK Stone Corporation",
   tagline: "Direct Quarry Sourcing • Pan-India Installation",
+  gstNumber: "08CUUPS3588K1ZE",
+  workingHours: "Mon - Sun: 8:00 AM - 7:00 PM",
+  businessNature: "Manufacturer, Supplier",
+  businessStatus: "Individual - Proprietor",
+
+  // 2. Hotlines & Workshop Location
   primaryPhone: "+91 94147 84562",
   whatsappNumber: "+91 94147 84562",
   email: "contact@rkstonecorporation.com",
-  workshopAddress: "Front of Surya City, Paldi Meena, Agra Road, Jaipur 302031, Rajasthan, India",
   workshopCity: "Jaipur, Rajasthan",
-  workingHours: "Mon - Sun: 8:00 AM - 7:00 PM",
-  gstNumber: "08CUUPS3588K1ZE",
-  announcementActive: true,
-  announcementText: "✨ DIRECT JAIPUR WORKSHOP & MANUFACTURER: Handcrafted Temples, 3D CNC Stone Jalis & Chhatris",
+  workshopAddress: "Front of Surya City, Paldi Meena, Agra Road, Jaipur 302031, Rajasthan, India",
+
+  // 3. Top Marquee Announcement Bar (No hardcoded default text line)
+  announcementActive: false,
+  announcementText: "",
+
+  // 4. Hero Section Content (Homepage 3 Slides & CTA)
   heroBadge: "DIRECT JAIPUR WORKSHOP & MANUFACTURER",
-  heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Red Sandstone",
+  heroStonesStrip: "Gwalior Stone • Dhaulpur Stone • Bansi Paharpur • Makrana Marble",
+  heroPrimaryBtnText: "EXPLORE WHAT WE MAKE",
+  heroSecondaryBtnText: "SHARE DRAWING / PHOTO",
+
+  // Slide 1 (Stone Mandirs & Temples)
+  heroSlide1Tag: "HANDCRAFTED IN RAJASTHAN",
+  heroSlide1Title: "CUSTOM STONE TEMPLES & HOME MANDIRS",
+  heroSlide1Desc: "Handcrafted stone temples carved in authentic Bansi Paharpur pink stone and Dholpur sandstone. Custom built to any size for residences and trusts with pan-India delivery.",
+
+  // Slide 2 (Royal Chhatris & Havelis)
+  heroSlide2Tag: "HERITAGE STONE ARCHITECTURE",
+  heroSlide2Title: "STONE CHHATRIS, JHAROKHAS & PILLARS",
+  heroSlide2Desc: "Traditional garden chhatris, palace-style jharokhas, carved entrance gates, and round fluted pillars chiseled in authentic Dholpur and Jodhpur red sandstone.",
+
+  // Slide 3 (3D CNC Jalis & Elevation Panels)
+  heroSlide3Tag: "PRECISION STONE SCREENS",
+  heroSlide3Title: "3D CNC STONE JALIS & WALL PANELS",
+  heroSlide3Desc: "Custom cut 3D stone jalis and elevation screens in Gwalior mint stone and Dholpur sandstone for front elevations, boundary walls, and balconies.",
+
+  // Legacy fallback aliases
+  heroTitle: "CUSTOM STONE TEMPLES & HOME MANDIRS",
+  heroDescription: "Handcrafted stone temples carved in authentic Bansi Paharpur pink stone and Dholpur sandstone. Custom built to any size for residences and trusts with pan-India delivery.",
+
+  // 5. About RK Stone Corporation & Heritage
+  founderName: "Mr. Rajendra Saini",
+  estYear: "2009",
+  employeesCount: "20+ Artisans & Staff",
+  annualTurnover: "₹1 - 2 Crore",
+  aboutHeading: "About RK Stone Corporation",
+  aboutStory: "RK Stone Corporation, established in 2009 by Mr. Rajendra Saini in Jaipur, Rajasthan, is a renowned Manufacturer and Supplier of premium sandstone products. The company specializes in crafting exquisite Sandstone Temples, Temple Entry Gates, 3D CNC Stone Jalis, royal Chhatris, Gazebos, and Garden Fountains reflecting timeless Indian architecture.",
+
+  // 6. Workshop & Craftsmanship Showcase
+  workshopHeading: "EXPERIENCED CARVERS & MODERN MACHINERY",
+  workshopStory: "RK Stone Corporation is a direct stone carving workshop based in Jaipur, Rajasthan. For over 40 years, our team of master craftsmen has hand-carved temples, royal chhatris, stone jalis, and haveli facades for homes and projects across India.",
+  workshopMapLink: "https://maps.google.com/?q=RK+Stone+Corporation+Jaipur",
+
+  // 7. Interactive Map & Official Social Media
   googleReviewsUrl: "https://www.google.com/maps/place/R+K+Stone+Carporation/",
   mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201.27391904159717!2d75.90287731088574!3d26.88321687556189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db974c9f18089%3A0xc82bf12c6b0f9fa9!2sR%20K%20Stone%20Carporation!5e1!3m2!1sen!2sin!4v1761640201109!5m2!1sen!2sin",
-  socialInstagram: "https://instagram.com/rkstonecorporation",
-  socialFacebook: "https://facebook.com/rkstonecorporation",
+  socialInstagram: "https://www.instagram.com/haritage_stone_temple/",
+  socialFacebook: "https://www.facebook.com/rkstone01",
   socialYoutube: "https://youtube.com/@rkstonecorporation",
 };
 
@@ -216,10 +261,37 @@ const siteSettingsSchema = new mongoose.Schema({
   workshopCity: { type: String, default: DEFAULT_SITE_SETTINGS.workshopCity },
   workingHours: { type: String, default: DEFAULT_SITE_SETTINGS.workingHours },
   gstNumber: { type: String, default: DEFAULT_SITE_SETTINGS.gstNumber },
-  announcementActive: { type: Boolean, default: true },
-  announcementText: { type: String, default: DEFAULT_SITE_SETTINGS.announcementText },
+  businessNature: { type: String, default: DEFAULT_SITE_SETTINGS.businessNature },
+  businessStatus: { type: String, default: DEFAULT_SITE_SETTINGS.businessStatus },
+  announcementActive: { type: Boolean, default: false },
+  announcementText: { type: String, default: "" },
   heroBadge: { type: String, default: DEFAULT_SITE_SETTINGS.heroBadge },
+  heroTitle: { type: String, default: DEFAULT_SITE_SETTINGS.heroTitle },
+  heroDescription: { type: String, default: DEFAULT_SITE_SETTINGS.heroDescription },
   heroStonesStrip: { type: String, default: DEFAULT_SITE_SETTINGS.heroStonesStrip },
+  heroPrimaryBtnText: { type: String, default: DEFAULT_SITE_SETTINGS.heroPrimaryBtnText },
+  heroSecondaryBtnText: { type: String, default: DEFAULT_SITE_SETTINGS.heroSecondaryBtnText },
+
+  // Hero 3 Slides Schema
+  heroSlide1Tag: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide1Tag },
+  heroSlide1Title: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide1Title },
+  heroSlide1Desc: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide1Desc },
+  heroSlide2Tag: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide2Tag },
+  heroSlide2Title: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide2Title },
+  heroSlide2Desc: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide2Desc },
+  heroSlide3Tag: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide3Tag },
+  heroSlide3Title: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide3Title },
+  heroSlide3Desc: { type: String, default: DEFAULT_SITE_SETTINGS.heroSlide3Desc },
+
+  founderName: { type: String, default: DEFAULT_SITE_SETTINGS.founderName },
+  estYear: { type: String, default: DEFAULT_SITE_SETTINGS.estYear },
+  employeesCount: { type: String, default: DEFAULT_SITE_SETTINGS.employeesCount },
+  annualTurnover: { type: String, default: DEFAULT_SITE_SETTINGS.annualTurnover },
+  aboutHeading: { type: String, default: DEFAULT_SITE_SETTINGS.aboutHeading },
+  aboutStory: { type: String, default: DEFAULT_SITE_SETTINGS.aboutStory },
+  workshopHeading: { type: String, default: DEFAULT_SITE_SETTINGS.workshopHeading },
+  workshopStory: { type: String, default: DEFAULT_SITE_SETTINGS.workshopStory },
+  workshopMapLink: { type: String, default: DEFAULT_SITE_SETTINGS.workshopMapLink },
   googleReviewsUrl: { type: String, default: DEFAULT_SITE_SETTINGS.googleReviewsUrl },
   mapEmbedUrl: { type: String, default: DEFAULT_SITE_SETTINGS.mapEmbedUrl },
   socialInstagram: { type: String, default: DEFAULT_SITE_SETTINGS.socialInstagram },
@@ -972,8 +1044,37 @@ app.get('/api/site-settings', async (req, res) => {
     if (!settings) {
       settings = new SiteSettings({ key: "global", ...DEFAULT_SITE_SETTINGS });
       await settings.save();
-    } else if (settings.gstNumber === "08AAAAA0000A1Z5" || !settings.gstNumber) {
+    }
+    let needsSave = false;
+    // Permanently remove hardcoded / default announcement line if it contains legacy test/default text
+    if (
+      settings.announcementText === "Website Under Development | By Amit Chauhan" ||
+      settings.announcementText?.includes("Handcrafted Temples, 3D CNC Stone Jalis & Chhatris")
+    ) {
+      settings.announcementText = "";
+      settings.announcementActive = false;
+      needsSave = true;
+    }
+    // Ensure official social media links provided by the owner are saved and preserved
+    if (!settings.socialInstagram || settings.socialInstagram.includes("instagram.com/rkstonecorporation")) {
+      settings.socialInstagram = "https://www.instagram.com/haritage_stone_temple/";
+      needsSave = true;
+    }
+    if (!settings.socialFacebook || settings.socialFacebook.includes("facebook.com/rkstonecorporation")) {
+      settings.socialFacebook = "https://www.facebook.com/rkstone01";
+      needsSave = true;
+    }
+    if (settings.gstNumber === "08AAAAA0000A1Z5" || !settings.gstNumber) {
       settings.gstNumber = "08CUUPS3588K1ZE";
+      needsSave = true;
+    }
+    for (const [key, val] of Object.entries(DEFAULT_SITE_SETTINGS)) {
+      if (settings[key] === undefined || settings[key] === null) {
+        settings[key] = val;
+        needsSave = true;
+      }
+    }
+    if (needsSave) {
       await settings.save();
     }
     res.json(settings);
@@ -992,7 +1093,16 @@ app.put('/api/admin/site-settings', async (req, res) => {
     const updatable = [
       'companyName', 'tagline', 'primaryPhone', 'whatsappNumber', 'email',
       'workshopAddress', 'workshopCity', 'workingHours', 'gstNumber',
-      'announcementActive', 'announcementText', 'heroBadge', 'heroStonesStrip',
+      'businessNature', 'businessStatus',
+      'announcementActive', 'announcementText',
+      'heroBadge', 'heroTitle', 'heroDescription', 'heroStonesStrip',
+      'heroPrimaryBtnText', 'heroSecondaryBtnText',
+      'heroSlide1Tag', 'heroSlide1Title', 'heroSlide1Desc',
+      'heroSlide2Tag', 'heroSlide2Title', 'heroSlide2Desc',
+      'heroSlide3Tag', 'heroSlide3Title', 'heroSlide3Desc',
+      'founderName', 'estYear', 'employeesCount', 'annualTurnover',
+      'aboutHeading', 'aboutStory',
+      'workshopHeading', 'workshopStory', 'workshopMapLink',
       'googleReviewsUrl', 'mapEmbedUrl', 'socialInstagram', 'socialFacebook', 'socialYoutube'
     ];
     updatable.forEach((field) => {
@@ -1000,6 +1110,13 @@ app.put('/api/admin/site-settings', async (req, res) => {
         settings[field] = req.body[field];
       }
     });
+    // Keep slide 1 and heroTitle/heroDesc synchronized
+    if (req.body.heroSlide1Title && !req.body.heroTitle) {
+      settings.heroTitle = req.body.heroSlide1Title;
+    }
+    if (req.body.heroSlide1Desc && !req.body.heroDescription) {
+      settings.heroDescription = req.body.heroSlide1Desc;
+    }
     settings.lastUpdatedBy = req.body.updatedBy || "admin";
     await settings.save();
     res.json({ success: true, message: "Website customization settings updated successfully.", settings });
@@ -1016,6 +1133,12 @@ app.post('/api/admin/site-settings/reset', async (req, res) => {
       settings = new SiteSettings({ key: "global" });
     }
     Object.assign(settings, DEFAULT_SITE_SETTINGS);
+    // Explicitly guarantee marquee is disabled and completely empty on reset
+    settings.announcementActive = false;
+    settings.announcementText = "";
+    // Explicitly guarantee owner's official social media links are preserved
+    settings.socialInstagram = "https://www.instagram.com/haritage_stone_temple/";
+    settings.socialFacebook = "https://www.facebook.com/rkstone01";
     settings.lastUpdatedBy = "factory-reset";
     await settings.save();
     res.json({ success: true, message: "Website settings reset to factory defaults.", settings });

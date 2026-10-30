@@ -474,15 +474,17 @@ const Shop = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-black/15 pointer-events-none" />
 
-                            {/* Top Badges */}
-                            <div className="absolute top-3 left-3 bg-stone-950/90 text-accent text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 backdrop-blur-md border border-accent/30 flex items-center gap-1.5">
-                              <span className="text-white font-extrabold">{product.code || getProductCode(product, index)}</span>
-                              <span className="text-stone-400">•</span>
-                              <span>{product.category?.replace('-', ' ')?.toUpperCase()}</span>
-                            </div>
+                            {/* Top Badges Bar */}
+                            <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-2 z-10 pointer-events-none">
+                              <div className="bg-stone-950/90 text-accent text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 backdrop-blur-md border border-accent/30 flex items-center gap-1.5 min-w-0 max-w-[65%] shadow-md">
+                                <span className="text-white font-mono font-extrabold shrink-0">{product.code || getProductCode(product, index)}</span>
+                                <span className="text-stone-500 shrink-0">•</span>
+                                <span className="truncate text-stone-300 font-medium">{product.category?.replace(/-/g, ' ')?.toUpperCase()}</span>
+                              </div>
 
-                            <div className="absolute top-3 right-3 bg-accent text-stone-950 text-[10px] font-bold tracking-wider px-2 py-0.5 uppercase shadow-xs">
-                              {l("CUSTOM SIZE", "कस्टम साइज़")}
+                              <div className="bg-accent text-stone-950 text-[10px] font-bold tracking-wider px-2 py-0.5 uppercase shadow-md shrink-0 border border-accent">
+                                {l("CUSTOM SIZE", "कस्टम साइज़")}
+                              </div>
                             </div>
                           </Link>
 
@@ -506,20 +508,14 @@ const Shop = () => {
                               {l(product.description, product.descriptionHi || product.description)}
                             </p>
 
-                            {/* Price & Dimensions Info */}
+                            {/* Custom Dimensions & Sizing Info (Price removed per user request) */}
                             <div className="flex items-center justify-between pt-1 gap-2">
-                              {product.price > 0 ? (
-                                <div className="text-xs font-bold text-stone-950">
-                                  ₹{Number(product.price).toLocaleString('en-IN')}
-                                  <span className="text-[10px] text-stone-500 font-normal"> / {product.priceUnit || 'sq.ft'}</span>
-                                </div>
-                              ) : (
-                                <div className="text-[10px] font-bold text-accent uppercase tracking-wider">
-                                  {l("Price on Request", "कोटेशन पर")}
-                                </div>
-                              )}
+                              <div className="inline-flex items-center gap-1.5 text-[11px] text-stone-600 font-medium">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                                <span>{l("Customizable Dimensions", "कस्टम साइज़ उपलब्ध")}</span>
+                              </div>
                               {product.dimensions && (
-                                <span className="text-[10px] text-stone-500 font-mono bg-stone-100 px-2 py-0.5 border border-stone-200 truncate max-w-[130px]" title={product.dimensions}>
+                                <span className="text-[10px] text-stone-600 font-mono bg-stone-100 px-2 py-0.5 border border-stone-200 truncate max-w-[140px]" title={product.dimensions}>
                                   📐 {product.dimensions}
                                 </span>
                               )}
@@ -561,7 +557,7 @@ const Shop = () => {
                               className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white text-[11px] font-bold uppercase tracking-wider py-5 rounded-none cursor-pointer shadow-xs"
                             >
                               <WhatsAppIcon className="mr-1 w-3.5 h-3.5" />
-                              {l("Get Quote", "कोटेशन लें")}
+                              {l("Get Best Price", "बेस्ट प्राइस लें")}
                             </Button>
                           </a>
                         </div>
